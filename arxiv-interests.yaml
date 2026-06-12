@@ -1,0 +1,76 @@
+# Interest topics for arXiv paper scoring.
+# weight: how much this topic matters (higher = more important)
+# keywords: seed terms the scoring model uses for semantic matching
+# model: sentence-transformers model to use (overridable via --model CLI flag)
+# threshold: weighted-score threshold to consider a paper 'matched'
+model: allenai/specter2_base
+threshold: 0.79
+topics:
+  - name: quantum networking
+    weight: 5
+    keywords:
+      - entanglement distribution
+      - quantum repeater
+      - quantum network
+      - quantum communication
+      - bell measurement
+      - quantum key distribution
+      - quantum-classical networking
+      - network simulation
+      - network modeling
+
+  - name: distributed quantum computing
+    weight: 4
+    keywords:
+      - entanglement distribution
+      - distributed compilation
+      - distributed algorithms
+      - entanglement distillation
+      - distributed control
+      - modeling
+      - simulation
+
+  - name: quantum architecture 
+    weight: 3
+    keywords:
+      - quantum error correction
+      - fault-tolerance
+      - magic state
+
+  - name: quantum resource states
+    weight: 3
+    keywords:
+      - entanglement
+      - magic state
+      - distillation
+      - concentration
+      - purification
+      - cultivation
+
+  - name: quantum control
+    weight: 4
+    keywords:
+      - pulse
+      - gate decomposition
+      - control software
+      - compilation
+      - RfSoC
+      - FPGA
+      - qubit control
+      - quantum instruction set
+
+  - name: entanglement theory
+    weight: 3
+    keywords:
+      - entanglement concentration
+      - entanglement distillation
+      - entanglement purification
+      - entanglement swapping
+      - entanglement entropy
+      - bell state
+
+  - name: trapped ions
+    weight: 1
+    keywords:
+      - trapped ions
+      - QCCD

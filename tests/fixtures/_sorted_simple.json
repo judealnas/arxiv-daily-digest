@@ -1,0 +1,1127 @@
+[
+  {
+    "id": "2501.02681",
+    "title": "Quest for quantum advantage: Monte Carlo wave-function simulations of the Coherent Ising Machine",
+    "match_score": 0.8417,
+    "raw_cosim": 0.8417,
+    "matched": true,
+    "semantic_topic": "quantum networking",
+    "_sorted_rank": 0
+  },
+  {
+    "id": "2602.11033",
+    "title": "Recirculating Quantum Photonic Networks for Fast Deterministic Quantum Information Processing",
+    "match_score": 0.8395,
+    "raw_cosim": 0.8395,
+    "matched": true,
+    "semantic_topic": "quantum networking",
+    "_sorted_rank": 1
+  },
+  {
+    "id": "2512.18123",
+    "title": "Quantum thermodynamics, quantum correlations and quantum coherence in accelerating Unruh-DeWitt detectors in both steady and dynamical state",
+    "match_score": 0.8389,
+    "raw_cosim": 0.8389,
+    "matched": true,
+    "semantic_topic": "quantum networking",
+    "_sorted_rank": 2
+  },
+  {
+    "id": "2606.12284",
+    "title": "Multipartite reference-frame-independent quantum cryptographic communication",
+    "match_score": 0.8366,
+    "raw_cosim": 0.8366,
+    "matched": true,
+    "semantic_topic": "quantum networking",
+    "_sorted_rank": 3
+  },
+  {
+    "id": "2603.12866",
+    "title": "Nonlocal continuous-variable gates by amplified optical connections",
+    "match_score": 0.8339,
+    "raw_cosim": 0.8339,
+    "matched": true,
+    "semantic_topic": "quantum networking",
+    "_sorted_rank": 4
+  },
+  {
+    "id": "2405.19134",
+    "title": "A quantum implementation of high-order power method for estimating geometric entanglement of pure states",
+    "match_score": 0.8337,
+    "raw_cosim": 0.8337,
+    "matched": true,
+    "semantic_topic": "quantum networking",
+    "_sorted_rank": 5
+  },
+  {
+    "id": "2606.12394",
+    "title": "Scaling-optimal purification of noisy qubit unitary channels",
+    "match_score": 0.8321,
+    "raw_cosim": 0.8321,
+    "matched": true,
+    "semantic_topic": "quantum networking",
+    "_sorted_rank": 6
+  },
+  {
+    "id": "2606.12363",
+    "title": "Fermions are fundamentally more nonlocal than Bosons",
+    "match_score": 0.8302,
+    "raw_cosim": 0.8302,
+    "matched": true,
+    "semantic_topic": "quantum networking",
+    "_sorted_rank": 7
+  },
+  {
+    "id": "2606.11731",
+    "title": "Quantum Correlation Hierarchy and Teleportation in Dephased Hydrogen Hyperfine System",
+    "match_score": 0.8278,
+    "raw_cosim": 0.8278,
+    "matched": true,
+    "semantic_topic": "quantum networking",
+    "_sorted_rank": 8
+  },
+  {
+    "id": "2512.15199",
+    "title": "Sharing quantum indistinguishability with multiple parties",
+    "match_score": 0.8243,
+    "raw_cosim": 0.8243,
+    "matched": true,
+    "semantic_topic": "quantum networking",
+    "_sorted_rank": 9
+  },
+  {
+    "id": "2606.11843",
+    "title": "Quantum iterative approach to the Traveling Salesman Problem",
+    "match_score": 0.8223,
+    "raw_cosim": 0.8223,
+    "matched": true,
+    "semantic_topic": "quantum networking",
+    "_sorted_rank": 10
+  },
+  {
+    "id": "2606.11340",
+    "title": "Q-DICE: Quantum Distributed Interconnect Compiler and Emulator",
+    "match_score": 0.8214,
+    "raw_cosim": 0.8214,
+    "matched": true,
+    "semantic_topic": "quantum networking",
+    "_sorted_rank": 11
+  },
+  {
+    "id": "2606.10150",
+    "title": "Towards the implementation of a quantum classifier",
+    "match_score": 0.82,
+    "raw_cosim": 0.82,
+    "matched": true,
+    "semantic_topic": "quantum networking",
+    "_sorted_rank": 12
+  },
+  {
+    "id": "2507.19258",
+    "title": "Probing Quantum States over Spacetime Through Interferometry",
+    "match_score": 0.8192,
+    "raw_cosim": 0.8192,
+    "matched": true,
+    "semantic_topic": "quantum networking",
+    "_sorted_rank": 13
+  },
+  {
+    "id": "2606.11579",
+    "title": "Tensor-Network-Based Distributed Quantum Dynamics on Independent Quantum Computers",
+    "match_score": 0.8186,
+    "raw_cosim": 0.8186,
+    "matched": true,
+    "semantic_topic": "quantum networking",
+    "_sorted_rank": 14
+  },
+  {
+    "id": "2606.12313",
+    "title": "Quantum repeater segment with free-space coupled co-trapped ions using telecom photon interference",
+    "match_score": 0.8172,
+    "raw_cosim": 0.8172,
+    "matched": true,
+    "semantic_topic": "quantum networking",
+    "_sorted_rank": 15
+  },
+  {
+    "id": "2501.15528",
+    "title": "Expressivity of Quantum Reservoir Computers",
+    "match_score": 0.8146,
+    "raw_cosim": 0.8146,
+    "matched": true,
+    "semantic_topic": "quantum networking",
+    "_sorted_rank": 16
+  },
+  {
+    "id": "2606.11975",
+    "title": "Super-Heisenberg Non-Equilibrium Quantum Sensing with Waveguide-Coupled Emitters",
+    "match_score": 0.8128,
+    "raw_cosim": 0.8128,
+    "matched": true,
+    "semantic_topic": "quantum networking",
+    "_sorted_rank": 17
+  },
+  {
+    "id": "2511.02613",
+    "title": "Emergent Bell Phase in an Electro-Nanomechanical Quantum Simulator",
+    "match_score": 0.8119,
+    "raw_cosim": 0.8119,
+    "matched": true,
+    "semantic_topic": "quantum networking",
+    "_sorted_rank": 18
+  },
+  {
+    "id": "2606.12173",
+    "title": "On-Chip Quantum Randomness Amplification",
+    "match_score": 0.8119,
+    "raw_cosim": 0.8119,
+    "matched": true,
+    "semantic_topic": "quantum networking",
+    "_sorted_rank": 19
+  },
+  {
+    "id": "2606.06582",
+    "title": "Fun with Graph States: Nonlocal Bell Pairs and the Arf Invariant",
+    "match_score": 0.8117,
+    "raw_cosim": 0.8117,
+    "matched": true,
+    "semantic_topic": "quantum networking",
+    "_sorted_rank": 20
+  },
+  {
+    "id": "2606.11997",
+    "title": "Dark state spectroscopy in nonlinear waveguide quantum electrodynamics",
+    "match_score": 0.8117,
+    "raw_cosim": 0.8117,
+    "matched": true,
+    "semantic_topic": "quantum networking",
+    "_sorted_rank": 21
+  },
+  {
+    "id": "2606.12310",
+    "title": "Partitioned Iterative Quantum Scheduling of Satellites for Urgent Disaster Response: Case study of Wildfire",
+    "match_score": 0.8058,
+    "raw_cosim": 0.8058,
+    "matched": true,
+    "semantic_topic": "quantum networking",
+    "_sorted_rank": 22
+  },
+  {
+    "id": "2505.10530",
+    "title": "Exploring Variational Entanglement Hamiltonians",
+    "match_score": 0.8056,
+    "raw_cosim": 0.8056,
+    "matched": true,
+    "semantic_topic": "quantum networking",
+    "_sorted_rank": 23
+  },
+  {
+    "id": "2606.11882",
+    "title": "Tensor-Network Algorithm for Many-Body Trace Norms",
+    "match_score": 0.8053,
+    "raw_cosim": 0.8053,
+    "matched": true,
+    "semantic_topic": "quantum networking",
+    "_sorted_rank": 24
+  },
+  {
+    "id": "2606.11468",
+    "title": "Optimizing Encoder Circuits of Entanglement-Assisted Quantum LDPC Codes via Beam Search",
+    "match_score": 0.8047,
+    "raw_cosim": 0.8047,
+    "matched": true,
+    "semantic_topic": "quantum networking",
+    "_sorted_rank": 25
+  },
+  {
+    "id": "2502.10502",
+    "title": "Classical representation of the dynamics of quantum spin chains",
+    "match_score": 0.8041,
+    "raw_cosim": 0.8041,
+    "matched": true,
+    "semantic_topic": "quantum networking",
+    "_sorted_rank": 26
+  },
+  {
+    "id": "2606.09964",
+    "title": "JGRA: Jacobian Geometry Robustness Assessment in NISQ Noise-Aware Quantum Neural Networks",
+    "match_score": 0.8035,
+    "raw_cosim": 0.8035,
+    "matched": true,
+    "semantic_topic": "quantum networking",
+    "_sorted_rank": 27
+  },
+  {
+    "id": "2606.12020",
+    "title": "Experimental Tabletop Petz recovery of a photonic qubit",
+    "match_score": 0.8028,
+    "raw_cosim": 0.8028,
+    "matched": true,
+    "semantic_topic": "quantum networking",
+    "_sorted_rank": 28
+  },
+  {
+    "id": "2507.15453",
+    "title": "Entanglement preservation and Clauser-Horne nonlocality in electromagnetically induced transparency quantum memories",
+    "match_score": 0.8026,
+    "raw_cosim": 0.8026,
+    "matched": true,
+    "semantic_topic": "quantum networking",
+    "_sorted_rank": 29
+  },
+  {
+    "id": "2509.10430",
+    "title": "Global vs. Local Discrimination of Locally Implementable Multipartite Unitaries",
+    "match_score": 0.802,
+    "raw_cosim": 0.802,
+    "matched": true,
+    "semantic_topic": "quantum networking",
+    "_sorted_rank": 30
+  },
+  {
+    "id": "2606.12404",
+    "title": "Collective neutrino oscillations: Many-body non-forward effects and non-classicality",
+    "match_score": 0.8018,
+    "raw_cosim": 0.8018,
+    "matched": true,
+    "semantic_topic": "quantum networking",
+    "_sorted_rank": 31
+  },
+  {
+    "id": "2411.03180",
+    "title": "Unifying framework for quantum simulation algorithms for time-dependent Hamiltonian dynamics",
+    "match_score": 0.7988,
+    "raw_cosim": 0.7988,
+    "matched": true,
+    "semantic_topic": "quantum networking",
+    "_sorted_rank": 32
+  },
+  {
+    "id": "2606.11947",
+    "title": "Controlled ion-ion interactions and cavity-enhanced emission of a coherent dinuclear Eu$^{3+}$ complex",
+    "match_score": 0.7975,
+    "raw_cosim": 0.7975,
+    "matched": true,
+    "semantic_topic": "quantum networking",
+    "_sorted_rank": 33
+  },
+  {
+    "id": "2606.02283",
+    "title": "Quantum optimal control of the Dicke manifold in dipolar Rydberg atom arrays",
+    "match_score": 0.7972,
+    "raw_cosim": 0.7972,
+    "matched": true,
+    "semantic_topic": "quantum networking",
+    "_sorted_rank": 34
+  },
+  {
+    "id": "2508.14847",
+    "title": "Power-law-graded Ising Interactions Stabilize Time Crystals Realizing Quantum Energy Storage and Sensing",
+    "match_score": 0.7969,
+    "raw_cosim": 0.7969,
+    "matched": true,
+    "semantic_topic": "quantum networking",
+    "_sorted_rank": 35
+  },
+  {
+    "id": "2504.16165",
+    "title": "Robust Mixed-State Cluster States and Spurious Topological Entanglement Negativity",
+    "match_score": 0.7965,
+    "raw_cosim": 0.7965,
+    "matched": true,
+    "semantic_topic": "quantum networking",
+    "_sorted_rank": 36
+  },
+  {
+    "id": "2606.12307",
+    "title": "Super-Link Fragility in Asymmetric W-Class States under Quantum Noise",
+    "match_score": 0.7962,
+    "raw_cosim": 0.7962,
+    "matched": true,
+    "semantic_topic": "quantum networking",
+    "_sorted_rank": 37
+  },
+  {
+    "id": "2606.11620",
+    "title": "Family-Aware Residual Architecture for Predicting Quantum Circuit Simulation Performance",
+    "match_score": 0.7961,
+    "raw_cosim": 0.7961,
+    "matched": true,
+    "semantic_topic": "quantum networking",
+    "_sorted_rank": 38
+  },
+  {
+    "id": "2606.12030",
+    "title": "Measurement-Free Toric-Code Memory in Array Globally Controlled Rydberg Array",
+    "match_score": 0.7958,
+    "raw_cosim": 0.7958,
+    "matched": true,
+    "semantic_topic": "quantum networking",
+    "_sorted_rank": 39
+  },
+  {
+    "id": "2603.09818",
+    "title": "An Introduction to the Foundations and Interpretations of Quantum Mechanics",
+    "match_score": 0.7957,
+    "raw_cosim": 0.7957,
+    "matched": true,
+    "semantic_topic": "quantum networking",
+    "_sorted_rank": 40
+  },
+  {
+    "id": "2606.11655",
+    "title": "Fast Adiabatic Quantum Gates via Hyperfine Intermediate States",
+    "match_score": 0.7955,
+    "raw_cosim": 0.7955,
+    "matched": true,
+    "semantic_topic": "quantum networking",
+    "_sorted_rank": 41
+  },
+  {
+    "id": "2605.10967",
+    "title": "Testing Catability and Coherent Superposition of $2\\mathcal{D}$ Graphene Quantum system",
+    "match_score": 0.7954,
+    "raw_cosim": 0.7954,
+    "matched": true,
+    "semantic_topic": "quantum networking",
+    "_sorted_rank": 42
+  },
+  {
+    "id": "2512.22169",
+    "title": "Wigner Cat Phases: A finely tunable system for exploring the transition to quantum chaos",
+    "match_score": 0.7952,
+    "raw_cosim": 0.7952,
+    "matched": true,
+    "semantic_topic": "quantum networking",
+    "_sorted_rank": 43
+  },
+  {
+    "id": "2606.11392",
+    "title": "Compressed minimum-purity time evolution for late-time quantum dynamics",
+    "match_score": 0.7952,
+    "raw_cosim": 0.7952,
+    "matched": true,
+    "semantic_topic": "quantum networking",
+    "_sorted_rank": 44
+  },
+  {
+    "id": "2411.03441",
+    "title": "Mixed-State Topological Order under Coherent Noise",
+    "match_score": 0.795,
+    "raw_cosim": 0.795,
+    "matched": true,
+    "semantic_topic": "quantum networking",
+    "_sorted_rank": 45
+  },
+  {
+    "id": "2510.08447",
+    "title": "Unifying Quantum Smoothing Theories with Extended Retrodiction",
+    "match_score": 0.7949,
+    "raw_cosim": 0.7949,
+    "matched": true,
+    "semantic_topic": "quantum networking",
+    "_sorted_rank": 46
+  },
+  {
+    "id": "2405.00215",
+    "title": "Quantum thermodynamics of the Caldeira-Leggett model with non-equilibrium Gaussian reservoirs",
+    "match_score": 0.7948,
+    "raw_cosim": 0.7948,
+    "matched": true,
+    "semantic_topic": "quantum networking",
+    "_sorted_rank": 47
+  },
+  {
+    "id": "2606.11580",
+    "title": "Superspace Concentration and Adversarial Robustness in Quantum Algorithms",
+    "match_score": 0.7948,
+    "raw_cosim": 0.7948,
+    "matched": true,
+    "semantic_topic": "quantum networking",
+    "_sorted_rank": 48
+  },
+  {
+    "id": "2602.14736",
+    "title": "Coupled integrated photonic quantum memristors using a single photon source made of a colour center",
+    "match_score": 0.7945,
+    "raw_cosim": 0.7945,
+    "matched": true,
+    "semantic_topic": "quantum networking",
+    "_sorted_rank": 49
+  },
+  {
+    "id": "2606.11814",
+    "title": "Sparsified Kolmogorov-Arnold Networks for Interpretable Quantum State Tomography",
+    "match_score": 0.7934,
+    "raw_cosim": 0.7934,
+    "matched": true,
+    "semantic_topic": "quantum networking",
+    "_sorted_rank": 50
+  },
+  {
+    "id": "2606.11557",
+    "title": "Emergent mirror symmetry in the optimization of the central-spin quantum battery",
+    "match_score": 0.7919,
+    "raw_cosim": 0.7919,
+    "matched": true,
+    "semantic_topic": "quantum networking",
+    "_sorted_rank": 51
+  },
+  {
+    "id": "2502.13889",
+    "title": "On the Addressability Problem on CSS Codes",
+    "match_score": 0.7914,
+    "raw_cosim": 0.7914,
+    "matched": true,
+    "semantic_topic": "quantum networking",
+    "_sorted_rank": 52
+  },
+  {
+    "id": "2606.11530",
+    "title": "Locally Acting Grover Mixers for Constraint-Preserving QAOA",
+    "match_score": 0.7908,
+    "raw_cosim": 0.7908,
+    "matched": true,
+    "semantic_topic": "quantum networking",
+    "_sorted_rank": 53
+  },
+  {
+    "id": "2606.11311",
+    "title": "Exact Entanglement Dynamics Beyond Nearest-Neighbor Dual-Unitary Floquet Systems",
+    "match_score": 0.7901,
+    "raw_cosim": 0.7901,
+    "matched": true,
+    "semantic_topic": "quantum networking",
+    "_sorted_rank": 54
+  },
+  {
+    "id": "2603.04615",
+    "title": "Generating function and Bloch representation for quantum Fisher tensor",
+    "match_score": 0.7895,
+    "raw_cosim": 0.7895,
+    "matched": false,
+    "semantic_topic": "quantum networking",
+    "_sorted_rank": 55
+  },
+  {
+    "id": "2606.12216",
+    "title": "Time-Frequency Grid States for Reconstruction and Correction of Channel-Induced Distortion in Entangled Photons",
+    "match_score": 0.788,
+    "raw_cosim": 0.788,
+    "matched": false,
+    "semantic_topic": "quantum networking",
+    "_sorted_rank": 56
+  },
+  {
+    "id": "2606.11784",
+    "title": "Enhancing Many-Body Chaos via Entropy Injection from Environment",
+    "match_score": 0.7879,
+    "raw_cosim": 0.7879,
+    "matched": false,
+    "semantic_topic": "quantum networking",
+    "_sorted_rank": 57
+  },
+  {
+    "id": "2606.11455",
+    "title": "Planted-Solution Pauli Hamiltonians as a Quantum Benchmarking Primitive",
+    "match_score": 0.7876,
+    "raw_cosim": 0.7876,
+    "matched": false,
+    "semantic_topic": "quantum networking",
+    "_sorted_rank": 58
+  },
+  {
+    "id": "2505.07770",
+    "title": "Circulators Based on Coupled Quantum Anomalous Hall Insulators and Resonators",
+    "match_score": 0.7875,
+    "raw_cosim": 0.7875,
+    "matched": false,
+    "semantic_topic": "quantum networking",
+    "_sorted_rank": 59
+  },
+  {
+    "id": "2506.03453",
+    "title": "Permutation-Invariant N-body gates via Tavis-Cummings Hamiltonian",
+    "match_score": 0.7867,
+    "raw_cosim": 0.7867,
+    "matched": false,
+    "semantic_topic": "quantum networking",
+    "_sorted_rank": 60
+  },
+  {
+    "id": "2606.12079",
+    "title": "A semi-definite programming formulation of the device-dependent guessing probability",
+    "match_score": 0.7864,
+    "raw_cosim": 0.7864,
+    "matched": false,
+    "semantic_topic": "quantum networking",
+    "_sorted_rank": 61
+  },
+  {
+    "id": "2606.12098",
+    "title": "Quantum ergodicity and semiclassical measures: mathematical results",
+    "match_score": 0.7854,
+    "raw_cosim": 0.7854,
+    "matched": false,
+    "semantic_topic": "quantum networking",
+    "_sorted_rank": 62
+  },
+  {
+    "id": "2606.11484",
+    "title": "Handbook of Error-Correcting Codes",
+    "match_score": 0.7849,
+    "raw_cosim": 0.7849,
+    "matched": false,
+    "semantic_topic": "quantum networking",
+    "_sorted_rank": 63
+  },
+  {
+    "id": "2606.11438",
+    "title": "Isotropic random walks and Brownian diffusion on complex projective space",
+    "match_score": 0.7847,
+    "raw_cosim": 0.7847,
+    "matched": false,
+    "semantic_topic": "quantum networking",
+    "_sorted_rank": 64
+  },
+  {
+    "id": "2606.12035",
+    "title": "Shadow Engineering of Quantum Processes",
+    "match_score": 0.7831,
+    "raw_cosim": 0.7831,
+    "matched": false,
+    "semantic_topic": "quantum networking",
+    "_sorted_rank": 65
+  },
+  {
+    "id": "2502.01611",
+    "title": "Additivity and chain rules for quantum entropies via multi-index Schatten norms",
+    "match_score": 0.7827,
+    "raw_cosim": 0.7827,
+    "matched": false,
+    "semantic_topic": "quantum networking",
+    "_sorted_rank": 66
+  },
+  {
+    "id": "2606.11333",
+    "title": "Observable signatures of exceptional points from left-right eigenstate distinction",
+    "match_score": 0.7819,
+    "raw_cosim": 0.7819,
+    "matched": false,
+    "semantic_topic": "quantum networking",
+    "_sorted_rank": 67
+  },
+  {
+    "id": "2606.11550",
+    "title": "Polarization-Resolved Photon Statistics of Cavity Quantum Materials",
+    "match_score": 0.7809,
+    "raw_cosim": 0.7809,
+    "matched": false,
+    "semantic_topic": "quantum networking",
+    "_sorted_rank": 68
+  },
+  {
+    "id": "2511.17259",
+    "title": "Fundamental Limitations of QAOA on Constrained Problems and a Route to Exponential Enhancement",
+    "match_score": 0.7801,
+    "raw_cosim": 0.7801,
+    "matched": false,
+    "semantic_topic": "quantum networking",
+    "_sorted_rank": 69
+  },
+  {
+    "id": "2501.07351",
+    "title": "Honest-binding quantum bit commitment from separable operations",
+    "match_score": 0.7795,
+    "raw_cosim": 0.7795,
+    "matched": false,
+    "semantic_topic": "quantum networking",
+    "_sorted_rank": 70
+  },
+  {
+    "id": "2601.13467",
+    "title": "Quantum Entanglement, Stratified Spaces, and Topological Matter: Towards Entanglement-Sensitive Langlands Data",
+    "match_score": 0.7793,
+    "raw_cosim": 0.7793,
+    "matched": false,
+    "semantic_topic": "quantum networking",
+    "_sorted_rank": 71
+  },
+  {
+    "id": "2606.12060",
+    "title": "The quantum harmonic oscillator and the real Hilbert space",
+    "match_score": 0.7787,
+    "raw_cosim": 0.7787,
+    "matched": false,
+    "semantic_topic": "quantum networking",
+    "_sorted_rank": 72
+  },
+  {
+    "id": "2606.11383",
+    "title": "Rolling Stock Planning Using the Quantum Approximate Optimization Algorithm",
+    "match_score": 0.7785,
+    "raw_cosim": 0.7785,
+    "matched": false,
+    "semantic_topic": "quantum networking",
+    "_sorted_rank": 73
+  },
+  {
+    "id": "2606.11822",
+    "title": "Large Fluctuations in Open Quantum Systems",
+    "match_score": 0.7784,
+    "raw_cosim": 0.7784,
+    "matched": false,
+    "semantic_topic": "quantum networking",
+    "_sorted_rank": 74
+  },
+  {
+    "id": "2606.12096",
+    "title": "Necessary and Sufficient Conditions for Universal Gates with Pauli Strings and Beyond",
+    "match_score": 0.7783,
+    "raw_cosim": 0.7783,
+    "matched": false,
+    "semantic_topic": "quantum networking",
+    "_sorted_rank": 75
+  },
+  {
+    "id": "2606.12409",
+    "title": "A Pfaffian quantum Hall state of ultracold bosons",
+    "match_score": 0.7783,
+    "raw_cosim": 0.7783,
+    "matched": false,
+    "semantic_topic": "quantum networking",
+    "_sorted_rank": 76
+  },
+  {
+    "id": "2604.14921",
+    "title": "Split-Evolution Quantum Phase Estimation for Particle-Conserving Hamiltonians",
+    "match_score": 0.7781,
+    "raw_cosim": 0.7781,
+    "matched": false,
+    "semantic_topic": "quantum networking",
+    "_sorted_rank": 77
+  },
+  {
+    "id": "2606.12056",
+    "title": "Clifford disentanglers for entanglement reduction in molecular electronic structure simulations",
+    "match_score": 0.7772,
+    "raw_cosim": 0.7772,
+    "matched": false,
+    "semantic_topic": "quantum networking",
+    "_sorted_rank": 78
+  },
+  {
+    "id": "2509.19887",
+    "title": "Dynamically Optimal Unraveling Schemes for Simulating Lindblad Equations",
+    "match_score": 0.7731,
+    "raw_cosim": 0.7731,
+    "matched": false,
+    "semantic_topic": "quantum networking",
+    "_sorted_rank": 79
+  },
+  {
+    "id": "2606.12045",
+    "title": "A Geometric Family of Correlations Containing the Quantum Singlet",
+    "match_score": 0.773,
+    "raw_cosim": 0.773,
+    "matched": false,
+    "semantic_topic": "quantum networking",
+    "_sorted_rank": 80
+  },
+  {
+    "id": "2606.11527",
+    "title": "Invariants of Sequential Circuits and Generalized Non-Abelian Statistics",
+    "match_score": 0.7714,
+    "raw_cosim": 0.7714,
+    "matched": false,
+    "semantic_topic": "quantum networking",
+    "_sorted_rank": 81
+  },
+  {
+    "id": "2606.11240",
+    "title": "Physically Constrained Ensemble Gaussian Process Modelling for Expensive Quantum Systems with Heteroskedastic Noise",
+    "match_score": 0.7701,
+    "raw_cosim": 0.7701,
+    "matched": false,
+    "semantic_topic": "quantum networking",
+    "_sorted_rank": 82
+  },
+  {
+    "id": "2604.01301",
+    "title": "Numerically Optimizing Shortcuts to Adiabaticity: A Hybrid Control Strategy",
+    "match_score": 0.7692,
+    "raw_cosim": 0.7692,
+    "matched": false,
+    "semantic_topic": "quantum networking",
+    "_sorted_rank": 83
+  },
+  {
+    "id": "2606.11644",
+    "title": "Raw-Curve Quantum Fingerprints: A Mahalanobis Authentication Framework with Drift Early Warning and Adversarial Detection",
+    "match_score": 0.7679,
+    "raw_cosim": 0.7679,
+    "matched": false,
+    "semantic_topic": "quantum networking",
+    "_sorted_rank": 84
+  },
+  {
+    "id": "2601.19093",
+    "title": "Residual-Squeezing Mechanism of Mismatch in Inverse-Squeezing Kennedy Receivers",
+    "match_score": 0.7677,
+    "raw_cosim": 0.7677,
+    "matched": false,
+    "semantic_topic": "quantum networking",
+    "_sorted_rank": 85
+  },
+  {
+    "id": "2606.11306",
+    "title": "Implementing Hamiltonian Renormalization Group Flow on Quantum Computers with VAPOR",
+    "match_score": 0.7673,
+    "raw_cosim": 0.7673,
+    "matched": false,
+    "semantic_topic": "quantum networking",
+    "_sorted_rank": 86
+  },
+  {
+    "id": "2606.11303",
+    "title": "Exact Dynamics of Topological Order Across a CDW--SPT Transition",
+    "match_score": 0.7657,
+    "raw_cosim": 0.7657,
+    "matched": false,
+    "semantic_topic": "quantum networking",
+    "_sorted_rank": 87
+  },
+  {
+    "id": "2606.12082",
+    "title": "Bound State Solutions of the Relativistic Finite-difference Equation for the Ring-shaped Quesne Oscillator Potential",
+    "match_score": 0.7655,
+    "raw_cosim": 0.7655,
+    "matched": false,
+    "semantic_topic": "quantum networking",
+    "_sorted_rank": 88
+  },
+  {
+    "id": "2606.11475",
+    "title": "Linear Combination of Hamiltonian Simulation with Commutator Scaling",
+    "match_score": 0.7648,
+    "raw_cosim": 0.7648,
+    "matched": false,
+    "semantic_topic": "quantum networking",
+    "_sorted_rank": 89
+  },
+  {
+    "id": "2606.12338",
+    "title": "Entanglement generation between field modes mediated by a fluctuating conducting wall",
+    "match_score": 0.7642,
+    "raw_cosim": 0.7642,
+    "matched": false,
+    "semantic_topic": "quantum networking",
+    "_sorted_rank": 90
+  },
+  {
+    "id": "2601.09115",
+    "title": "A saturation-absorption rubidium magnetometer with multilevel optical Bloch-equation modeling for intermediate-to-high fields",
+    "match_score": 0.7638,
+    "raw_cosim": 0.7638,
+    "matched": false,
+    "semantic_topic": "quantum networking",
+    "_sorted_rank": 91
+  },
+  {
+    "id": "2506.03045",
+    "title": "Measurement incompatibility and quantum steering via linear programming",
+    "match_score": 0.7635,
+    "raw_cosim": 0.7635,
+    "matched": false,
+    "semantic_topic": "quantum networking",
+    "_sorted_rank": 92
+  },
+  {
+    "id": "2606.11343",
+    "title": "Fisher geometry reshapes the effect of incompatibility in multiparameter quantum estimation",
+    "match_score": 0.7632,
+    "raw_cosim": 0.7632,
+    "matched": false,
+    "semantic_topic": "quantum networking",
+    "_sorted_rank": 93
+  },
+  {
+    "id": "2606.11496",
+    "title": "Logical error estimation from syndrome data of surface-code experiments",
+    "match_score": 0.7624,
+    "raw_cosim": 0.7624,
+    "matched": false,
+    "semantic_topic": "quantum networking",
+    "_sorted_rank": 94
+  },
+  {
+    "id": "2305.04908",
+    "title": "Tight Bounds for Quantum Phase Estimation and Related Problems",
+    "match_score": 0.7621,
+    "raw_cosim": 0.7621,
+    "matched": false,
+    "semantic_topic": "quantum networking",
+    "_sorted_rank": 95
+  },
+  {
+    "id": "2606.11673",
+    "title": "Higher-Order Token Interactions via Quantum Attention",
+    "match_score": 0.7583,
+    "raw_cosim": 0.7583,
+    "matched": false,
+    "semantic_topic": "quantum networking",
+    "_sorted_rank": 96
+  },
+  {
+    "id": "2606.12301",
+    "title": "An iterative Ising decoder for quantum error correction codes",
+    "match_score": 0.7581,
+    "raw_cosim": 0.7581,
+    "matched": false,
+    "semantic_topic": "quantum networking",
+    "_sorted_rank": 97
+  },
+  {
+    "id": "2606.11561",
+    "title": "Diffusive Relaxation of Participation Entropy in U(1)-symmetric Dynamics",
+    "match_score": 0.7562,
+    "raw_cosim": 0.7562,
+    "matched": false,
+    "semantic_topic": "quantum networking",
+    "_sorted_rank": 98
+  },
+  {
+    "id": "2606.11478",
+    "title": "PHASE: Pauli Hierarchical Assembly on Subdivided Elements for Quantum-Compatible Operator Synthesis",
+    "match_score": 0.756,
+    "raw_cosim": 0.756,
+    "matched": false,
+    "semantic_topic": "quantum networking",
+    "_sorted_rank": 99
+  },
+  {
+    "id": "2606.12211",
+    "title": "Quantum Occam Learning: Sample-Supported Expressibility for Circuit-Based Quantum Learning",
+    "match_score": 0.7557,
+    "raw_cosim": 0.7557,
+    "matched": false,
+    "semantic_topic": "quantum networking",
+    "_sorted_rank": 100
+  },
+  {
+    "id": "2606.06452",
+    "title": "Energy-Modulated Time-Asymmetric Spontaneous Collapse: Forward-Backward Dynamics from Stochastic Ito Reversal and Bright Solitons",
+    "match_score": 0.7549,
+    "raw_cosim": 0.7549,
+    "matched": false,
+    "semantic_topic": "quantum networking",
+    "_sorted_rank": 101
+  },
+  {
+    "id": "2606.11516",
+    "title": "Single Photon Cross-Phase Shifts Can Be Enhanced by Localization in both Frequency and Time",
+    "match_score": 0.7544,
+    "raw_cosim": 0.7544,
+    "matched": false,
+    "semantic_topic": "quantum networking",
+    "_sorted_rank": 102
+  },
+  {
+    "id": "2606.12297",
+    "title": "A post-selected quantum model of cosmic acceleration",
+    "match_score": 0.7534,
+    "raw_cosim": 0.7534,
+    "matched": false,
+    "semantic_topic": "quantum networking",
+    "_sorted_rank": 103
+  },
+  {
+    "id": "2605.08523",
+    "title": "Machine-learned, finite temperature Fermi-operator expansions suitable for GPUs and AI-hardware",
+    "match_score": 0.7532,
+    "raw_cosim": 0.7532,
+    "matched": false,
+    "semantic_topic": "quantum networking",
+    "_sorted_rank": 104
+  },
+  {
+    "id": "2606.11679",
+    "title": "Consistent Evaluation of Operators Involving the Position Operator in the Bloch Representation: Application to the Orbital Moment",
+    "match_score": 0.7523,
+    "raw_cosim": 0.7523,
+    "matched": false,
+    "semantic_topic": "quantum networking",
+    "_sorted_rank": 105
+  },
+  {
+    "id": "2603.11172",
+    "title": "Integrable Massless and Massive Fermions",
+    "match_score": 0.751,
+    "raw_cosim": 0.751,
+    "matched": false,
+    "semantic_topic": "quantum networking",
+    "_sorted_rank": 106
+  },
+  {
+    "id": "2606.11608",
+    "title": "Mach's principle in atomic transitions",
+    "match_score": 0.7503,
+    "raw_cosim": 0.7503,
+    "matched": false,
+    "semantic_topic": "quantum networking",
+    "_sorted_rank": 107
+  },
+  {
+    "id": "2606.09394",
+    "title": "Strong-field control of the $Z$-boson resonance in $e^+e^-$ collisions",
+    "match_score": 0.747,
+    "raw_cosim": 0.747,
+    "matched": false,
+    "semantic_topic": "quantum networking",
+    "_sorted_rank": 108
+  },
+  {
+    "id": "2606.11759",
+    "title": "Random Grover Search",
+    "match_score": 0.7461,
+    "raw_cosim": 0.7461,
+    "matched": false,
+    "semantic_topic": "quantum networking",
+    "_sorted_rank": 109
+  },
+  {
+    "id": "2606.12089",
+    "title": "Non-Hermitian Delocalization Realizes Random Dirac Criticality in One Dimension",
+    "match_score": 0.744,
+    "raw_cosim": 0.744,
+    "matched": false,
+    "semantic_topic": "quantum networking",
+    "_sorted_rank": 110
+  },
+  {
+    "id": "2603.09824",
+    "title": "High-efficiency telecom conversion of heralded atomic biphoton wavepackets",
+    "match_score": 0.7437,
+    "raw_cosim": 0.7437,
+    "matched": false,
+    "semantic_topic": "quantum networking",
+    "_sorted_rank": 111
+  },
+  {
+    "id": "2512.22350",
+    "title": "Magneto-Optical Trapping of a Metal Hydride Molecule",
+    "match_score": 0.74,
+    "raw_cosim": 0.74,
+    "matched": false,
+    "semantic_topic": "quantum networking",
+    "_sorted_rank": 112
+  },
+  {
+    "id": "2508.10076",
+    "title": "TensorKit.jl: A Julia package for large-scale tensor computations, with a hint of category theory",
+    "match_score": 0.7393,
+    "raw_cosim": 0.7393,
+    "matched": false,
+    "semantic_topic": "quantum networking",
+    "_sorted_rank": 113
+  },
+  {
+    "id": "2606.12383",
+    "title": "The Simplified Stabilizer ZX-Calculus is Minimal",
+    "match_score": 0.7377,
+    "raw_cosim": 0.7377,
+    "matched": false,
+    "semantic_topic": "quantum networking",
+    "_sorted_rank": 114
+  },
+  {
+    "id": "2606.11810",
+    "title": "Mathematical Basis for Analyzing Superconducting Phase Transitions Using Catastrophe Theory",
+    "match_score": 0.736,
+    "raw_cosim": 0.736,
+    "matched": false,
+    "semantic_topic": "quantum networking",
+    "_sorted_rank": 115
+  },
+  {
+    "id": "2605.23380",
+    "title": "Lowest order Carleman linearization for low Reynolds long-term behaviour of fluid flow simulations",
+    "match_score": 0.7297,
+    "raw_cosim": 0.7297,
+    "matched": false,
+    "semantic_topic": "quantum networking",
+    "_sorted_rank": 116
+  },
+  {
+    "id": "2606.11227",
+    "title": "Collective Emission in LH2 Assembly Beyond the Point-Dipole Approximation",
+    "match_score": 0.7181,
+    "raw_cosim": 0.7181,
+    "matched": false,
+    "semantic_topic": "quantum networking",
+    "_sorted_rank": 117
+  },
+  {
+    "id": "2604.20170",
+    "title": "Holographic Complexity, Extremality, and Cosmic Censorship",
+    "match_score": 0.7175,
+    "raw_cosim": 0.7175,
+    "matched": false,
+    "semantic_topic": "quantum networking",
+    "_sorted_rank": 118
+  },
+  {
+    "id": "2606.12353",
+    "title": "Gate-tunable spin-valley transport via carrier velocity in monolayer WSe$_2$",
+    "match_score": 0.7171,
+    "raw_cosim": 0.7171,
+    "matched": false,
+    "semantic_topic": "quantum networking",
+    "_sorted_rank": 119
+  },
+  {
+    "id": "2606.11485",
+    "title": "A Cryogenic Uniaxial Strain Cell for Quantum Devices",
+    "match_score": 0.7164,
+    "raw_cosim": 0.7164,
+    "matched": false,
+    "semantic_topic": "quantum networking",
+    "_sorted_rank": 120
+  },
+  {
+    "id": "2505.13196",
+    "title": "A Physics-Inspired Optimizer: Velocity Regularized Adam",
+    "match_score": 0.7163,
+    "raw_cosim": 0.7163,
+    "matched": false,
+    "semantic_topic": "quantum networking",
+    "_sorted_rank": 121
+  },
+  {
+    "id": "2606.11352",
+    "title": "Dissociative recombination and ion-pair formation in $\\mathrm{HeH^+}$ isotopologues: A time-dependent wave-packet study including rotational coupling",
+    "match_score": 0.7156,
+    "raw_cosim": 0.7156,
+    "matched": false,
+    "semantic_topic": "quantum networking",
+    "_sorted_rank": 122
+  },
+  {
+    "id": "2606.12168",
+    "title": "Fabricating fiber cavity mirror substrates compatible with high coupling efficiency",
+    "match_score": 0.7142,
+    "raw_cosim": 0.7142,
+    "matched": false,
+    "semantic_topic": "quantum networking",
+    "_sorted_rank": 123
+  },
+  {
+    "id": "2606.12180",
+    "title": "Experimental straintronics in nanotube quantum dots",
+    "match_score": 0.686,
+    "raw_cosim": 0.686,
+    "matched": false,
+    "semantic_topic": "quantum networking",
+    "_sorted_rank": 124
+  }
+]
