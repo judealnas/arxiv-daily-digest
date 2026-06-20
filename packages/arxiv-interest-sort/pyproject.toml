@@ -3,7 +3,7 @@ name = "arxiv-interest-sort"
 version = "0.1.0"
 description = "Sort arxiv papers using keywords and abstract"
 requires-python = ">=3.11"
-dependencies = ["pyyaml>=6"]
+dependencies = ["pyyaml"]
 
 [project.scripts]
 arxiv-interest-sort = "arxiv_interest_sort.cli:main"
@@ -11,14 +11,14 @@ arxiv-interest-sort = "arxiv_interest_sort.cli:main"
 [project.optional-dependencies]
 semantic = ["sentence-transformers>=3"]
 
-[tool.uv]
-dev-dependencies = ["pytest>=8"]
+[dependency-groups]
+dev = ["pytest"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
 
 [tool.ruff]
-src = ["src"]
+src = ["src", "tests"]
 
 [tool.ruff.lint]
 select = ["E", "F", "I", "N", "W"]
