@@ -1,0 +1,80 @@
+[
+  {
+    "id": "2601.03750",
+    "title": "Tantalum as a base material for superconducting integrated circuits",
+    "authors": [
+      "Evgeniy V. Zikiy",
+      "Nikita S. Smirnov",
+      "Ilya A. Rodionov"
+    ],
+    "abstract": "The performance of superconducting integrated circuits for quantum applications is fundamentally limited by material-related losses. Tantalum, as an emerging material for next-generation quantum circuits, has attracted considerable attention in recent years after demonstrating breakthrough performance in both superconducting microwave resonators and qubits. In this review, we summarize the recent research of tantalum thin films growth and phase selection mechanisms on various substrates.",
+    "abstract_link": "https://arxiv.org/abs/2601.03750",
+    "pdf_link": "https://arxiv.org/pdf/2601.03750",
+    "comments": "Review, 25 pages",
+    "subjects": "Quantum Physics (quant-ph) ; Materials Science (cond-mat.mtrl-sci)"
+  },
+  {
+    "id": "2601.03779",
+    "title": "Computational regimes in matrix-product-state-based quantum trajectory simulations",
+    "authors": [
+      "Aaron Sander",
+      "Jens Eisert"
+    ],
+    "abstract": "Efficient simulation of open quantum systems is central to modeling noisy quantum hardware and many-body dynamics. In trajectory-based tensor network methods, cost is often associated with entanglement growth or bond dimension. Here we introduce a cost-resolved framework for matrix product state-based quantum trajectory simulations that decomposes total cost into memory per trajectory, runtime per trajectory, and sampling effort.",
+    "abstract_link": "https://arxiv.org/abs/2601.03779",
+    "pdf_link": "https://arxiv.org/pdf/2601.03779",
+    "comments": "",
+    "subjects": "Quantum Physics (quant-ph) ; Computational Physics (physics.comp-ph)"
+  },
+  {
+    "id": "2601.03810",
+    "title": "Universal Crossovers of Stabilizer Entropy Beyond Criticality",
+    "authors": [
+      "Reyhaneh Khasseh"
+    ],
+    "abstract": "Stabilizer R\u00e9nyi entropy has emerged as a probe of nonstabilizerness in quantum many-body systems. We address this problem for a broad class of finite-range spin chains at R\u00e9nyi index one-half. We derive exact finite-size formulas for both full periodic chains and finite intervals of the infinite chain. In periodic geometry, the entropy obeys a volume law away from criticality. These results provide an exact lattice benchmark for the emerging QFT description of stabilizer entropy.",
+    "abstract_link": "https://arxiv.org/abs/2601.03810",
+    "pdf_link": "https://arxiv.org/pdf/2601.03810",
+    "comments": "55 pages, 12 figures",
+    "subjects": "Quantum Physics (quant-ph) ; Statistical Mechanics (cond-mat.stat-mech); High Energy Physics - Theory (hep-th)"
+  },
+  {
+    "id": "2601.03772",
+    "title": "Digital programming of spin correlations in a fermionic lattice quantum simulator",
+    "authors": [
+      "Yann Kiefer",
+      "Tilman Esslinger"
+    ],
+    "abstract": "Analog quantum simulation provides a highly controlled platform to study diverse quantum many-body phenomena. However, current methods for state initialisation are limited to thermal ensembles or uncorrelated product states. Here we present a hybrid approach that complements analog preparation with a digital quantum-gate protocol. This approach enables the engineering of target states with specific, long-range spin-correlations.",
+    "abstract_link": "https://arxiv.org/abs/2601.03772",
+    "pdf_link": "https://arxiv.org/pdf/2601.03772",
+    "comments": "",
+    "subjects": "Quantum Gases (cond-mat.quant-gas) ; Quantum Physics (quant-ph)"
+  },
+  {
+    "id": "2601.03778",
+    "title": "Resurgence of the Thermal Transition between Bounce and Sphaleron",
+    "authors": [
+      "Shaun D. Hampton",
+      "Kyungsun Lee",
+      "Sungjay Lee"
+    ],
+    "abstract": "We study the thermal transition between the bounce and the sphaleron in quantum mechanics with a metastable vacuum from the viewpoint of Borel resurgence. For two models representing a second-order and a first-order transition, we compute the perturbative expansion of the thermal free energy to high orders and extract the leading Borel singularity data as functions of temperature.",
+    "abstract_link": "https://arxiv.org/abs/2601.03778",
+    "pdf_link": "https://arxiv.org/pdf/2601.03778",
+    "comments": "30 pages, 8 figures",
+    "subjects": "High Energy Physics - Theory (hep-th) ; Quantum Physics (quant-ph)"
+  },
+  {
+    "id": "2501.12345v2",
+    "title": "Quantum error correction with surface codes: a practical introduction (v2)",
+    "authors": [
+      "Austin G. Fowler"
+    ],
+    "abstract": "This is an updated version of the practical introduction to quantum error correction with surface codes. New sections on fault-tolerant magic state distillation and lattice surgery have been added. Numerical simulations of logical error rates under circuit-level noise are included.",
+    "abstract_link": "https://arxiv.org/abs/2501.12345",
+    "pdf_link": "https://arxiv.org/pdf/2501.12345",
+    "comments": "45 pages, updated for 2025 results",
+    "subjects": "Quantum Physics (quant-ph)"
+  }
+]
