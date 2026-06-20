@@ -17,6 +17,15 @@ arxiv-summarizer = { workspace = true }
 [tool.uv.workspace]
 members = ["packages/*"]
 
+[tool.ruff]
+src = ["packages/arxiv-catchup/src", "packages/arxiv-summarizer/src"]
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "N", "W"]
+
+[tool.ruff.format]
+quote-style = "double"
+
 [dependency-groups]
 dev = [
     "ruff>=0.15.18",

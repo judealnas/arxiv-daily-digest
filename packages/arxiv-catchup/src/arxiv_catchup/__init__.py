@@ -35,15 +35,17 @@ PaperDict = dict[str, Any]
 
 
 def build_catchup_url(
-    category: str, date: date | str | None = None, no_abstracts: bool = False
+    category: str,
+    date_: date | str | None = None,
+    no_abstracts: bool = False,
 ) -> str:
     """Build the URL for an arXiv catchup page."""
-    if date is None:
-        date = datetime.now().date()
-    if isinstance(date, date):
-        date = date.strftime("%Y-%m-%d")
+    if date_ is None:
+        date_ = datetime.now(timezone.utc).date()
+    if isinstance(date_, date):
+        date_ = date_.strftime("%Y-%m-%d")
     abs_param = "False" if no_abstracts else "True"
-    return f"https://arxiv.org/catchup/{category}/{date}?abs={abs_param}"
+    return f"https://arxiv.org/catchup/{category}/{date_}?abs={abs_param}"
 
 
 def fetch_page(
