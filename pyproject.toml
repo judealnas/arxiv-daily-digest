@@ -19,9 +19,11 @@ members = ["packages/*"]
 
 [tool.ruff]
 src = ["packages/arxiv-catchup/src", "packages/arxiv-summarizer/src"]
+line-length = 120
 
 [tool.ruff.lint]
 select = ["E", "F", "I", "N", "W"]
+ignore = ["E501"]
 
 [tool.ruff.format]
 quote-style = "double"
