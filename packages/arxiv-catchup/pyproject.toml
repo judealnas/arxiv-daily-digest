@@ -1,0 +1,23 @@
+[project]
+name = "arxiv-catchup"
+version = "0.1.0"
+description = "arXiv catchup page fetcher and parser — extract paper metadata from arXiv HTML listings"
+requires-python = ">=3.11"
+
+[project.scripts]
+arxiv-catchup = "arxiv_catchup.cli:main"
+
+[tool.uv]
+dev-dependencies = ["pytest>=8"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+
+[tool.ruff]
+src = ["src"]
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "N", "W"]
+
+[tool.ruff.format]
+quote-style = "double"
