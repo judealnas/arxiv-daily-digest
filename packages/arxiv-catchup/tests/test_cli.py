@@ -45,22 +45,27 @@ class TestBuildParser:
         assert args.category == "quant-ph"
         assert args.date == "2026-06-01"
 
-    def test_yesterday_flag(self) -> None:
+    def test_days_ago_flag(self) -> None:
         parser = build_parser()
-        args = parser.parse_args(["--yesterday"])
-        assert args.yesterday is True
+        args = parser.parse_args(["--days-ago", "3"])
+        assert args.days_ago == 3
+
+    def test_days_ago_default(self) -> None:
+        parser = build_parser()
+        args = parser.parse_args([])
+        assert args.days_ago == 0
 
     def test_no_abstracts_flag(self) -> None:
         parser = build_parser()
         args = parser.parse_args(["--no-abstracts"])
         assert args.no_abstracts is True
 
-    def test_all_flags(self) -> None:
+    def test_date_and_days_ago(self) -> None:
         parser = build_parser()
-        args = parser.parse_args(["hep-th", "2026-06-15", "--yesterday", "--no-abstracts"])
+        args = parser.parse_args(["hep-th", "2026-06-15", "--days-ago", "2", "--no-abstracts"])
         assert args.category == "hep-th"
         assert args.date == "2026-06-15"
-        assert args.yesterday is True
+        assert args.days_ago == 2
         assert args.no_abstracts is True
 
 
@@ -86,12 +91,20 @@ class TestMain:
         assert "2026-06-01" in call_url
 
     @mock.patch("arxiv_catchup.cli.fetch_page", return_value=SAMPLE_HTML)
-    def test_yesterday(self, mock_fetch: mock.MagicMock) -> None:
-        """--yesterday should use yesterday's date."""
-        main(["quant-ph", "--yesterday"])
+    def test_days_ago(self, mock_fetch: mock.MagicMock) -> None:
+        """--days-ago 1 should use yesterday's date."""
+        main(["quant-ph", "--days-ago", "1"])
         yesterday = (datetime.now(timezone.utc) - timedelta(days=1)).date().strftime("%Y-%m-%d")
         call_url = mock_fetch.call_args[0][0]
         assert yesterday in call_url
+
+    @mock.patch("arxiv_catchup.cli.fetch_page", return_value=SAMPLE_HTML)
+    def test_days_ago_7(self, mock_fetch: mock.MagicMock) -> None:
+        """--days-ago 7 should fetch from a week ago."""
+        main(["quant-ph", "--days-ago", "7"])
+        week_ago = (datetime.now(timezone.utc) - timedelta(days=7)).date().strftime("%Y-%m-%d")
+        call_url = mock_fetch.call_args[0][0]
+        assert week_ago in call_url
 
     @mock.patch("arxiv_catchup.cli.fetch_page", return_value=SAMPLE_HTML)
     def test_no_abstracts_flag(self, mock_fetch: mock.MagicMock) -> None:
@@ -138,12 +151,12 @@ class TestMain:
         assert exc.value.code == 1
 
     @mock.patch("arxiv_catchup.cli.fetch_page", return_value=SAMPLE_HTML)
-    def test_date_ignored_when_yesterday_given(
+    def test_date_takes_precedence_over_days_ago(
         self, mock_fetch: mock.MagicMock
     ) -> None:
-        """When both date and --yesterday are given, date takes precedence."""
-        main(["quant-ph", "2026-06-15", "--yesterday"])
+        """When both date and --days-ago are given, date takes precedence."""
+        main(["quant-ph", "2026-06-15", "--days-ago", "3"])
         call_url = mock_fetch.call_args[0][0]
         assert "2026-06-15" in call_url
-        yesterday = (datetime.now(timezone.utc) - timedelta(days=1)).date().strftime("%Y-%m-%d")
-        assert yesterday not in call_url
+        three_days_ago = (datetime.now(timezone.utc) - timedelta(days=3)).date().strftime("%Y-%m-%d")
+        assert three_days_ago not in call_url

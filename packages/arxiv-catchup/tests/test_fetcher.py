@@ -215,13 +215,24 @@ class TestGetPapers:
         mock_fetch.assert_called_once_with(expected_url)
 
     @mock.patch("arxiv_catchup.fetch_page", return_value=SAMPLE_HTML)
-    def test_yesterday(self, mock_fetch: mock.MagicMock) -> None:
-        """yesterday=True should use yesterday's date."""
+    def test_days_ago(self, mock_fetch: mock.MagicMock) -> None:
+        """days_ago=1 should use yesterday's date."""
         yesterday = (datetime.now(timezone.utc) - timedelta(days=1)).date()
         yesterday_str = yesterday.strftime("%Y-%m-%d")
-        get_papers("quant-ph", yesterday=True)
+        get_papers("quant-ph", days_ago=1)
         expected_url = (
             f"https://arxiv.org/catchup/quant-ph/{yesterday_str}?abs=True"
+        )
+        mock_fetch.assert_called_once_with(expected_url)
+
+    @mock.patch("arxiv_catchup.fetch_page", return_value=SAMPLE_HTML)
+    def test_days_ago_7(self, mock_fetch: mock.MagicMock) -> None:
+        """days_ago=7 should fetch from a week ago."""
+        week_ago = (datetime.now(timezone.utc) - timedelta(days=7)).date()
+        week_ago_str = week_ago.strftime("%Y-%m-%d")
+        get_papers("quant-ph", days_ago=7)
+        expected_url = (
+            f"https://arxiv.org/catchup/quant-ph/{week_ago_str}?abs=True"
         )
         mock_fetch.assert_called_once_with(expected_url)
 

@@ -1,12 +1,12 @@
 """CLI entry point for the arXiv fetcher.
 
-Registered as the ``arxiv-fetch`` console script in ``pyproject.toml``::
+Registered as the ``arxiv-catchup`` console script in ``pyproject.toml``::
 
-    $ arxiv-fetch
-    $ arxiv-fetch quant-ph
-    $ arxiv-fetch quant-ph 2026-06-01
-    $ arxiv-fetch quant-ph --yesterday
-    $ arxiv-fetch cs.LG --no-abstracts
+    $ arxiv-catchup
+    $ arxiv-catchup quant-ph
+    $ arxiv-catchup quant-ph 2026-06-01
+    $ arxiv-catchup quant-ph --days-ago 1
+    $ arxiv-catchup cs.LG --no-abstracts
 """
 
 from __future__ import annotations
@@ -28,12 +28,15 @@ def build_parser() -> argparse.ArgumentParser:
         "category",
         nargs="?",
         default="quant-ph",
-        help="arXiv category (e.g. quant-ph, cs.LG)"
-        "See https://arxiv.org/category_taxonomy for options",
+        help=(
+            "arXiv category (e.g. quant-ph, cs.LG). "
+            "See https://arxiv.org/category_taxonomy for options"
+        ),
     )
     parser.add_argument(
         "date",
         nargs="?",
+        default=None,
         help="Date in YYYY-MM-DD format (default: today)",
     )
     parser.add_argument(
@@ -42,9 +45,10 @@ def build_parser() -> argparse.ArgumentParser:
         help="Fetch without abstracts (smaller payload)",
     )
     parser.add_argument(
-        "--yesterday",
-        action="store_true",
-        help="Fetch yesterday's catchup (overrides default to today)",
+        "--days-ago",
+        type=int,
+        default=0,
+        help="Fetch listings from N days before today (default: 0 = today)",
     )
     return parser
 
@@ -64,10 +68,8 @@ def main(argv: list[str] | None = None) -> None:
     # ── resolve date ────────────────────────────────────────────────
     if args.date:
         target_date = datetime.strptime(args.date, "%Y-%m-%d").date()
-    elif args.yesterday:
-        target_date = (datetime.now(timezone.utc) - timedelta(days=1)).date()
     else:
-        target_date = datetime.now(timezone.utc).date()
+        target_date = (datetime.now(timezone.utc) - timedelta(days=args.days_ago)).date()
 
     url = build_catchup_url(args.category, target_date, args.no_abstracts)
 

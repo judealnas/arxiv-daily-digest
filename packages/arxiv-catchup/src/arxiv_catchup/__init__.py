@@ -200,7 +200,7 @@ def get_papers(
     category: str = "quant-ph",
     date: date | str | None = None,
     *,
-    yesterday: bool = False,
+    days_ago: int = 0,
     with_abstracts: bool = True,
 ) -> list[PaperDict]:
     """Fetch and parse a single arXiv catchup page in one call.
@@ -211,9 +211,10 @@ def get_papers(
         arXiv category, e.g. ``"quant-ph"``, ``"cs.LG"`` (default ``"quant-ph"``).
     date:
         Explicit date as a ``date`` object or ``"YYYY-MM-DD"`` string.
-        Mutually exclusive with *yesterday*.
-    yesterday:
-        If ``True``, fetch yesterday's listings.  Ignored when *date* is set.
+        If given, *days_ago* is ignored.
+    days_ago:
+        Non-negative integer — fetch listings from *N* days before today.
+        Ignored when *date* is set.  ``0`` (default) means today.
     with_abstracts:
         If ``False``, request the listing without abstract text (smaller
         payload).
@@ -233,10 +234,8 @@ def get_papers(
             target = datetime.strptime(date, "%Y-%m-%d").date()
         else:
             target = date
-    elif yesterday:
-        target = (datetime.now() - timedelta(days=1)).date()
     else:
-        target = datetime.now().date()
+        target = (datetime.now(timezone.utc) - timedelta(days=days_ago)).date()
 
     url = build_catchup_url(category, target, not with_abstracts)
 
