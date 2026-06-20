@@ -1,10 +1,6 @@
 # Interest topics for arXiv paper scoring.
 # weight: how much this topic matters (higher = more important)
 # keywords: seed terms the scoring model uses for semantic matching
-# model: sentence-transformers model to use (overridable via --model CLI flag)
-# threshold: weighted-score threshold to consider a paper 'matched'
-model: allenai/specter2_base
-threshold: 0.79
 topics:
   - name: quantum networking
     weight: 5

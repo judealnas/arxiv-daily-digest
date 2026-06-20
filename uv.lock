@@ -6,6 +6,7 @@ requires-python = ">=3.11"
 members = [
     "arxiv-catchup",
     "arxiv-daily-digest",
+    "arxiv-interest-sort",
     "arxiv-summarizer",
 ]
 
@@ -70,6 +71,34 @@ requires-dist = [
 
 [package.metadata.requires-dev]
 dev = [{ name = "ruff", specifier = ">=0.15.18" }]
+
+[[package]]
+name = "arxiv-interest-sort"
+version = "0.1.0"
+source = { virtual = "packages/arxiv-interest-sort" }
+dependencies = [
+    { name = "pyyaml" },
+]
+
+[package.optional-dependencies]
+semantic = [
+    { name = "sentence-transformers" },
+]
+
+[package.dev-dependencies]
+dev = [
+    { name = "pytest" },
+]
+
+[package.metadata]
+requires-dist = [
+    { name = "pyyaml", specifier = ">=6" },
+    { name = "sentence-transformers", marker = "extra == 'semantic'", specifier = ">=3" },
+]
+provides-extras = ["semantic"]
+
+[package.metadata.requires-dev]
+dev = [{ name = "pytest", specifier = ">=8" }]
 
 [[package]]
 name = "arxiv-summarizer"
