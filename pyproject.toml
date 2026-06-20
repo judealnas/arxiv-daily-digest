@@ -5,5 +5,14 @@ description = "Daily arXiv digest pipeline"
 readme = "README.md"
 requires-python = ">=3.11"
 dependencies = [
+    "arxiv-fetcher",
+    "arxiv-summarizer",
     "sentence-transformers>=5.5.1",
 ]
+
+[tool.uv.sources]
+arxiv-fetcher = { workspace = true }
+arxiv-summarizer = { workspace = true }
+
+[tool.uv.workspace]
+members = ["packages/*"]

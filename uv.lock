@@ -2,6 +2,13 @@ version = 1
 revision = 3
 requires-python = ">=3.11"
 
+[manifest]
+members = [
+    "arxiv-daily-digest",
+    "arxiv-fetcher",
+    "arxiv-summarizer",
+]
+
 [[package]]
 name = "annotated-doc"
 version = "0.0.4"
@@ -29,11 +36,27 @@ name = "arxiv-daily-digest"
 version = "0.1.0"
 source = { virtual = "." }
 dependencies = [
+    { name = "arxiv-fetcher" },
+    { name = "arxiv-summarizer" },
     { name = "sentence-transformers" },
 ]
 
 [package.metadata]
-requires-dist = [{ name = "sentence-transformers", specifier = ">=5.5.1" }]
+requires-dist = [
+    { name = "arxiv-fetcher", editable = "packages/arxiv-fetcher" },
+    { name = "arxiv-summarizer", editable = "packages/arxiv-summarizer" },
+    { name = "sentence-transformers", specifier = ">=5.5.1" },
+]
+
+[[package]]
+name = "arxiv-fetcher"
+version = "0.1.0"
+source = { editable = "packages/arxiv-fetcher" }
+
+[[package]]
+name = "arxiv-summarizer"
+version = "0.1.0"
+source = { editable = "packages/arxiv-summarizer" }
 
 [[package]]
 name = "certifi"
