@@ -8,7 +8,7 @@ from pathlib import Path
 import pytest
 
 # ── fixtures ─────────────────────────────────────────────────────
-FIXTURES = Path(__file__).parent / "fixtures"
+FIXTURES = Path(__file__).parent.parent / "fixtures"
 
 
 @pytest.fixture

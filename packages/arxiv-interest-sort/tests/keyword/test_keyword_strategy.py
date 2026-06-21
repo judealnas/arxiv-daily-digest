@@ -10,7 +10,7 @@ import pytest
 from arxiv_interest_sort.strategies import keyword_score
 
 # ── fixtures ─────────────────────────────────────────────────────
-FIXTURES = Path(__file__).parent / "fixtures"
+FIXTURES = Path(__file__).parent.parent / "fixtures"
 
 
 @pytest.fixture
