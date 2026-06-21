@@ -122,9 +122,7 @@ class TestFetchPage:
         assert result == "hello world"
 
     @mock.patch("urllib.request.urlopen")
-    def test_retry_on_429_then_succeeds(
-        self, mock_urlopen: mock.MagicMock
-    ) -> None:
+    def test_retry_on_429_then_succeeds(self, mock_urlopen: mock.MagicMock) -> None:
         """Should retry on 429 and succeed on the second attempt."""
         from urllib.error import HTTPError
 
@@ -181,9 +179,7 @@ class TestFetchPage:
         with mock.patch("urllib.request.Request") as mock_req:
             mock_req.return_value = mock.MagicMock()
             fetch_page("https://example.com", headers=headers)
-            mock_req.assert_called_with(
-                "https://example.com", headers=headers
-            )
+            mock_req.assert_called_with("https://example.com", headers=headers)
 
 
 # ── get_papers ──────────────────────────────────────────────────────────────
@@ -220,9 +216,7 @@ class TestGetPapers:
         yesterday = (datetime.now(timezone.utc) - timedelta(days=1)).date()
         yesterday_str = yesterday.strftime("%Y-%m-%d")
         get_papers("quant-ph", days_ago=1)
-        expected_url = (
-            f"https://arxiv.org/catchup/quant-ph/{yesterday_str}?abs=True"
-        )
+        expected_url = f"https://arxiv.org/catchup/quant-ph/{yesterday_str}?abs=True"
         mock_fetch.assert_called_once_with(expected_url)
 
     @mock.patch("arxiv_catchup.fetch_page", return_value=SAMPLE_HTML)
@@ -231,9 +225,7 @@ class TestGetPapers:
         week_ago = (datetime.now(timezone.utc) - timedelta(days=7)).date()
         week_ago_str = week_ago.strftime("%Y-%m-%d")
         get_papers("quant-ph", days_ago=7)
-        expected_url = (
-            f"https://arxiv.org/catchup/quant-ph/{week_ago_str}?abs=True"
-        )
+        expected_url = f"https://arxiv.org/catchup/quant-ph/{week_ago_str}?abs=True"
         mock_fetch.assert_called_once_with(expected_url)
 
     @mock.patch("arxiv_catchup.fetch_page", return_value=SAMPLE_HTML)

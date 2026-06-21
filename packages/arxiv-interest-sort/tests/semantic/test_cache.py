@@ -21,9 +21,15 @@ class TestComputeCacheKey:
     def test_deterministic(self) -> None:
         """Same inputs always produce the same hash."""
         queries = [
-            {"name": "quantum networking", "query": "quantum networking: entanglement", "weight": 5},
+            {
+                "name": "quantum networking",
+                "query": "quantum networking: entanglement",
+                "weight": 5,
+            },
         ]
-        assert _compute_cache_key("model-a", queries) == _compute_cache_key("model-a", queries)
+        assert _compute_cache_key("model-a", queries) == _compute_cache_key(
+            "model-a", queries
+        )
 
     def test_different_models_produce_different_keys(self) -> None:
         """Changing the model name changes the cache key."""
@@ -38,19 +44,25 @@ class TestComputeCacheKey:
         """Changing topic content changes the cache key."""
         queries_a = [{"name": "A", "query": "A: foo", "weight": 3}]
         queries_b = [{"name": "B", "query": "B: bar", "weight": 3}]
-        assert _compute_cache_key("model", queries_a) != _compute_cache_key("model", queries_b)
+        assert _compute_cache_key("model", queries_a) != _compute_cache_key(
+            "model", queries_b
+        )
 
     def test_different_weights_produce_different_keys(self) -> None:
         """Changing topic weight changes the cache key."""
         queries_a = [{"name": "A", "query": "A: foo", "weight": 3}]
         queries_b = [{"name": "A", "query": "A: foo", "weight": 5}]
-        assert _compute_cache_key("model", queries_a) != _compute_cache_key("model", queries_b)
+        assert _compute_cache_key("model", queries_a) != _compute_cache_key(
+            "model", queries_b
+        )
 
     def test_key_ordering_does_not_matter(self) -> None:
         """Reordering keys within a dict does not change the hash (sort_keys=True)."""
         queries_a = [{"name": "A", "query": "A: foo", "weight": 3}]
         queries_b = [{"weight": 3, "name": "A", "query": "A: foo"}]
-        assert _compute_cache_key("model", queries_a) == _compute_cache_key("model", queries_b)
+        assert _compute_cache_key("model", queries_a) == _compute_cache_key(
+            "model", queries_b
+        )
 
     def test_topic_order_does_not_matter(self) -> None:
         """Reordering the topics list does not change the hash (sort_keys on list elements)."""
@@ -82,7 +94,11 @@ class TestComputeCacheKey:
     def test_matches_manual_hash(self) -> None:
         """Cache key matches a manually computed SHA256."""
         queries = [
-            {"name": "quantum networking", "query": "quantum networking: entanglement, quantum network", "weight": 5},
+            {
+                "name": "quantum networking",
+                "query": "quantum networking: entanglement, quantum network",
+                "weight": 5,
+            },
         ]
         hasher = hashlib.sha256()
         hasher.update(b"my-model")

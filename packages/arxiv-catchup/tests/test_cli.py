@@ -62,7 +62,9 @@ class TestBuildParser:
 
     def test_date_and_days_ago(self) -> None:
         parser = build_parser()
-        args = parser.parse_args(["hep-th", "2026-06-15", "--days-ago", "2", "--no-abstracts"])
+        args = parser.parse_args(
+            ["hep-th", "2026-06-15", "--days-ago", "2", "--no-abstracts"]
+        )
         assert args.category == "hep-th"
         assert args.date == "2026-06-15"
         assert args.days_ago == 2
@@ -94,7 +96,9 @@ class TestMain:
     def test_days_ago(self, mock_fetch: mock.MagicMock) -> None:
         """--days-ago 1 should use yesterday's date."""
         main(["quant-ph", "--days-ago", "1"])
-        yesterday = (datetime.now(timezone.utc) - timedelta(days=1)).date().strftime("%Y-%m-%d")
+        yesterday = (
+            (datetime.now(timezone.utc) - timedelta(days=1)).date().strftime("%Y-%m-%d")
+        )
         call_url = mock_fetch.call_args[0][0]
         assert yesterday in call_url
 
@@ -102,7 +106,9 @@ class TestMain:
     def test_days_ago_7(self, mock_fetch: mock.MagicMock) -> None:
         """--days-ago 7 should fetch from a week ago."""
         main(["quant-ph", "--days-ago", "7"])
-        week_ago = (datetime.now(timezone.utc) - timedelta(days=7)).date().strftime("%Y-%m-%d")
+        week_ago = (
+            (datetime.now(timezone.utc) - timedelta(days=7)).date().strftime("%Y-%m-%d")
+        )
         call_url = mock_fetch.call_args[0][0]
         assert week_ago in call_url
 
@@ -122,9 +128,7 @@ class TestMain:
             assert mock_fetch.called
 
     @mock.patch("arxiv_catchup.cli.fetch_page", return_value=SAMPLE_HTML)
-    def test_json_output_matches_expected(
-        self, mock_fetch: mock.MagicMock
-    ) -> None:
+    def test_json_output_matches_expected(self, mock_fetch: mock.MagicMock) -> None:
         """The JSON printed to stdout should match the expected papers."""
         from io import StringIO
 
@@ -158,5 +162,7 @@ class TestMain:
         main(["quant-ph", "2026-06-15", "--days-ago", "3"])
         call_url = mock_fetch.call_args[0][0]
         assert "2026-06-15" in call_url
-        three_days_ago = (datetime.now(timezone.utc) - timedelta(days=3)).date().strftime("%Y-%m-%d")
+        three_days_ago = (
+            (datetime.now(timezone.utc) - timedelta(days=3)).date().strftime("%Y-%m-%d")
+        )
         assert three_days_ago not in call_url

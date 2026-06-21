@@ -96,15 +96,15 @@ class TestKeywordSortingDiff:
                     fromfile="expected (snapshot)",
                     tofile="actual",
                 )
-                pytest.fail(
-                    "Sorted output changed:\n" + "".join(diff)
-                )
+                pytest.fail("Sorted output changed:\n" + "".join(diff))
         else:
             snapshot_path.parent.mkdir(parents=True, exist_ok=True)
             snapshot_path.write_text(actual_json)
             pytest.skip(f"Created initial snapshot at {snapshot_path}")
 
-    def test_sort_order_matched_first(self, papers: list[dict], interests: dict) -> None:
+    def test_sort_order_matched_first(
+        self, papers: list[dict], interests: dict
+    ) -> None:
         """Matched papers appear before unmatched papers."""
         result = score_and_sort(papers, interests["topics"], strategy="keyword")
 
@@ -118,7 +118,9 @@ class TestKeywordSortingDiff:
                     f"Order: {[p['id'] for p in result]}"
                 )
 
-    def test_sort_order_score_descending(self, papers: list[dict], interests: dict) -> None:
+    def test_sort_order_score_descending(
+        self, papers: list[dict], interests: dict
+    ) -> None:
         """Within the matched group, papers are sorted by score descending."""
         result = score_and_sort(papers, interests["topics"], strategy="keyword")
 
@@ -126,5 +128,5 @@ class TestKeywordSortingDiff:
         for i in range(len(matched) - 1):
             assert matched[i]["match_score"] >= matched[i + 1]["match_score"], (
                 f"Score order violated: {matched[i]['id']} ({matched[i]['match_score']}) "
-                f"before {matched[i+1]['id']} ({matched[i+1]['match_score']})"
+                f"before {matched[i + 1]['id']} ({matched[i + 1]['match_score']})"
             )

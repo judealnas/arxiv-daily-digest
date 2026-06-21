@@ -75,8 +75,8 @@ def strip_authors_from_html(html: str) -> str:
     """
     # Remove author lists after </a> — and before <br/>
     html = re.sub(
-        r'(</a>\s*—\s*)[^<]*?(<br\s*/?>)',
-        r'\1\2',
+        r"(</a>\s*—\s*)[^<]*?(<br\s*/?>)",
+        r"\1\2",
         html,
     )
     return html
@@ -138,7 +138,10 @@ def main():
 
     parser = argparse.ArgumentParser(description="Send arXiv digest email")
     parser.add_argument("--to", default="jude.alnas@duke.edu")
-    parser.add_argument("--html", default=str(Path(hermes_home) / "cron" / "shared" / "arxiv-digest.html"))
+    parser.add_argument(
+        "--html",
+        default=str(Path(hermes_home) / "cron" / "shared" / "arxiv-digest.html"),
+    )
     parser.add_argument("--subject", default=f"arXiv quant-ph daily digest — {yesterday}")
     parser.add_argument("--dry-run", action="store_true", help="Print email content instead of sending")
     args = parser.parse_args()

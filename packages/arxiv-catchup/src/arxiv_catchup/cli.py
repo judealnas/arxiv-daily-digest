@@ -69,7 +69,9 @@ def main(argv: list[str] | None = None) -> None:
     if args.date:
         target_date = datetime.strptime(args.date, "%Y-%m-%d").date()
     else:
-        target_date = (datetime.now(timezone.utc) - timedelta(days=args.days_ago)).date()
+        target_date = (
+            datetime.now(timezone.utc) - timedelta(days=args.days_ago)
+        ).date()
 
     url = build_catchup_url(args.category, target_date, args.no_abstracts)
 
