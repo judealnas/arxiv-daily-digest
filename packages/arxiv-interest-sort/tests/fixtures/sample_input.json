@@ -1,0 +1,42 @@
+[
+  {
+    "id": "2606.11311",
+    "title": "Exact Entanglement Dynamics Beyond Nearest-Neighbor Dual-Unitary Floquet Systems",
+    "authors": ["Tanay Pathak"],
+    "abstract": "Exact results using dual-unitarity largely rely on nearest-neighbor structures, while finite-range interactions typically lead to complications.",
+    "abstract_link": "https://arxiv.org/abs/2606.11311",
+    "pdf_link": "https://arxiv.org/pdf/2606.11311",
+    "comments": "5+ 9 pages, 5 figures",
+    "subjects": "Quantum Physics (quant-ph)"
+  },
+  {
+    "id": "2606.11340",
+    "title": "Q-DICE: Quantum Distributed Interconnect Compiler and Emulator",
+    "authors": ["Michael Silver", "Zachary Vernec", "Hans-Arno Jacobsen"],
+    "abstract": "As distributed quantum computing (DQC) offers a leading path towards scalable quantum computation, the ability to benchmark distributed algorithms under realistic conditions becomes critical for system co-design.",
+    "abstract_link": "https://arxiv.org/abs/2606.11340",
+    "pdf_link": "https://arxiv.org/pdf/2606.11340",
+    "comments": "11 pages, 15 figures",
+    "subjects": "Quantum Physics (quant-ph)"
+  },
+  {
+    "id": "2606.11455",
+    "title": "Planted-Solution Pauli Hamiltonians as a Quantum Benchmarking Primitive",
+    "authors": ["Amir Kalev", "Itay Hen"],
+    "abstract": "We introduce a construction of Pauli Hamiltonians with exactly known ground-state energies, intended as reference instances for ground-state energy estimation algorithms.",
+    "abstract_link": "https://arxiv.org/abs/2606.11455",
+    "pdf_link": "https://arxiv.org/pdf/2606.11455",
+    "comments": "10 pages, 4 figures",
+    "subjects": "Quantum Physics (quant-ph)"
+  },
+  {
+    "id": "2606.11475",
+    "title": "Linear Combination of Hamiltonian Simulation with Commutator Scaling",
+    "authors": ["Some Author"],
+    "abstract": "We present new techniques for Hamiltonian simulation using linear combinations of unitary operations.",
+    "abstract_link": "https://arxiv.org/abs/2606.11475",
+    "pdf_link": "https://arxiv.org/pdf/2606.11475",
+    "comments": "",
+    "subjects": "Quantum Physics (quant-ph)"
+  }
+]

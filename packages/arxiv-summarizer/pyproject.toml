@@ -1,0 +1,8 @@
+[project]
+name = "arxiv-summarizer"
+version = "0.1.0"
+description = "Batch LLM summarizer — chunk texts, call OpenAI-compatible APIs, emit JSONL results"
+requires-python = ">=3.11"
+
+[project.scripts]
+arxiv-summarize = "arxiv_summarizer.cli:main"

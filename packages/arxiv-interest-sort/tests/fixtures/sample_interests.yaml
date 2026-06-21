@@ -1,0 +1,14 @@
+# Minimal interests file for testing
+topics:
+  - name: quantum networking
+    weight: 5
+    keywords:
+      - entanglement
+      - quantum network
+      - distributed quantum
+
+  - name: quantum simulation
+    weight: 3
+    keywords:
+      - Hamiltonian simulation
+      - quantum simulation
