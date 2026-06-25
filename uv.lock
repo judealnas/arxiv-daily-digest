@@ -86,7 +86,9 @@ dependencies = [
 
 [package.optional-dependencies]
 semantic = [
+    { name = "numpy" },
     { name = "sentence-transformers" },
+    { name = "torch" },
 ]
 
 [package.dev-dependencies]
@@ -96,8 +98,10 @@ dev = [
 
 [package.metadata]
 requires-dist = [
+    { name = "numpy", marker = "extra == 'semantic'" },
     { name = "pyyaml" },
     { name = "sentence-transformers", marker = "extra == 'semantic'", specifier = ">=3" },
+    { name = "torch", marker = "extra == 'semantic'" },
 ]
 provides-extras = ["semantic"]
 

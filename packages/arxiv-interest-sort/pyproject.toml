@@ -9,7 +9,7 @@ dependencies = ["pyyaml"]
 arxiv-interest-sort = "arxiv_interest_sort.cli:main"
 
 [project.optional-dependencies]
-semantic = ["sentence-transformers>=3"]
+semantic = ["sentence-transformers>=3", "torch", "numpy"]
 
 [dependency-groups]
 dev = ["pytest"]
