@@ -41,8 +41,8 @@ import json
 import sys
 from pathlib import Path
 
-from arxiv_catchup import extract_papers, fetch_page, build_catchup_url
-from arxiv_interest_sort import load_config, score_and_sort
+from arxiv_catchup import build_catchup_url, extract_papers, fetch_page
+from arxiv_interest_sort import load_interest_config, score_and_sort
 from arxiv_interest_sort._cache import get_cache_dir
 
 
@@ -154,14 +154,12 @@ def fetch_papers(args: argparse.Namespace) -> tuple[list[dict], str | None]:
     # ── fetch from arXiv ───────────────────────────────────────────
     category = args.category or "quant-ph"
 
-    from datetime import datetime, timedelta, timezone, date
+    from datetime import date, datetime, timedelta, timezone
 
     if args.date_positional:
         target_date = datetime.strptime(args.date_positional, "%Y-%m-%d").date()
     else:
-        target_date = (
-            datetime.now(timezone.utc) - timedelta(days=args.days_ago)
-        ).date()
+        target_date = (datetime.now() - timedelta(days=args.days_ago)).date()
 
     url = build_catchup_url(category, target_date, args.no_abstracts)
 
@@ -197,7 +195,7 @@ def main(argv: list[str] | None = None) -> None:
 
     # ── load interests config ───────────────────────────────────────
     try:
-        config = load_config(args.config)
+        config = load_interest_config(args.config)
     except FileNotFoundError:
         print(
             json.dumps({"error": f"Config file not found: {args.config}"}),
@@ -225,7 +223,7 @@ def main(argv: list[str] | None = None) -> None:
     if args.include_metadata:
         matched = [p for p in papers if p.get("matched", False)]
         output = {
-            "date": datetime.now(timezone.utc).strftime("%Y-%m-%d"),
+            "date": datetime.now().strftime("%Y-%m-%d"),
             "category": category,
             "count": len(papers),
             "matched_count": len(matched),
