@@ -20,7 +20,7 @@ def papers() -> list[dict]:
 
 
 @pytest.fixture
-def interests() -> dict:
+def interests() -> list[dict]:
     import yaml
 
     with open(FIXTURES / "sample_interests.yaml") as f:
@@ -29,10 +29,9 @@ def interests() -> dict:
 
 # ── keyword strategy ─────────────────────────────────────────────
 class TestKeywordScore:
-    def test_basic_scoring(self, papers: list[dict], interests: dict) -> None:
+    def test_basic_scoring(self, papers: list[dict], interests: list[dict]) -> None:
         """Papers matching entanglement or quantum network keywords get scored."""
-        topics = interests["topics"]
-        result = keyword_score(papers, topics)
+        result = keyword_score(papers, interests)
 
         # "Entanglement" appears in paper 2606.11311's abstract
         # "distributed quantum" appears in paper 2606.11340's abstract

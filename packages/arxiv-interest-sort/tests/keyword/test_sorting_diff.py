@@ -13,7 +13,7 @@ from pathlib import Path
 
 import pytest
 
-from arxiv_interest_sort import load_config, score_and_sort
+from arxiv_interest_sort import load_interest_config, score_and_sort
 
 # ── fixtures ─────────────────────────────────────────────────────
 FIXTURES = Path(__file__).parent.parent / "fixtures"
@@ -27,11 +27,8 @@ def papers() -> list[dict]:
 
 
 @pytest.fixture
-def interests() -> dict:
-    import yaml
-
-    with open(FIXTURES / "sample_interests.yaml") as f:
-        return yaml.safe_load(f)
+def interests() -> list:
+    return load_interest_config(FIXTURES / "sample_interests.yaml")
 
 
 def _sort_to_snapshot(papers: list[dict], topics: list[dict]) -> list[dict]:
@@ -53,12 +50,12 @@ def _sort_to_snapshot(papers: list[dict], topics: list[dict]) -> list[dict]:
 
 class TestKeywordSortingDiff:
     def test_sorted_output_matches_snapshot(
-        self, papers: list[dict], interests: dict
+        self, papers: list[dict], interests: list
     ) -> None:
         """The keyword strategy produces the expected sort order and annotations."""
         snapshot_path = SNAPSHOTS / "keyword_sorted_expected.json"
 
-        actual = _sort_to_snapshot(papers, interests["topics"])
+        actual = _sort_to_snapshot(papers, interests)
         actual_json = json.dumps(actual, indent=2, sort_keys=True) + "\n"
 
         if not snapshot_path.exists():
@@ -77,12 +74,12 @@ class TestKeywordSortingDiff:
         )
 
     def test_sorted_output_unified_diff(
-        self, papers: list[dict], interests: dict, capsys: pytest.CaptureFixture
+        self, papers: list[dict], interests: list, capsys: pytest.CaptureFixture
     ) -> None:
         """Print a unified diff on failure for human-readable output."""
         snapshot_path = SNAPSHOTS / "keyword_sorted_expected.json"
 
-        actual = _sort_to_snapshot(papers, interests["topics"])
+        actual = _sort_to_snapshot(papers, interests)
         actual_json = json.dumps(actual, indent=2, sort_keys=True) + "\n"
 
         if snapshot_path.exists():
@@ -103,10 +100,10 @@ class TestKeywordSortingDiff:
             pytest.skip(f"Created initial snapshot at {snapshot_path}")
 
     def test_sort_order_matched_first(
-        self, papers: list[dict], interests: dict
+        self, papers: list[dict], interests: list
     ) -> None:
         """Matched papers appear before unmatched papers."""
-        result = score_and_sort(papers, interests["topics"], strategy="keyword")
+        result = score_and_sort(papers, interests, strategy="keyword")
 
         matched_done = False
         for p in result:
@@ -119,10 +116,10 @@ class TestKeywordSortingDiff:
                 )
 
     def test_sort_order_score_descending(
-        self, papers: list[dict], interests: dict
+        self, papers: list[dict], interests: list
     ) -> None:
         """Within the matched group, papers are sorted by score descending."""
-        result = score_and_sort(papers, interests["topics"], strategy="keyword")
+        result = score_and_sort(papers, interests, strategy="keyword")
 
         matched = [p for p in result if p["matched"]]
         for i in range(len(matched) - 1):

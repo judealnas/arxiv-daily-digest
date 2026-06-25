@@ -14,10 +14,16 @@ Usage
 from __future__ import annotations
 
 import re
-from typing import Any
+from pathlib import Path
+from typing import Any, Sequence
 
 import yaml
 
+from arxiv_interest_sort.interests import (
+    InterestTopic,
+    read_interests_from_file,
+    write_interests_to_file,
+)
 from arxiv_interest_sort.strategies import STRATEGIES, PaperDict, TopicDict
 
 # ── public API ───────────────────────────────────────────────────
@@ -25,17 +31,12 @@ from arxiv_interest_sort.strategies import STRATEGIES, PaperDict, TopicDict
 ConfigDict = dict[str, Any]
 
 
-def load_config(path: str) -> ConfigDict:
+def load_interest_config(path: str | Path) -> Sequence[dict[str, Any]]:
     """Load interests configuration from a YAML file.
 
-    Returns a dict with the ``topics`` key containing the list of topic dicts
-    (``name``, ``weight``, ``keywords``).
+    Returns a list of topic dicts (``name``, ``weight``, ``keywords``, ``description``).
     """
-    with open(path) as f:
-        cfg: ConfigDict = yaml.safe_load(f)
-    if "topics" not in cfg:
-        cfg["topics"] = []
-    return cfg
+    return [interest.asdict() for interest in read_interests_from_file(path)]
 
 
 def sort_papers(papers: list[PaperDict]) -> list[PaperDict]:

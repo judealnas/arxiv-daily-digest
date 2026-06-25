@@ -15,7 +15,7 @@ import json
 import sys
 from datetime import datetime, timezone
 
-from arxiv_interest_sort import STRATEGIES, load_config, score_and_sort
+from arxiv_interest_sort import STRATEGIES, load_interest_config, score_and_sort
 from arxiv_interest_sort._cache import get_cache_dir
 
 
@@ -79,7 +79,7 @@ def main(argv: list[str] | None = None) -> None:
 
     # ── load config ─────────────────────────────────────────────────
     try:
-        config = load_config(args.config)
+        config = load_interest_config(args.config)
     except FileNotFoundError:
         print(
             json.dumps({"error": f"Config file not found: {args.config}"}),
@@ -145,9 +145,7 @@ def main(argv: list[str] | None = None) -> None:
         kwargs["cache_dir"] = get_cache_dir(args.cache_dir)
 
     # ── score & sort ────────────────────────────────────────────────
-    papers = score_and_sort(
-        papers, config.get("topics", []), strategy=strategy, **kwargs
-    )
+    papers = score_and_sort(papers, config, strategy=strategy, **kwargs)
 
     # ── render output ───────────────────────────────────────────────
     if args.include_metadata:

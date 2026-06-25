@@ -18,7 +18,7 @@ def papers() -> list[dict]:
 
 
 @pytest.fixture
-def interests() -> dict:
+def interests() -> list:
     import yaml
 
     with open(FIXTURES / "sample_interests.yaml") as f:
@@ -40,12 +40,11 @@ class TestSemanticScore:
         "not pytest.skip",
         reason="Requires sentence-transformers (install with [semantic] extra)",
     )
-    def test_semantic_with_model(self, papers: list[dict], interests: dict) -> None:
+    def test_semantic_with_model(self, papers: list[dict], interests: list) -> None:
         """Semantic scoring produces annotations (requires model download)."""
         from arxiv_interest_sort.strategies import semantic_score
 
-        topics = interests["topics"]
-        result = semantic_score(papers, topics, model="all-MiniLM-L6-v2", threshold=0.3)
+        result = semantic_score(papers, interests, model="all-MiniLM-L6-v2", threshold=0.3)
         for p in result:
             assert "match_score" in p
             assert "match_count" in p
