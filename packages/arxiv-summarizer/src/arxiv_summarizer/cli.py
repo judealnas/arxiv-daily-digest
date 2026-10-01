@@ -25,6 +25,7 @@ from __future__ import annotations
 import argparse
 import json
 import sys
+from pathlib import Path
 
 from .bart import BartSummarizer
 from .llm import LlmSummarizer
@@ -40,7 +41,7 @@ def build_parser() -> argparse.ArgumentParser:
         "--backend",
         default="bart",
         choices=["bart", "llm"],
-        help="Summarizer backend (default: bart, local; llm = hosted provider)",
+        help="Summarizer backend (default: bart; llm = hosted provider)",
     )
     # ── BART options ────────────────────────────────────────────────────
     parser.add_argument(
@@ -87,8 +88,15 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument(
         "--chunk",
         type=int,
-        default=1,
-        help=("llm: number of API requests: 1 (default, fully batched), N chunks, -1 (one per text)"),
+        default=None,
+        help="llm: number of API requests (default: 1, fully batched; -1 = one per text)",
+    )
+    parser.add_argument(
+        "--papers-per-prompt",
+        type=int,
+        default=None,
+        metavar="N",
+        help="llm: positive number of papers in each request",
     )
     parser.add_argument(
         "--rpm",
@@ -109,15 +117,17 @@ def build_parser() -> argparse.ArgumentParser:
         default=2048,
         help="llm: max completion tokens per request (default: 2048)",
     )
-    parser.add_argument(
-        "--system-prompt",
+    user_prompt_options = parser.add_mutually_exclusive_group()
+    user_prompt_options.add_argument(
+        "--user-prompt",
         default=None,
-        help="llm: system prompt override (otherwise built-in default)",
+        help="llm: qualitative summary guidance (format remains fixed)",
     )
-    parser.add_argument(
-        "--template",
+    user_prompt_options.add_argument(
+        "--user-prompt-file",
         default=None,
-        help=('llm: user message template with {text} and {count}. Default: "Summarize the following:\\n\\n{text}"'),
+        metavar="PATH",
+        help="llm: read qualitative guidance from a UTF-8 file",
     )
     parser.add_argument(
         "--base-url",
@@ -132,22 +142,44 @@ def build_parser() -> argparse.ArgumentParser:
     return parser
 
 
+def _validate_backend_options(args: argparse.Namespace) -> None:
+    """Reject backend-specific option combinations before construction."""
+    if args.papers_per_prompt is not None and args.papers_per_prompt <= 0:
+        raise ValueError("--papers-per-prompt must be positive")
+    if args.chunk is not None and args.papers_per_prompt is not None:
+        raise ValueError("--chunk cannot be combined with --papers-per-prompt")
+    if args.backend == "bart" and args.papers_per_prompt is not None:
+        raise ValueError("--papers-per-prompt is not supported by the bart backend")
+    if args.backend == "bart" and (args.user_prompt is not None or args.user_prompt_file is not None):
+        raise ValueError("--user-prompt/--user-prompt-file are not supported by the bart backend")
+
+
+def _resolve_user_prompt(args: argparse.Namespace) -> str | None:
+    if args.user_prompt_file is None:
+        return args.user_prompt
+    try:
+        return Path(args.user_prompt_file).read_text(encoding="utf-8")
+    except (OSError, UnicodeError) as exc:
+        raise ValueError("--user-prompt-file must be a readable UTF-8 file") from exc
+
+
 def build_backend(args: argparse.Namespace):
     """Construct the configured Summarizer instance from parsed CLI args."""
+    _validate_backend_options(args)
     if args.backend == "bart":
         return BartSummarizer(
             model_name=args.bart_model,
             max_length=args.max_length,
             min_length=args.min_length,
-            num_beams=4,  # not CLI-exposed; experiments fixed it at 4
+            num_beams=args.num_beams,
             batch_size=args.batch_size,
         )
     return LlmSummarizer(
         provider=args.provider,
         model=args.model,
-        system_prompt=args.system_prompt,
-        template=args.template,
-        chunk_count=args.chunk,
+        user_prompt=_resolve_user_prompt(args),
+        chunk_count=1 if args.chunk is None else args.chunk,
+        papers_per_prompt=args.papers_per_prompt,
         rpm_limit=args.rpm,
         temperature=args.temperature,
         max_tokens=args.max_tokens,
@@ -165,22 +197,33 @@ def main(argv: list[str] | None = None) -> None:
     """
     parser = build_parser()
     args = parser.parse_args([] if argv is None else argv)
+    try:
+        _validate_backend_options(args)
+    except ValueError as exc:
+        parser.error(str(exc))
 
     # ── read input ──────────────────────────────────────────────────
     source: list[SourceItem] = []
+    seen_ids: set[str] = set()
     for line_no, raw in enumerate(sys.stdin, 1):
         raw = raw.strip()
         if not raw:
             continue
         try:
             item = json.loads(raw)
-            source.append(
-                SourceItem(
-                    id=item["id"],
-                    text=item["text"],
-                )
-            )
-        except (json.JSONDecodeError, KeyError) as e:
+            if not isinstance(item, dict):
+                raise ValueError("expected a JSON object")
+            item_id = item["id"]
+            text = item["text"]
+            if not isinstance(item_id, str) or not item_id:
+                raise ValueError("id must be a nonempty string")
+            if not isinstance(text, str):
+                raise ValueError("text must be a string")
+            if item_id in seen_ids:
+                raise ValueError("Duplicate paper ID")
+            seen_ids.add(item_id)
+            source.append(SourceItem(id=item_id, text=text))
+        except (json.JSONDecodeError, KeyError, ValueError) as e:
             print(
                 json.dumps(
                     {
@@ -199,10 +242,19 @@ def main(argv: list[str] | None = None) -> None:
         return
 
     # ── construct backend and run ───────────────────────────────────
-    backend = build_backend(args)
+    try:
+        backend = build_backend(args)
+    except ValueError as exc:
+        parser.error(str(exc))
+    if args.backend == "llm":
+        results = backend.summarize_items(source)
+        for result in results:
+            print(dump_result(result))
+        return
+
     results = backend.summarize_many([item["text"] for item in source])
 
-    # ── emit output (ids restored from the source stream) ───────────
+    # BART returns positional IDs, so restore IDs from the source stream.
     for item, result in zip(source, results, strict=True):
         if result["id"] != item["id"]:
             result = ResultItem(
@@ -214,5 +266,10 @@ def main(argv: list[str] | None = None) -> None:
         print(dump_result(result))
 
 
+def console_main() -> None:
+    """Console-script adapter: pass the actual shell arguments to main()."""
+    main(sys.argv[1:])
+
+
 if __name__ == "__main__":
-    main()
+    console_main()
