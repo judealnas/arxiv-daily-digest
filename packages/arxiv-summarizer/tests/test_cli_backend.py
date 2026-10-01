@@ -110,6 +110,7 @@ def test_llm_cli_emits_identity_results_without_positional_restoration(monkeypat
     "argv, message",
     [
         (["--backend", "llm", "--chunk", "2", "--papers-per-prompt", "2"], "cannot be combined"),
+        (["--backend", "openrouter", "--chunk", "2"], "not supported"),
         (["--backend", "bart", "--papers-per-prompt", "2"], "not supported"),
         (["--backend", "llm", "--papers-per-prompt", "0"], "must be positive"),
     ],

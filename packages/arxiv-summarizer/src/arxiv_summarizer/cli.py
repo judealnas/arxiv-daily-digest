@@ -30,6 +30,7 @@ from pathlib import Path
 from .bart import BartSummarizer
 from .llm import LlmSummarizer
 from .models import ResultItem, SourceItem, dump_result
+from .openrouter import OpenRouterSummarizer
 
 
 def build_parser() -> argparse.ArgumentParser:
@@ -40,8 +41,8 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument(
         "--backend",
         default="bart",
-        choices=["bart", "llm"],
-        help="Summarizer backend (default: bart; llm = hosted provider)",
+        choices=["bart", "llm", "openrouter"],
+        help="Summarizer backend (default: bart; openrouter = one hosted request per text)",
     )
     # ── BART options ────────────────────────────────────────────────────
     parser.add_argument(
@@ -83,7 +84,7 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument(
         "--model",
         default=None,
-        help="llm: model ID override (default depends on provider)",
+        help="llm/openrouter: model ID override (default depends on provider)",
     )
     parser.add_argument(
         "--chunk",
@@ -96,7 +97,7 @@ def build_parser() -> argparse.ArgumentParser:
         type=int,
         default=None,
         metavar="N",
-        help="llm: positive number of papers in each request",
+        help="llm/openrouter: positive number of papers in each request",
     )
     parser.add_argument(
         "--rpm",
@@ -121,13 +122,13 @@ def build_parser() -> argparse.ArgumentParser:
     user_prompt_options.add_argument(
         "--user-prompt",
         default=None,
-        help="llm: qualitative summary guidance (format remains fixed)",
+        help="llm/openrouter: qualitative summary guidance (format remains fixed)",
     )
     user_prompt_options.add_argument(
         "--user-prompt-file",
         default=None,
         metavar="PATH",
-        help="llm: read qualitative guidance from a UTF-8 file",
+        help="llm/openrouter: read qualitative guidance from a UTF-8 file",
     )
     parser.add_argument(
         "--base-url",
@@ -148,6 +149,8 @@ def _validate_backend_options(args: argparse.Namespace) -> None:
         raise ValueError("--papers-per-prompt must be positive")
     if args.chunk is not None and args.papers_per_prompt is not None:
         raise ValueError("--chunk cannot be combined with --papers-per-prompt")
+    if args.backend == "openrouter" and args.chunk is not None:
+        raise ValueError("--chunk is not supported by the dedicated openrouter backend")
     if args.backend == "bart" and args.papers_per_prompt is not None:
         raise ValueError("--papers-per-prompt is not supported by the bart backend")
     if args.backend == "bart" and (args.user_prompt is not None or args.user_prompt_file is not None):
@@ -173,6 +176,17 @@ def build_backend(args: argparse.Namespace):
             min_length=args.min_length,
             num_beams=args.num_beams,
             batch_size=args.batch_size,
+        )
+    if args.backend == "openrouter":
+        return OpenRouterSummarizer(
+            model=args.model,
+            user_prompt=_resolve_user_prompt(args),
+            papers_per_prompt=args.papers_per_prompt,
+            rpm_limit=args.rpm,
+            temperature=args.temperature,
+            max_tokens=args.max_tokens,
+            base_url=args.base_url,
+            api_key=args.api_key,
         )
     return LlmSummarizer(
         provider=args.provider,
@@ -246,7 +260,7 @@ def main(argv: list[str] | None = None) -> None:
         backend = build_backend(args)
     except ValueError as exc:
         parser.error(str(exc))
-    if args.backend == "llm":
+    if args.backend in {"llm", "openrouter"}:
         results = backend.summarize_items(source)
         for result in results:
             print(dump_result(result))

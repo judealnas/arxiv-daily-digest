@@ -6,7 +6,7 @@ requires-python = ">=3.11"
 dependencies = ["torch>=2.0", "transformers>=4.40"]
 
 [project.scripts]
-arxiv-summarize = "arxiv_summarizer.cli:main"
+arxiv-summarize = "arxiv_summarizer.cli:console_main"
 
 [tool.pytest.ini_options]
 markers = [
