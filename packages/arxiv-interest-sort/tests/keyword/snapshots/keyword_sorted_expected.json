@@ -1,0 +1,40 @@
+[
+  {
+    "id": "2606.11311",
+    "match_count": 5,
+    "match_score": 5,
+    "matched": true,
+    "matched_topics": [
+      "quantum networking"
+    ],
+    "title": "Exact Entanglement Dynamics Beyond Nearest-Neighbor Dual-Unitary Floquet Systems"
+  },
+  {
+    "id": "2606.11340",
+    "match_count": 5,
+    "match_score": 5,
+    "matched": true,
+    "matched_topics": [
+      "quantum networking"
+    ],
+    "title": "Q-DICE: Quantum Distributed Interconnect Compiler and Emulator"
+  },
+  {
+    "id": "2606.11475",
+    "match_count": 3,
+    "match_score": 3,
+    "matched": true,
+    "matched_topics": [
+      "quantum simulation"
+    ],
+    "title": "Linear Combination of Hamiltonian Simulation with Commutator Scaling"
+  },
+  {
+    "id": "2606.11455",
+    "match_count": 0,
+    "match_score": 0,
+    "matched": false,
+    "matched_topics": [],
+    "title": "Planted-Solution Pauli Hamiltonians as a Quantum Benchmarking Primitive"
+  }
+]

@@ -31,4 +31,9 @@ quote-style = "double"
 [tool.pyright]
 include = ["src", "tests"]
 
+[tool.pytest.ini_options]
+markers = [
+    "slow: integration tests that load real model weights (deselect with -m 'not slow')",
+]
+
 
