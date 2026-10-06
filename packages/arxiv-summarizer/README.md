@@ -79,8 +79,10 @@ instance.
 - a summary never equals its input verbatim
 
 Enforced by `tests/contract/` — shared by ALL backends. New backends add
-themselves to the contract test's registry. BART runs it against the real
-model (marked `slow`); LLM runs it against `FakeLLMClient` (free, fast).
+themselves to the contract test's registry. Ordinary BART contract tests use
+the real `BartSummarizer` with fake tokenizer/model components; LLM runs
+against `FakeLLMClient` (free, fast). A separate real BART generation check
+is marked `slow`.
 
 ## Defaults (from experiments/summarizer/)
 
@@ -178,10 +180,21 @@ items = summarizer.summarize_many(["abstract 1", "abstract 2"])
 ## Testing
 
 ```bash
-uv run pytest packages/arxiv-summarizer/tests/ -m "not slow"   # fast (~12s)
-uv run pytest packages/arxiv-summarizer/tests/                 # + real-model integration
+# Ordinary tests: no real model loading and no external network.
+uv run pytest -m "not slow and not live" -q
+
+# Real local-model integration tests. These may load cached local weights.
+# The semantic integration test additionally needs the optional dependency:
+uv sync --package arxiv-interest-sort --extra semantic
+uv run pytest -m slow -q
+
+# Opt-in hosted-service group. No hosted live smoke test exists yet.
+uv run pytest -m live -q
 ```
 
+- The root test guard blocks real network connections and BART or
+  SentenceTransformer model loading in ordinary tests, while allowing mocked
+  transports and fake BART model loaders.
 - Unit/contract tests never load models or call APIs (fake clients,
   monkeypatched constructors).
 - One `@pytest.mark.slow` integration test exercises real BART generation.
