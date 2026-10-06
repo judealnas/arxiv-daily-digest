@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import builtins
 import json
 from pathlib import Path
 
@@ -27,24 +28,41 @@ def interests() -> list:
 
 # ── semantic strategy ────────────────────────────────────────────
 class TestSemanticScore:
-    def test_missing_dependency(self) -> None:
+    def test_missing_dependency(
+        self, capsys: pytest.CaptureFixture[str], monkeypatch
+    ) -> None:
         """Without sentence-transformers, the strategy exits with an error."""
-        # We can't actually uninstall the package in a test, but we can verify
-        # the import-error handling by checking the code path.
-        # This is a structural test that the ImportError trap exists.
+        original_import = builtins.__import__
+
+        def raise_for_sentence_transformers(name, *args, **kwargs):
+            if name == "sentence_transformers":
+                raise ImportError("simulated missing optional dependency")
+            return original_import(name, *args, **kwargs)
+
+        monkeypatch.setattr(builtins, "__import__", raise_for_sentence_transformers)
         from arxiv_interest_sort.strategies import semantic_score
 
-        assert hasattr(semantic_score, "__call__")
+        with pytest.raises(SystemExit) as exc_info:
+            semantic_score([], [])
 
-    @pytest.mark.skipif(
-        "not pytest.skip",
-        reason="Requires sentence-transformers (install with [semantic] extra)",
-    )
+        assert exc_info.value.code == 1
+        assert "requires sentence-transformers" in capsys.readouterr().err
+
+    @pytest.mark.slow
     def test_semantic_with_model(self, papers: list[dict], interests: list) -> None:
         """Semantic scoring produces annotations (requires model download)."""
+        pytest.importorskip(
+            "sentence_transformers",
+            reason=(
+                "requires the semantic extra: "
+                "uv sync --package arxiv-interest-sort --extra semantic"
+            ),
+        )
         from arxiv_interest_sort.strategies import semantic_score
 
-        result = semantic_score(papers, interests, model="all-MiniLM-L6-v2", threshold=0.3)
+        result = semantic_score(
+            papers, interests, model="all-MiniLM-L6-v2", threshold=0.3
+        )
         for p in result:
             assert "match_score" in p
             assert "match_count" in p

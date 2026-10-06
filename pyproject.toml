@@ -34,6 +34,7 @@ include = ["src", "tests"]
 [tool.pytest.ini_options]
 markers = [
     "slow: integration tests that load real model weights (deselect with -m 'not slow')",
+    "live: opt-in hosted-service tests (deselect with -m 'not live')",
 ]
 
 
