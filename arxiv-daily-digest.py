@@ -154,7 +154,7 @@ def fetch_papers(args: argparse.Namespace) -> tuple[list[dict], str | None]:
     # ── fetch from arXiv ───────────────────────────────────────────
     category = args.category or "quant-ph"
 
-    from datetime import date, datetime, timedelta, timezone
+    from datetime import datetime, timedelta
 
     if args.date_positional:
         target_date = datetime.strptime(args.date_positional, "%Y-%m-%d").date()
@@ -213,12 +213,10 @@ def main(argv: list[str] | None = None) -> None:
         kwargs["cache_dir"] = get_cache_dir(args.cache_dir)
 
     # ── score & sort ────────────────────────────────────────────────
-    papers = score_and_sort(
-        papers, config.get("topics", []), strategy=args.strategy, **kwargs
-    )
+    papers = score_and_sort(papers, list(config), strategy=args.strategy, **kwargs)
 
     # ── render output ───────────────────────────────────────────────
-    from datetime import datetime, timezone
+    from datetime import datetime
 
     if args.include_metadata:
         matched = [p for p in papers if p.get("matched", False)]
