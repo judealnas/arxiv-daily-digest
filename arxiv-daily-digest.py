@@ -8,6 +8,7 @@ Fetch from arXiv and sort::
     python arxiv-daily-digest.py quant-ph
     python arxiv-daily-digest.py quant-ph --days-ago 1
     python arxiv-daily-digest.py cs.LG 2026-06-19
+    python arxiv-daily-digest.py quant-ph --date 2026-06-19
 
 Parse a local HTML file and sort::
 
@@ -39,11 +40,30 @@ from __future__ import annotations
 import argparse
 import json
 import sys
+from datetime import date, datetime, timedelta, timezone
 from pathlib import Path
 
 from arxiv_catchup import build_catchup_url, extract_papers, fetch_page
 from arxiv_interest_sort import load_interest_config, score_and_sort
 from arxiv_interest_sort._cache import get_cache_dir
+
+
+def _parse_date(value: str) -> date:
+    """Accept only canonical ISO calendar dates."""
+    try:
+        parsed = date.fromisoformat(value)
+    except ValueError as exc:
+        raise argparse.ArgumentTypeError("must be a valid YYYY-MM-DD date") from exc
+    if value != parsed.isoformat():
+        raise argparse.ArgumentTypeError("must be a canonical YYYY-MM-DD date")
+    return parsed
+
+
+def _non_negative_days(value: str) -> int:
+    days = int(value)
+    if days < 0:
+        raise argparse.ArgumentTypeError("must be non-negative")
+    return days
 
 
 def build_parser() -> argparse.ArgumentParser:
@@ -74,13 +94,19 @@ def build_parser() -> argparse.ArgumentParser:
         nargs="?",
         default=None,
         metavar="DATE",
-        help="Date in YYYY-MM-DD format (default: today).",
+        type=_parse_date,
+        help="Date in YYYY-MM-DD format (default: today in UTC).",
+    )
+    fetch_group.add_argument(
+        "--date",
+        type=_parse_date,
+        help="Explicit date in YYYY-MM-DD format; required for metadata from saved HTML.",
     )
     fetch_group.add_argument(
         "--days-ago",
-        type=int,
-        default=0,
-        help="Fetch listings from N days before today (default: 0).",
+        type=_non_negative_days,
+        default=None,
+        help="Fetch listings from N UTC calendar days before today (default: 0).",
     )
     fetch_group.add_argument(
         "--no-abstracts",
@@ -136,6 +162,68 @@ def build_parser() -> argparse.ArgumentParser:
     return parser
 
 
+def resolve_listing_date(
+    args: argparse.Namespace,
+    parser: argparse.ArgumentParser | None = None,
+) -> date | None:
+    """Resolve the one listing date used for fetching and metadata."""
+
+    def error(message: str) -> None:
+        if parser is not None:
+            parser.error(message)
+        raise ValueError(message)
+
+    explicit_date = getattr(args, "date", None)
+    positional_date = args.date_positional
+    days_ago = args.days_ago
+
+    if args.from_html:
+        if positional_date is not None:
+            error("DATE positional argument cannot be used with --from-html; use --date")
+        if days_ago is not None:
+            error("--days-ago cannot be used with --from-html")
+        if args.include_metadata and explicit_date is None:
+            error("--date is required with --from-html and --include-metadata")
+        return explicit_date
+
+    if explicit_date is not None and positional_date is not None:
+        error("--date cannot be used with positional DATE")
+    if (explicit_date is not None or positional_date is not None) and days_ago is not None:
+        error("--days-ago cannot be used with an explicit date")
+
+    if explicit_date is not None:
+        return explicit_date
+    if positional_date is not None:
+        return positional_date
+    try:
+        return (datetime.now(timezone.utc) - timedelta(days=days_ago or 0)).date()
+    except OverflowError:
+        error("--days-ago is outside the supported date range")
+
+
+def _resolve_legacy_fetch_date(args: argparse.Namespace) -> date:
+    """Normalize the pre-date-option Namespace accepted by ``fetch_papers``."""
+    positional_date = getattr(args, "date_positional", None)
+    days_ago = getattr(args, "days_ago", 0)
+
+    if positional_date is not None:
+        if isinstance(positional_date, str):
+            try:
+                target_date = _parse_date(positional_date)
+            except argparse.ArgumentTypeError as exc:
+                raise ValueError(str(exc)) from exc
+        else:
+            target_date = positional_date
+        if days_ago != 0:
+            raise ValueError("--days-ago cannot be used with an explicit date")
+        return target_date
+
+    try:
+        return (datetime.now(timezone.utc) - timedelta(days=days_ago)).date()
+    except OverflowError as exc:
+        raise ValueError("--days-ago is outside the supported date range") from exc
+
+
 def fetch_papers(args: argparse.Namespace) -> tuple[list[dict], str | None]:
     """Fetch papers from arXiv or parse from a local HTML file.
 
@@ -153,14 +241,14 @@ def fetch_papers(args: argparse.Namespace) -> tuple[list[dict], str | None]:
 
     # ── fetch from arXiv ───────────────────────────────────────────
     category = args.category or "quant-ph"
-
-    from datetime import datetime, timedelta
-
-    if args.date_positional:
-        target_date = datetime.strptime(args.date_positional, "%Y-%m-%d").date()
-    else:
-        target_date = (datetime.now() - timedelta(days=args.days_ago)).date()
-
+    target_date = getattr(args, "listing_date", None)
+    if target_date is None:
+        target_date = (
+            _resolve_legacy_fetch_date(args)
+            if not hasattr(args, "date")
+            else resolve_listing_date(args)
+        )
+    assert target_date is not None
     url = build_catchup_url(category, target_date, args.no_abstracts)
 
     try:
@@ -180,6 +268,7 @@ def fetch_papers(args: argparse.Namespace) -> tuple[list[dict], str | None]:
 def main(argv: list[str] | None = None) -> None:
     parser = build_parser()
     args = parser.parse_args(argv)
+    args.listing_date = resolve_listing_date(args, parser)
 
     # ── validate ────────────────────────────────────────────────────
     if not args.from_html and not args.category and not args.date_positional:
@@ -216,12 +305,11 @@ def main(argv: list[str] | None = None) -> None:
     papers = score_and_sort(papers, list(config), strategy=args.strategy, **kwargs)
 
     # ── render output ───────────────────────────────────────────────
-    from datetime import datetime
-
     if args.include_metadata:
         matched = [p for p in papers if p.get("matched", False)]
+        assert args.listing_date is not None
         output = {
-            "date": datetime.now().strftime("%Y-%m-%d"),
+            "date": args.listing_date.isoformat(),
             "category": category,
             "count": len(papers),
             "matched_count": len(matched),

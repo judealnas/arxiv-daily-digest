@@ -20,7 +20,9 @@ For technical details, see [the design document](design.md). Future changes shou
 
 The catchup component can fetch an arXiv catchup listing or parse saved listing HTML. It returns paper IDs, titles, authors, abstracts, and links, with optional comments and subject information.
 
-Saved HTML allows repeatable testing without contacting arXiv. The parser depends on the listing's HTML structure; it is not a general-purpose web scraper.
+Saved HTML allows repeatable testing without contacting arXiv. The parser depends on the listing's HTML structure; it is not a general-purpose web scraper. The top-level fetch-and-rank command accepts either a fetched listing or saved HTML and ranks it using the same list-based interests configuration as the sorter.
+
+Listing dates are resolved once. A fetched listing defaults to the current UTC calendar date, and `--days-ago N` subtracts N calendar days, including weekends. Users may supply the existing positional date for fetches or `--date YYYY-MM-DD`. Metadata records that resolved listing date. Saved HTML has no trusted page-date extraction: it keeps the existing plain-paper output without a date, while metadata output requires explicit `--date`.
 
 ### 2. Rank papers by interest
 
@@ -70,9 +72,7 @@ This is different from asynchronous provider batch jobs, which are not implement
 - There is no automatic input-token budget for hosted groups. Large groups can exceed model limits or leave too little room for complete answers.
 - BART truncates long inputs. It needs model weights and local compute; it is not equivalent to the hosted models in quality or speed.
 - Configuration failures can stop a run before per-paper results are produced. Not every failure is a per-paper error.
-- The top-level fetch-and-rank script currently fails on a configuration type mismatch. Component test success does not mean this script works end to end.
-- Metadata dates are not yet consistently tied to the selected listing date.
-- A standalone email sender exists, but it does not validate digest freshness or prevent duplicate delivery. Its dry run currently still requires credentials.
+- The top-level command rejects invalid or conflicting date controls before it fetches or writes. A standalone email sender exists, but it does not validate digest freshness or prevent duplicate delivery. Its dry run currently still requires credentials.
 - The renderer is an untracked draft, not an integrated or fully validated feature.
 
 ## Acceptance criteria for existing components

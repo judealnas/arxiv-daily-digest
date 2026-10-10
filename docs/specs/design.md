@@ -35,7 +35,7 @@ Separately supplied HTML file
     → SMTP email
 ```
 
-There is no complete connection from ranked papers to summaries, validated HTML, and safe delivery. The top-level `arxiv-daily-digest.py` attempts fetch → score → JSON output, but currently fails at its configuration boundary.
+There is no complete connection from ranked papers to summaries, validated HTML, and safe delivery. The top-level `arxiv-daily-digest.py` supports fixture-backed fetch or saved-HTML parsing, list-based interest configuration, and JSON output, but it is not an end-to-end delivery workflow.
 
 ## 2. Retrieval and ranking
 
@@ -52,6 +52,8 @@ It preserves a version suffix in the paper ID when present, but removes it from 
 The parser uses patterns tailored to catchup HTML. Missing optional fields can become empty values. An empty parse is not by itself proof that there were no papers; it may also indicate unsupported page structure.
 
 The fetcher has bounded retry behavior for HTTP 429. It is not a general recovery layer for all HTTP failures.
+
+The top-level command resolves a listing date before it reads, fetches, or writes output. Fetched runs use an explicit positional date or `--date`; otherwise they use the current UTC calendar date minus `--days-ago` calendar days. It rejects negative offsets and conflicting date controls before transport. The resolved date is used both in the catchup URL and in metadata. Saved HTML does not have a trusted date source: plain output remains undated, and `--include-metadata` requires explicit `--date`.
 
 ### Interest scoring
 
@@ -153,15 +155,13 @@ The untracked `arxiv_digest_renderer.py` draft expects a different envelope cont
 
 This is not the parser's direct output format. There is no integrated adapter, and the draft does not validate run identity, counts, summary completeness, or safe URL schemes. HTML escaping is not a substitute for URL validation. Its heading is also fixed to quant-ph.
 
-The committed `arxiv-email-sender.py` reads an existing HTML file and sends HTML plus plain text using SMTP with STARTTLS. It is a standalone helper, not a safe publication stage. It lacks freshness checks and duplicate-send protection, derives its default subject date independently, and checks credentials even for a dry run. No live email was sent for this documentation work.
+The committed `arxiv-email-sender.py` reads an existing HTML file and sends HTML plus plain text using SMTP with STARTTLS. It is a standalone helper, not a safe publication stage. It lacks freshness checks and duplicate-send protection, derives its default subject date independently, and checks credentials even for a dry run. This date work does not change the sender because it is not integrated with the top-level command. No live email was sent for this documentation work.
 
 ## 9. Confirmed gaps, not new requirements silently implemented
 
-1. **Top-level configuration mismatch:** the loader returns a list, while `arxiv-daily-digest.py` calls `config.get("topics", [])`. A saved-HTML run reproduced `AttributeError: 'list' object has no attribute 'get'`.
-2. **Date mismatch:** top-level metadata uses the current local date rather than consistently carrying the selected listing date.
-3. **Missing integration:** ranked paper arrays need an explicit adapter to summarizer records and a validated renderer input.
-4. **Missing publication safety:** versioned artifacts, atomic writes, full summary coverage checks, and safe email selection are not an integrated workflow.
-5. **Incomplete test isolation:** several BART contract tests invoke a real model, but only the dedicated batching test is marked `slow`. Selecting `-m 'not slow'` does not guarantee a model-free or network-free run.
+1. **Missing integration:** ranked paper arrays need an explicit adapter to summarizer records and a validated renderer input.
+2. **Missing publication safety:** versioned artifacts, atomic writes, full summary coverage checks, and safe email selection are not an integrated workflow.
+3. **Ordinary-test isolation boundary:** root-level ordinary tests block network sockets and model loading; tests requiring either must opt in with `slow` or `live`. This guard does not make untested integrations safe.
 
 These findings are documented, not fixed by this change.
 
@@ -180,26 +180,11 @@ Existing evidence maps to the product criteria as follows:
 
 Most paths above are relative to their named package. These tests establish component behavior, not scientific accuracy or end-to-end delivery safety.
 
-### Recorded execution evidence
+### Test isolation and offline coverage
 
-The full working-tree suite was run immediately before this documentation task:
+Root-level ordinary tests use `conftest.py` to block real socket connections and model loading. Tests that need either must be explicitly marked `slow` or `live`; mocks and fake transports remain usable in ordinary tests.
 
-```text
-uv run pytest -q
-172 passed in 73.29s
-```
-
-That run included untracked root-level tests. It is not a claim that a fresh checkout contains all 172 tests, nor that all tests are mocked or network-independent. Hosted-model tests use fake clients or mocked HTTP; a real OpenRouter smoke test has not been demonstrated.
-
-During documentation, this offline integration probe was run:
-
-```sh
-uv run python arxiv-daily-digest.py \
-  --from-html packages/arxiv-catchup/tests/fixtures/arxiv-catchup-sample.html \
-  --config packages/arxiv-interest-sort/tests/fixtures/sample_interests.yaml
-```
-
-It exited with code 1 at the configuration mismatch described above. This is an important coverage gap despite the passing component suite.
+`tests/test_daily_digest_cli.py` exercises the top-level command with saved catchup HTML and fake transport. It covers list-based interest configuration, saved-HTML metadata dates, fetched positional dates, UTC defaults, calendar-day offsets, and invalid controls before transport. This is fixture-backed evidence only: it does not establish a live arXiv, model, renderer, or delivery workflow.
 
 ## 11. Direction for the next design revision
 
