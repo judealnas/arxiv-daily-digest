@@ -1,0 +1,247 @@
+[
+  {
+    "id": "2606.25314",
+    "title": "High-Rate and Resource-Efficient All-Photonic Quantum Repeater Architectures with 9 km Repeater Spacing",
+    "summary": "We propose an all-photonic quantum repeater architecture that enables quantum communication over 1,000 km with an equidistant repeater spacing of 9 km. This repeater spacing is enabled by elementary entangled Bell pairs protected through the concatenation of continuous-variable and discrete-variable quantum error correction codes, namely, the bosonic Gottesman-Kitaev-Preskill (GKP) code and the [[7,1,3]] Steane code, whose combination yields a synergistic improvement in robustness against photon loss."
+  },
+  {
+    "id": "2606.25768",
+    "title": "Sp(2N, R) interferometry in multi-mode Gaussian bosonic systems for optimal metrology and quantum control",
+    "summary": "Sp(2N, R) interferometry in multi-mode Gaussian bosonic systems for optimal metrology and quantum control. In this work, we study quantum metrology and quantum control in multi-mode bosonic systems with quadratic Hamiltonians, exploiting the fundamental Sp$(2N,R)$ symmetry of such interferometers."
+  },
+  {
+    "id": "2511.03253",
+    "title": "Quantum Error Correction-like Noise Mitigation for Wave-like Dark Matter Searches with Quantum Sensors",
+    "summary": "Quantum Error Correction-like Noise Mitigation for Wave-like Dark Matter Searches with Quantum Sensors. We propose a quantum error correction-like noise mitigation protocol for enhancing the sensitivity of wave-like dark matter searches with quantum sensors."
+  },
+  {
+    "id": "2606.25690",
+    "title": "Quantum steering in networks: Measurement-device-independent detection, continuous variables, and practical Gaussian schemes",
+    "summary": "We consider quantum steering certification in multipartite networks, with a focus on minimal trust scenarios: all-except-one parties are untrusted and treated device-independently. We show that it is always possible to lift steering certification to the measurement-device-independent regime, in which even the (last) trusted party can treat their local hardware as a black-box, except for a set of fiduciary quantum states used as the inputs to the experiment."
+  },
+  {
+    "id": "2606.25789",
+    "title": "A Short Note on the Generators of Controlled Quantum Gates",
+    "summary": "A Short Note on the Generators of Controlled Quantum Gates. We present the analytical generators for arbitrary multi-qubit controlled gates."
+  },
+  {
+    "id": "2606.25264",
+    "title": "Quantum conditional mutual information and channel capacity",
+    "summary": "Quantum conditional mutual information and channel capacity. In this work, we propose a quantum communication task-conditional quantum communication-that fills this gap."
+  },
+  {
+    "id": "2606.25471",
+    "title": "A phase-space approach for performing continuous-variable quantum teleportation with a non-Gaussian resource",
+    "summary": "The photon-subtraction process modifies the non-Gaussianity of the resource state, but no substantial enhancement of the teleportation fidelity is detected. These findings indicate that the PS-TMSFS may not be a suitable resource for continuous-variable quantum teleportation and offers insight into the limitations of this class of non-Gaussian states."
+  },
+  {
+    "id": "2605.18494",
+    "title": "Quantum magic of strongly correlated fermions $-$ the Hubbard dimer",
+    "summary": "We study the non-stabilizerness (quantum magic) content of the Hubbard dimer, an analytically solvable, yet completely non-trivial, model of strongly correlated fermions. Our findings corroborate the role of non-stabilizerness as a fundamental quantum resource, capturing aspects of quantum complexity that elude traditional information-theoretic measures and providing a novel perspective on fermionic systems with tunable interactions."
+  },
+  {
+    "id": "2509.20962",
+    "title": "Distillation of supersinglet states",
+    "summary": "Distillation of supersinglet states. In our distillation protocol, three copies of an initial spin zero state are measured in the local total spin basis such that a higher fidelity supersinglet state is generated upon postselection."
+  },
+  {
+    "id": "2606.26085",
+    "title": "Analytic Approach to Quantum Control Using Quantum Signal Processing",
+    "summary": "Analytic Approach to Quantum Control Using Quantum Signal Processing. These findings demonstrate how several practically relevant problems in quantum control can be mapped to forms amenable to QSP, offering both a systematic design framework and an interpretable perspective on quantum control."
+  },
+  {
+    "id": "2606.25261",
+    "title": "A Mean-Field Lindblad Master Equation Framework for Interaction-Driven Decoherence in Solid-State Qubit Ensembles",
+    "summary": "Multi-qubit systems are essential for scalable quantum technologies, but their performance is often limited by decoherence from qubit--qubit interactions and environmental noise. The MQMF-LME framework provides a modular route for linking microscopic interactions and environmental noise sources to measurable decoherence times in solid-state multi-qubit systems."
+  },
+  {
+    "id": "2606.25037",
+    "title": "Arbitrarily Loss-Tolerant Quantum Position Verification in a Single Execution",
+    "summary": "Applying this to a BB84-based QPV protocol suitable for near-term implementation and secure against bounded-entanglement adversaries, we prove that fixing a threshold~$k$ on the number of successfully committed qubits yields an adversarial acceptance probability that decays exponentially in~$k$. This yields the first fully loss-tolerant single-shot QPV protocol secure against entangled attackers, making QPV feasible over arbitrary distances."
+  },
+  {
+    "id": "2606.24913",
+    "title": "Variants of the Quantum Phase Operator for the Harmonic Oscillator",
+    "summary": "Variants of the Quantum Phase Operator for the Harmonic Oscillator. We introduce and study quantum phase operators associated with the Quantum Harmonic Oscillator (QHO)."
+  },
+  {
+    "id": "2510.24439",
+    "title": "Fundamental limit on the heralded single photons' spectral brightness",
+    "summary": "As the generation rate of HSPs increases or their linewidth narrows, both of which are desirable for quantum information processing, the fundamental limit of spectral brightness (SB), defined as the generation rate per unit linewidth, remains unclear. We ultimately derive an upper bound on SB that applies universally to all types of HSP sources."
+  },
+  {
+    "id": "2606.25974",
+    "title": "Tensor network characterization and mitigation of readout errors",
+    "summary": "Tensor network characterization and mitigation of readout errors. We present a unified tensor-network framework that models the readout process as a matrix product operator (MPO), enabling efficient characterization and mitigation beyond uncorrelated approximations."
+  },
+  {
+    "id": "2606.25807",
+    "title": "A Candidate Framework for Free-Space Quantum Key Distribution based on Geometrical-Configuration Modulation",
+    "summary": "A Candidate Framework for Free-Space Quantum Key Distribution based on Geometrical-Configuration Modulation. This paper proposes a candidate framework for free-space quantum key distribution (QKD) based on geometrical-configuration modulation (GM)."
+  },
+  {
+    "id": "2601.08782",
+    "title": "Single-Period Floquet Control of Bosonic Codes with Quantum Lattice Gates",
+    "summary": "Single-Period Floquet Control of Bosonic Codes with Quantum Lattice Gates. We prepare various prototypical bosonic codes from vacuum and implement single-qubit logical gates with high fidelities using quantum lattice gates."
+  },
+  {
+    "id": "2606.25196",
+    "title": "Modeling and Analysis of Phase Instability in Photonic Processor",
+    "summary": "In this study, we propose theoretical models to simulate phase instability in photonic processors and validate them against experimental results. Additionally, we verified and applied our model to a specific application for input phase correction using self-feedback control within the photonic processor."
+  },
+  {
+    "id": "2606.25860",
+    "title": "Nonlinear Dynamics of Coherent Parametric Amplification in Multipartite two-level System under Intrinsic Decoherence",
+    "summary": "The results show that, without intrinsic decoherence, both quantities exhibit rapid oscillations with clear collapse and revival behavior. Strong Kerr nonlinearity and strong parametric amplification enhance global quantum discord, while quantum Fisher information becomes maximum under a suitable balance of Kerr nonlinearity and amplification strength."
+  },
+  {
+    "id": "2606.25061",
+    "title": "Nonlocal Quantum Phase Transitions",
+    "summary": "Two primary physical mechanisms can drive this symmetry breaking: thermal fluctuations in classical phase transitions and quantum fluctuations in quantum critical phenomena. Here, we introduce $nonlocal$ $quantum$ $fluctuations$ as a new fundamental mechanism to drive phase transitions."
+  },
+  {
+    "id": "2606.25511",
+    "title": "Preparing two-mode magnonic Schr\u00f6dinger cat states in a cavity-magnon-qubit system",
+    "summary": "Preparing two-mode magnonic Schr\u00f6dinger cat states in a cavity-magnon-qubit system. Here, we propose to prepare a two-mode magnonic cat state, which is also a non-Gaussian entangled state, based on this practical system involving two yttrium-iron-garnet (YIG) spheres and a superconducting qubit coupled to a common microwave cavity."
+  },
+  {
+    "id": "2501.15218",
+    "title": "Construction of new type of CNOT gate using cross-resonance pulse in the transmon-PPQ system",
+    "summary": "This new qubit shows better coherence performance than the transmon, but it does not yet have an efficient method for realizing a superconducting hybrid system that harnesses it. In this work, we show how to implement a new type of CNOT gate in a superconducting hybrid system composed of tunable transmon and parity-protected qubit by applying a cross-resonance pulse."
+  },
+  {
+    "id": "2503.19172",
+    "title": "Resource-state Quantum RAM for Fast and Error-Correctable Queries",
+    "summary": "Resource-state Quantum RAM for Fast and Error-Correctable Queries. More broadly, our results introduce the concept of resource-state QRAM: we study its performance in noisy settings, showing that it preserves the noise-resilience of standard QRAM, and discuss how it can be efficiently combined with quantum error-correction."
+  },
+  {
+    "id": "2606.25933",
+    "title": "From spectral structure to sensing limits in quantum thermometry",
+    "summary": "From spectral structure to sensing limits in quantum thermometry. Our results contribute to transform spectral information into a resource for quantum thermometry, providing both fundamental bounds and practical guidelines to tailored temperature sensing."
+  },
+  {
+    "id": "2606.25510",
+    "title": "Quantum metrology of electric and magnetic dipole moments: ultimate limits and optimal regimes",
+    "summary": "The characterization of electric and magnetic dipole moments (EDM and MDM) in quantum systems is central to fundamental physics and quantum sensing. Our results provide a unified metrological framework for estimation schemes ranging from neutron EDM searches to molecular magnetometry, and highlight the distinct roles of coherence, noise, and thermalization in multiparameter quantum sensing of dipole moments."
+  },
+  {
+    "id": "2606.25330",
+    "title": "Routing Codes: High-Rate Quantum LDPC Codes with Short, Parallel Non-Local Connectivity",
+    "summary": "Routing Codes: High-Rate Quantum LDPC Codes with Short, Parallel Non-Local Connectivity. These results establish routing codes as a hardware-centric qLDPC family that bridges the gap between theoretical optimality and near-term physical feasibility."
+  },
+  {
+    "id": "2606.25795",
+    "title": "Benchmarking Dark Matter Search using a Parity-Check Protocol with Machine-Learning Optimized Pulses",
+    "summary": "To reduce the experimental cycle time and enhance sensitivity for axion and dark-photon searches, we operate this detector in a regime of increased qubit-cavity coupling, resulting in Stark shifts of 4.6 MHz. These results establish machine-learning robust control as a key enabler for faster, more scalable microwave quantum sensors for dark-matter searches."
+  },
+  {
+    "id": "2510.06659",
+    "title": "Layer codes as partially self-correcting quantum memories",
+    "summary": "Layer codes as partially self-correcting quantum memories. We then prove that layer codes constitute partially self-correcting quantum memories which outperform previously analyzed models such as the cubic code and the welded solid code."
+  },
+  {
+    "id": "2606.25397",
+    "title": "Quantum tomography of free electrons",
+    "summary": "However, free electrons are intrinsically incoherent, and we lack a broadly applicable method to measure and control their quantum state beyond special cases with discrete energy sidebands [28,29]. Here, we report a universal approach to measure arbitrary free-electron quantum states in continuous variables."
+  },
+  {
+    "id": "2512.05037",
+    "title": "Expanding the Neutral Atom Gate Set: Native iSWAP and Exchange Gates from Dipolar Rydberg Interactions",
+    "summary": "Expanding the Neutral Atom Gate Set: Native iSWAP and Exchange Gates from Dipolar Rydberg Interactions. These results pave the way for expanding the neutral-atom gate set beyond conventional Rydberg-blockade-based entangling gates."
+  },
+  {
+    "id": "2606.21362",
+    "title": "Bell inequalities tailored to optimal global randomness certification",
+    "summary": "We first use symmetry arguments to argue that their maximal quantum violations certify $2\\log d$ random bits. It is then numerically shown that the obtained quantum violation certifies optimal global randomness, up to numerical precision, for $d=3,4$."
+  },
+  {
+    "id": "2606.24264",
+    "title": "Discovery of connectivity-trainability trade-off of IQP Circuits for Hamiltonian Optimization",
+    "summary": "Discovery of connectivity-trainability trade-off of IQP Circuits for Hamiltonian Optimization. We present a systematic investigation of the performance and trainability of IQP circuits for Hamiltonian optimization."
+  },
+  {
+    "id": "2606.25638",
+    "title": "Towards Robust Optimal Measurements Against Noise in Quantum Metrology",
+    "summary": "In practical implementations, however, noise is inevitably present during the measurement process, causing a decrease in precision. Our results indicate that different measurements exhibit distinct sensitivities to noise."
+  },
+  {
+    "id": "2606.25735",
+    "title": "Radial Schmidt mode detector of entangled photons",
+    "summary": "Radial Schmidt mode detector of entangled photons. Among them, pixel and azimuthal entanglement have been widely utilized due to efficient access to their Schmidt modes, while radial-mode entanglement remains underexploited."
+  },
+  {
+    "id": "2605.14924",
+    "title": "Nonlocal Topological Maxwell Demon Teleporting Ergotropy via Surface-Code Quantum Error Correction",
+    "summary": "Nonlocal Topological Maxwell Demon Teleporting Ergotropy via Surface-Code Quantum Error Correction. Surface-code quantum error correction has recently achieved logical error rates below the physical threshold on superconducting processors, establishing topologically ordered states as experimentally accessible resources."
+  },
+  {
+    "id": "2511.10267",
+    "title": "Quantum Simulation of Non-Hermitian Special Functions and Dynamics via Contour-based Matrix Decomposition",
+    "summary": "Quantum Simulation of Non-Hermitian Special Functions and Dynamics via Contour-based Matrix Decomposition. Here, we present contour-based matrix decomposition (CBMD), a rigorous and versatile quantum functional calculus framework for simulating non-Hermitian matrix functions."
+  },
+  {
+    "id": "2606.25364",
+    "title": "A Unified Josephson Dynamics Perspective for Single-Cavity BECs: From Self-Trapping to Dynamical Phase Transitions",
+    "summary": "A Unified Josephson Dynamics Perspective for Single-Cavity BECs: From Self-Trapping to Dynamical Phase Transitions. Here, we propose a unified theoretical framework demonstrating that macroscopic quantum self-trapping (MQST) natively emerges between two internal atomic energy levels within a single cavity."
+  },
+  {
+    "id": "2606.26084",
+    "title": "Operational detection of Wigner negativity in arbitrary quantum states from few copies",
+    "summary": "Here we develop a unified framework to detect Wigner negativity of arbitrary states using experimentally accessible moments of the Wigner function that can be estimated from a modest number of state copies. The framework further enables quantitative characterization of Wigner negativity from a small number of experimentally accessible observables."
+  },
+  {
+    "id": "2606.21369",
+    "title": "Maximal global device-independent randomness from projective measurements in every dimension",
+    "summary": "In this work, we show that using projective measurements -- which are most readily implementable experimentally -- one can certify $2\\log(d)$ bits of device-independent randomness from a bipartite system of local dimension $d$ for every $d \\ge 2$, thus reaching the theoretically maximum possible rate of DIQRNG. We provide explicit protocols reaching $2\\log(d)$ bits based on mutually unbiased bases."
+  },
+  {
+    "id": "2606.06019",
+    "title": "Polymer quantum mechanics on compact configuration spaces",
+    "summary": "Polymer quantum mechanics on compact configuration spaces. In this paper, we summarize the main features of polymer quantum mechanics and investigate in detail the polymer quantization of systems with configuration spaces that are classically compact."
+  },
+  {
+    "id": "2606.24242",
+    "title": "Monitoring Beam Splitter Entanglement using Quantumness",
+    "summary": "Monitoring Beam Splitter Entanglement using Quantumness. However, this only allows us to witness the entanglement, but not to determine the deleterious effects of experimental imperfections due to the beam splitter mixing and the associated mode-mismatch and detection imperfections."
+  },
+  {
+    "id": "2606.25085",
+    "title": "Note About Koopman-von Neumann Theory and Density Matrix",
+    "summary": "Note About Koopman-von Neumann Theory and Density Matrix. In this short note we study Koopman-von Neumann theory for N-particle system."
+  },
+  {
+    "id": "2606.25124",
+    "title": "Self-testing Quantum Supermaps",
+    "summary": "Self-testing Quantum Supermaps. Here we show that quantum supermaps can be identified device-independently."
+  },
+  {
+    "id": "2606.25889",
+    "title": "Resonant false vacuum decay in two dimensions on a 4000-qubit quantum annealer",
+    "summary": "From cosmology to quantum matter, metastable states often decay through the nucleation and growth of competing domains, with false vacuum decay providing the paradigmatic example of this process. Our results establish a growth-dominated regime of false vacuum decay and show how large-scale quantum simulation can access nonequilibrium metastable dynamics relevant to quantum field theory, cosmology, and strongly correlated matter."
+  },
+  {
+    "id": "2606.25587",
+    "title": "Controlling radiative dynamics of a giant $\u039b$-type atom via interference induced by the vacuum of a waveguide",
+    "summary": "We investigate the dynamics of a $\\Lambda$-type giant atom (GA) whose both transition coupled to the guided modes of a one-dimensional (1D) waveguide at two spatially separated points with the GA initially excited and the electromagnetic (EM) modes of waveguide in vacuum. And an exact Markovian dynamics is also found when $d\\geq L$ via the inference by adjusting the energy spacing and the inherent time delay besides the complex phases in the atom-light coupling, matching the behavior of a small atom coupled to a waveguide."
+  },
+  {
+    "id": "2606.25080",
+    "title": "Quantum Primitive for Output-Hiding Function Sharing",
+    "summary": "Quantum Primitive for Output-Hiding Function Sharing. In particular, while classically producing a shared function with these information-theoretic properties requires the use of private keys or hidden randomness, in the proposed setting it is achieved using quantum resources alone."
+  },
+  {
+    "id": "2606.07826",
+    "title": "The classical boundaries of the EPR argument and quantum ontology",
+    "summary": "The classical boundaries of the EPR argument and quantum ontology. This addresses the historical Bohr-Einstein ambiguity, enabling the quantum formalism to ontologically unify objective measured phenomena and non-objective observed interference within a context-dependent framework."
+  },
+  {
+    "id": "2605.20346",
+    "title": "Forced Gap Post-Selection for Quantum LDPC Codes and their Operations",
+    "summary": "We develop a simple and general post-selection strategy for high-rate quantum codes that is transferrable across decoders. In comparison to previous post-selection strategies, our results offer an improved logical error rate by over a factor of $4$ on the same circuit and physical error rate, and at the same rate of post-selection."
+  },
+  {
+    "id": "2606.25598",
+    "title": "The Cost of Removing Tunability in Quantum Data Re-Uploading",
+    "summary": "In this work, we establish quantitative depth-error scaling for approximating tunable upload circuits with fixed upload circuits. We show that a tunable upload circuit can be approximated by a fixed upload circuit using depth \\( D = O_\\sigma\\!\\left[(\\log(1/\\varepsilon))^\\sigma\\right] \\) for every \\(\\sigma>1\\), with a target dependent constant overhead, thereby improving the previously known polynomial dependence on \\(1/\\varepsilon\\) with the same overhead."
+  }
+]
