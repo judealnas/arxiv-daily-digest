@@ -34,7 +34,7 @@ def read_interests_from_file(file_path: str | Path) -> list[InterestTopic]:
             name=topic["name"],
             weight=topic["weight"],
             keywords=topic["keywords"],
-            description=topic["description"],
+            description=topic.get("description"),
         )
         for topic in data
     ]

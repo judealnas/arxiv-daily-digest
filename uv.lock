@@ -53,7 +53,7 @@ version = "0.1.0"
 source = { virtual = "." }
 dependencies = [
     { name = "arxiv-catchup" },
-    { name = "arxiv-interest-sort" },
+    { name = "arxiv-interest-sort", extra = ["semantic"] },
     { name = "arxiv-summarizer" },
 ]
 
@@ -66,7 +66,7 @@ dev = [
 [package.metadata]
 requires-dist = [
     { name = "arxiv-catchup", editable = "packages/arxiv-catchup" },
-    { name = "arxiv-interest-sort", editable = "packages/arxiv-interest-sort" },
+    { name = "arxiv-interest-sort", extras = ["semantic"], editable = "packages/arxiv-interest-sort" },
     { name = "arxiv-summarizer", editable = "packages/arxiv-summarizer" },
 ]
 

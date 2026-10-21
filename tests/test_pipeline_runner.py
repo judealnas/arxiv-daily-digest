@@ -5,6 +5,7 @@ from pathlib import Path
 from typing import Any
 
 import pytest
+from scripts import run_test_pipeline
 from scripts.run_test_pipeline import load_papers, run_pipeline
 
 
@@ -70,3 +71,28 @@ def test_load_papers_rejects_duplicate_ids(tmp_path: Path) -> None:
 
     with pytest.raises(ValueError, match="Duplicate paper ID"):
         load_papers(path)
+
+
+def test_verbose_mode_logs_progress_to_stdout(tmp_path: Path, monkeypatch: pytest.MonkeyPatch, capsys) -> None:
+    papers_path = tmp_path / "papers.json"
+    papers_path.write_text(
+        json.dumps([{"id": "2401.00001", "title": "Other", "abstract": "No match."}]), encoding="utf-8"
+    )
+    interests_path = tmp_path / "interests.yaml"
+    interests_path.write_text(
+        "- name: quantum networking\n"
+        "  weight: 2\n"
+        "  keywords:\n"
+        "    - quantum network\n"
+        "  description: Quantum networking papers\n",
+        encoding="utf-8",
+    )
+    monkeypatch.setattr(run_test_pipeline, "build_summarizer", lambda args: IdentitySummarizer())
+
+    result = run_test_pipeline.main([str(papers_path), str(interests_path), "--verbose"])
+
+    captured = capsys.readouterr()
+    assert result == 0
+    assert "INFO:" in captured.out
+    assert '"id": "2401.00001"' in captured.out
+    assert captured.err == ""

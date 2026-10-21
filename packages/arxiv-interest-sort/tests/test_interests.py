@@ -63,6 +63,24 @@ class TestReadInterestsFromFile:
         assert interests[0].keywords == ["kw1", "kw2"]
         assert interests[0].description == "desc"
 
+    @pytest.mark.parametrize("suffix", [".yaml", ".json"])
+    def test_missing_description_defaults_to_none(
+        self, tmp_path: Path, suffix: str
+    ) -> None:
+        data = [{"name": "networking", "weight": 5, "keywords": ["quantum network"]}]
+        path = tmp_path / f"interests{suffix}"
+        path.write_text(
+            yaml.safe_dump(data) if suffix == ".yaml" else json.dumps(data),
+            encoding="utf-8",
+        )
+
+        interests = read_interests_from_file(path)
+
+        assert interests == [
+            InterestTopic(name="networking", weight=5, keywords=["quantum network"])
+        ]
+        assert interests[0].description is None
+
     def test_unsupported_format_raises(self, tmp_path: Path) -> None:
         bad_file = tmp_path / "interests.txt"
         bad_file.write_text("not yaml or json")

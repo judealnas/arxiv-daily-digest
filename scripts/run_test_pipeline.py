@@ -13,6 +13,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import logging
 import sys
 from pathlib import Path
 from typing import Any
@@ -24,6 +25,7 @@ from arxiv_interest_sort import STRATEGIES, load_interest_config, score_and_sort
 from arxiv_interest_sort._cache import get_cache_dir
 
 Paper = dict[str, Any]
+logger = logging.getLogger(__name__)
 
 
 def build_parser() -> argparse.ArgumentParser:
@@ -48,6 +50,7 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument("--max-length", type=int, default=130, help="BART maximum summary length")
     parser.add_argument("--min-length", type=int, default=40, help="BART minimum summary length")
     parser.add_argument("--batch-size", type=int, default=4, help="BART inference batch size")
+    parser.add_argument("--verbose", action="store_true", help="Print pipeline progress logs to stdout")
     return parser
 
 
@@ -112,6 +115,7 @@ def run_pipeline(
     cache_dir: str | None = None,
 ) -> list[Paper]:
     """Score/sort all papers and summarize matched papers, preserving IDs."""
+    logger.info("Loading sorting interests from %s", interests_path)
     config = load_interest_config(interests_path)
     kwargs: dict[str, Any] = {}
     if strategy == "semantic":
@@ -120,9 +124,11 @@ def run_pipeline(
         if threshold is not None:
             kwargs["threshold"] = threshold
         kwargs["cache_dir"] = get_cache_dir(cache_dir)
+    logger.info("Scoring and sorting %d papers with %s strategy", len(papers), strategy)
     sorted_papers: list[Paper] = score_and_sort(papers, list(config), strategy=strategy, **kwargs)
 
     matched_papers: list[Paper] = [paper for paper in sorted_papers if paper.get("matched", False)]
+    logger.info("Found %d matched papers; summarizing them", len(matched_papers))
     items: list[SourceItem] = [SourceItem(id=paper["id"], text=paper["abstract"]) for paper in matched_papers]
     if hasattr(summarizer, "summarize_items"):
         results = summarizer.summarize_items(items)
@@ -151,7 +157,10 @@ def main(argv: list[str] | None = None) -> int:
     """Run the selected local pipeline and print its JSON result."""
     parser = build_parser()
     args = parser.parse_args(argv)
+    if args.verbose:
+        logging.basicConfig(level=logging.INFO, format="%(levelname)s: %(message)s", stream=sys.stdout, force=True)
     try:
+        logger.info("Loading papers from %s", args.papers_json)
         papers = load_papers(args.papers_json)
         output = run_pipeline(
             papers,
