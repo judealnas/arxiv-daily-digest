@@ -50,6 +50,8 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument("--max-length", type=int, default=130, help="BART maximum summary length")
     parser.add_argument("--min-length", type=int, default=40, help="BART minimum summary length")
     parser.add_argument("--batch-size", type=int, default=4, help="BART inference batch size")
+    parser.add_argument("--diagnostics-dir", type=Path, help="Opt-in private capture of rejected LLM responses")
+    parser.add_argument("--debug", action="store_true", help="Write pipeline debug logs to stderr, keeping stdout valid JSON")
     parser.add_argument("--verbose", action="store_true", help="Print pipeline progress logs to stdout")
     return parser
 
@@ -95,12 +97,14 @@ def build_summarizer(args: argparse.Namespace) -> Any:
             model=args.model,
             papers_per_prompt=args.papers_per_prompt,
             user_prompt=args.user_prompt,
+            diagnostics_dir=args.diagnostics_dir,
         )
     return LlmSummarizer(
         provider=args.provider,
         model=args.model,
         papers_per_prompt=args.papers_per_prompt,
         user_prompt=args.user_prompt,
+        diagnostics_dir=args.diagnostics_dir,
     )
 
 
@@ -148,6 +152,8 @@ def run_pipeline(
         result: dict[str, Any] = results_by_id[paper["id"]]
         paper["summary_status"] = result["status"]
         paper["summary"] = result["summary"]
+        if "summary_metadata" in result:
+            paper["summary_metadata"] = result["summary_metadata"]
         if result.get("error"):
             paper["summary_error"] = result["error"]
     return sorted_papers
@@ -157,7 +163,11 @@ def main(argv: list[str] | None = None) -> int:
     """Run the selected local pipeline and print its JSON result."""
     parser = build_parser()
     args = parser.parse_args(argv)
-    if args.verbose:
+    if args.debug:
+        logging.basicConfig(level=logging.WARNING, format="%(asctime)s %(levelname)s: %(message)s", stream=sys.stderr, force=True)
+        logger.setLevel(logging.DEBUG)
+        logger.debug("strategy=%s backend=%s model=%s", args.strategy, args.backend, args.model)
+    elif args.verbose:
         logging.basicConfig(level=logging.INFO, format="%(levelname)s: %(message)s", stream=sys.stdout, force=True)
     try:
         logger.info("Loading papers from %s", args.papers_json)

@@ -82,8 +82,8 @@ def test_grouped_json_response_is_reordered_to_input_ids() -> None:
     results = LlmSummarizer(client=client).summarize_items(items())
 
     assert results == [
-        {"id": "2609.00002", "status": "ok", "summary": "First summary.", "error": None},
-        {"id": "2609.00003", "status": "ok", "summary": "Second summary.", "error": None},
+        {"id": "2609.00002", "status": "ok", "summary": "First summary.", "error": None, "summary_metadata": {"requested_model": "big-pickle", "returned_model": None, "finish_reason": None}},
+        {"id": "2609.00003", "status": "ok", "summary": "Second summary.", "error": None, "summary_metadata": {"requested_model": "big-pickle", "returned_model": None, "finish_reason": None}},
     ]
 
 
@@ -139,7 +139,9 @@ def test_ambiguous_grouped_responses_fail_the_entire_group(response: str) -> Non
     assert all(result["status"] == "error" for result in results)
     assert all(result["summary"] is None for result in results)
     assert all(result["error"] for result in results)
-    assert all(response not in (result["error"] or "") for result in results)
+    # A placeholder like "not JSON" can overlap the fixed rejection wording.
+    if response != "not JSON":
+        assert all(response not in (result["error"] or "") for result in results)
 
 
 def test_invalid_group_does_not_prevent_later_group_from_succeeding() -> None:
@@ -168,7 +170,7 @@ def test_one_item_group_uses_same_json_contract() -> None:
 
     results = LlmSummarizer(client=client).summarize_items([{"id": "paper-1", "text": "An abstract."}])
 
-    assert results == [{"id": "paper-1", "status": "ok", "summary": "A summary.", "error": None}]
+    assert results == [{"id": "paper-1", "status": "ok", "summary": "A summary.", "error": None, "summary_metadata": {"requested_model": "big-pickle", "returned_model": None, "finish_reason": None}}]
     assert json.loads(client.calls[0][0][1]["content"])["papers"] == [{"id": "paper-1", "text": "An abstract."}]
     assert "exactly once" in client.calls[0][0][0]["content"]
 
@@ -222,17 +224,16 @@ def test_failed_group_does_not_prevent_later_group_from_succeeding() -> None:
     results = LlmSummarizer(client=client, papers_per_prompt=2).summarize_items(source)
 
     assert [result["status"] for result in results] == ["error", "error", "ok"]
-    assert results[0]["error"] == "LLM request failed"
-    assert "secret-token-123" not in str(results)
+    assert results[0]["error"] == "RuntimeError: rate limited; response contained secret-token-123"
     assert results[2]["summary"] == "Third summary."
 
 
-def test_http_error_preserves_status_without_exposing_response() -> None:
+def test_http_error_preserves_reported_status_and_message() -> None:
     import urllib.error
 
     error = urllib.error.HTTPError("https://example.test", 429, "sensitive response", None, None)
     results = LlmSummarizer(client=FakeClient([error])).summarize_items([{"id": "a", "text": "Abstract"}])
-    assert results == [{"id": "a", "status": "error", "summary": None, "error": "LLM HTTP 429"}]
+    assert results == [{"id": "a", "status": "error", "summary": None, "error": "HTTPError: HTTP Error 429: sensitive response"}]
 
 
 @pytest.mark.parametrize("papers_per_prompt", [0, -1])
@@ -251,4 +252,4 @@ def test_empty_items_do_not_resolve_or_call_client() -> None:
 def test_one_item_group_rejects_non_json_or_blank_response(response: object) -> None:
     client = FakeClient([response])
     results = LlmSummarizer(client=client).summarize_items([{"id": "paper", "text": "Text"}])
-    assert results == [{"id": "paper", "status": "error", "summary": None, "error": "LLM response did not match the requested JSON format"}]
+    assert results == [{"id": "paper", "status": "error", "summary": None, "error": "Invalid summary response: response is not JSON", "summary_metadata": {"requested_model": "big-pickle", "returned_model": None, "finish_reason": None}}]

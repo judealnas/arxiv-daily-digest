@@ -31,10 +31,10 @@ def test_openrouter_is_drop_in_summarizer_for_single_and_many() -> None:
     single = summarizer.summarize("First abstract. Some detail.")
     results = summarizer.summarize_many(["First abstract.", "Second abstract."])
 
-    assert single == {"id": "0", "status": "ok", "summary": "Concise single summary.", "error": None}
+    assert single == {"id": "0", "status": "ok", "summary": "Concise single summary.", "error": None, "summary_metadata": {"requested_model": "google/gemma-2-27b-it", "returned_model": None, "finish_reason": None}}
     assert results == [
-        {"id": "0", "status": "ok", "summary": "First summary.", "error": None},
-        {"id": "1", "status": "ok", "summary": "Second summary.", "error": None},
+        {"id": "0", "status": "ok", "summary": "First summary.", "error": None, "summary_metadata": {"requested_model": "google/gemma-2-27b-it", "returned_model": None, "finish_reason": None}},
+        {"id": "1", "status": "ok", "summary": "Second summary.", "error": None, "summary_metadata": {"requested_model": "google/gemma-2-27b-it", "returned_model": None, "finish_reason": None}},
     ]
     assert len(client.calls) == 3
     assert "First abstract." in client.calls[1][0][1]["content"]
@@ -52,7 +52,7 @@ def test_failed_request_does_not_discard_other_summaries() -> None:
     assert [item["status"] for item in results] == ["ok", "error", "ok"]
     assert [item["id"] for item in results] == ["0", "1", "2"]
     assert results[1]["summary"] is None
-    assert results[1]["error"] == "LLM request failed"
+    assert results[1]["error"] == "RuntimeError: rate limit"
 
 
 def test_empty_response_is_an_error_not_a_successful_summary() -> None:
@@ -122,8 +122,8 @@ def test_console_entrypoint_forwards_backend_flag_and_restores_paper_ids(monkeyp
 
     assert len(client.calls) == 2
     assert [json.loads(line) for line in capsys.readouterr().out.splitlines()] == [
-        {"id": "paper-z", "status": "ok", "summary": "First summary.", "error": None},
-        {"id": "paper-a", "status": "ok", "summary": "Second summary.", "error": None},
+        {"id": "paper-z", "status": "ok", "summary": "First summary.", "error": None, "summary_metadata": {"requested_model": "google/gemma-2-27b-it", "returned_model": None, "finish_reason": None}},
+        {"id": "paper-a", "status": "ok", "summary": "Second summary.", "error": None, "summary_metadata": {"requested_model": "google/gemma-2-27b-it", "returned_model": None, "finish_reason": None}},
     ]
 
 

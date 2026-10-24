@@ -9,6 +9,21 @@ from scripts import run_test_pipeline
 from scripts.run_test_pipeline import load_papers, run_pipeline
 
 
+def test_debug_diagnostics_wiring_and_json_stdout(tmp_path, interests_file, papers, monkeypatch, capsys):
+    source = tmp_path / "papers.json"
+    source.write_text(json.dumps(papers))
+    diagnostics = tmp_path / "diagnostics"
+    constructed = []
+    monkeypatch.setattr(run_test_pipeline, "OpenRouterSummarizer",
+                        lambda **kwargs: constructed.append(kwargs) or IdentitySummarizer())
+    assert run_test_pipeline.main([str(source), str(interests_file), "--backend", "openrouter",
+                                   "--debug", "--diagnostics-dir", str(diagnostics)]) == 0
+    captured = capsys.readouterr()
+    assert len(json.loads(captured.out)) == 2
+    assert "DEBUG" in captured.err
+    assert constructed[0]["diagnostics_dir"] == diagnostics
+
+
 class IdentitySummarizer:
     def summarize_items(self, items: list[dict[str, str]]) -> list[dict[str, Any]]:
         return [

@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+from pathlib import Path
 from typing import Any
 
 from .llm import LlmSummarizer
@@ -31,6 +32,7 @@ class OpenRouterSummarizer(LlmSummarizer):
         max_tokens: int = 2048,
         base_url: str | None = None,
         api_key: str | None = None,
+        diagnostics_dir: str | Path | None = None,
     ) -> None:
         super().__init__(
             client=client,
@@ -44,4 +46,5 @@ class OpenRouterSummarizer(LlmSummarizer):
             max_tokens=max_tokens,
             base_url=base_url,
             api_key=api_key,
+            diagnostics_dir=diagnostics_dir,
         )

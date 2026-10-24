@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from typing import TypedDict
+from typing import NotRequired, TypedDict
 
 
 class SourceItem(TypedDict):
@@ -19,6 +19,12 @@ class SourceItem(TypedDict):
 
     id: str
     text: str
+
+
+class SummaryMetadata(TypedDict):
+    requested_model: str | None
+    returned_model: str | None
+    finish_reason: str | None
 
 
 class ResultItem(TypedDict):
@@ -43,6 +49,7 @@ class ResultItem(TypedDict):
     status: str  # "ok" | "error"
     summary: str | None
     error: str | None
+    summary_metadata: NotRequired[SummaryMetadata]
 
 
 # ── internal helpers ───────────────────────────────────────────────────────

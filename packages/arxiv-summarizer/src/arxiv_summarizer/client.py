@@ -9,6 +9,19 @@ import urllib.request
 from typing import Any
 
 
+class CompletionText(str):
+    """String-compatible completion with allow-listed diagnostic metadata."""
+
+    returned_model: str | None
+    finish_reason: str | None
+
+    def __new__(cls, content: str, model: str | None, finish_reason: str | None) -> CompletionText:
+        instance = super().__new__(cls, content)
+        instance.returned_model = model
+        instance.finish_reason = finish_reason
+        return instance
+
+
 class LLMClient:
     """Minimal client for ``POST /v1/chat/completions``.
 
@@ -87,9 +100,13 @@ class LLMClient:
             content = choices[0].get("message", {}).get("content")
             if content is None:
                 finish = choices[0].get("finish_reason", "unknown")
-                raise ValueError(f"LLM returned empty content (finish_reason={finish})")
+                raise ValueError(f"LLM returned empty content (finish_reason={finish}): {json.dumps(body)}")
 
-            return content
+            return CompletionText(
+                content,
+                body.get("model") if isinstance(body.get("model"), str) else None,
+                choices[0].get("finish_reason") if isinstance(choices[0].get("finish_reason"), str) else None,
+            )
 
         # Exhausted retries — this path is reached only for network errors.
         raise RuntimeError("Failed after all retries")

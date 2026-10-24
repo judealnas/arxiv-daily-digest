@@ -1,0 +1,31 @@
+{
+  "schema_version": 1,
+  "date": "2026-09-15",
+  "run_id": "rank-20260916T120000Z",
+  "category": "quant-ph",
+  "count": 3,
+  "matched_count": 2,
+  "papers": [
+    {
+      "id": "2609.00002",
+      "title": "Matched <Title> & $\\mathbb{Z}_2$",
+      "abstract": "A matched abstract with $x^2$ and \\text{useful} details. Second sentence.",
+      "url": "https://arxiv.org/abs/2609.00002",
+      "matched": true
+    },
+    {
+      "id": "2609.00003",
+      "title": "Another matched paper",
+      "abstract": "Second matched abstract.",
+      "url": "https://arxiv.org/abs/2609.00003",
+      "matched": true
+    },
+    {
+      "id": "2609.00001",
+      "title": "Unmatched & <Paper>",
+      "abstract": "First line with \\text{LaTeX} $q$.\nSecond sentence must not appear.",
+      "url": "https://arxiv.org/abs/2609.00001",
+      "matched": false
+    }
+  ]
+}

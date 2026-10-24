@@ -5,6 +5,46 @@ Batch summarizer for the arXiv daily digest pipeline. JSONL in → JSONL out.
 Part of the `arxiv-daily-digest` uv workspace. Feeds the HTML digest formatter
 (see repo root `FEATURE-PARITY-ANALYSIS.md`).
 
+## Rejected-response diagnostics
+
+`LlmSummarizer` and `OpenRouterSummarizer` accept an optional
+`diagnostics_dir=Path(...)`. By default no responses are written to disk.
+The local pipeline runner exposes this as `--diagnostics-dir PATH`;
+`openrouter_free_pipeline.sh` enables it inside its private run directory.
+
+Rejected completions and request failures are saved as raw diagnostic
+artifacts when enabled. Independently of diagnostics, every received LLM completion adds
+`summary_metadata` to its result and the pipeline paper record: `requested_model`,
+`returned_model`, and `finish_reason`. This applies to successful and invalid-format
+responses. Plain-text injected clients use null for unavailable returned-model
+and finish-reason fields. Transport failures have no completion metadata; BART
+results are unchanged. Metadata is serialized in JSON, not rendered in email.
+Successful wrapper runs still delete their temporary output.
+
+Each uniquely
+named JSON file contains requested paper IDs, requested model, returned model,
+finish reason, exact rejection reason, and original completion text. Returned
+model and finish reason are null when an injected client supplies plain text
+without metadata. The built-in HTTP client still returns a string-compatible
+value. Request failures now retain the original exception type/message and HTTP
+error body, rather than collapsing to `LLM request failed`. Null-content API
+responses include the API envelope in the exception message. With diagnostics
+enabled, `request-error-*.json` additionally records requested IDs/model, exception
+type/message, HTTP status, and response body. Outgoing headers, keys, and prompts
+are not deliberately captured, but raw provider errors can contain sensitive data
+and also appear in result JSON and validation logs. Keep artifacts and logs private
+(directory 0700, files 0600) and inspect before sharing.
+
+For a fixed-model run without changing the wrapper's default router alias:
+`OPENROUTER_MODEL=cohere/north-mini-code:free ./openrouter_free_pipeline.sh`
+
+Validation remains strict. The public error includes the specific safe rejection
+reason, but never the response text. No format-repair retries or structured-output
+request settings are added. `--debug` writes runner logs to stderr, keeping JSON
+stdout clean; avoid `--verbose` when redirecting stdout to a JSON file.
+Failed wrapper runs retain their artifacts; successful runs delete them. Scratch
+artifacts are subject to automatic pruning.
+
 ## Architecture
 
 At the core: a `Summarizer` base class. Configuration happens at

@@ -43,6 +43,18 @@ def test_fixed_system_contract_and_qualitative_guidance_for_any_group_size(items
     assert "JSON array of objects shaped" not in user["content"]
 
 
+def test_system_prompt_has_concrete_output_and_grounding_rules():
+    from arxiv_summarizer.llm import SYSTEM_PROMPT
+
+    assert "EXAMPLE" in SYSTEM_PROMPT
+    assert '[{"id":"paper-1","summary":' in SYSTEM_PROMPT
+    assert "Start with [ and end with ]" in SYSTEM_PROMPT
+    assert "Do not invent" in SYSTEM_PROMPT
+    assert "Perform this check silently" in SYSTEM_PROMPT
+    assert "Stop immediately after the final ]" in SYSTEM_PROMPT
+    assert "Do not copy the input's outer object" in SYSTEM_PROMPT
+
+
 def test_single_paper_rejects_plain_text_response():
     client = RecordingClient("A plausible plain text summary.")
     result = LlmSummarizer(client=client).summarize_items([{"id": "a", "text": "Alpha"}])[0]
@@ -57,7 +69,8 @@ def test_conflicting_qualitative_guidance_cannot_bypass_json_validation():
     )[0]
     assert result == {
         "id": "a", "status": "error", "summary": None,
-        "error": "LLM response did not match the requested JSON format",
+        "error": "Invalid summary response: response is not JSON",
+        "summary_metadata": {"requested_model": "big-pickle", "returned_model": None, "finish_reason": None},
     }
 
 

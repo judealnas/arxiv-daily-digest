@@ -49,7 +49,7 @@ def test_llm_client_error_becomes_error_result():
     result = summarizer.summarize(SAMPLE_TEXT)
     assert result["status"] == "error"
     assert result["summary"] is None
-    assert result["error"] == "LLM request failed"
+    assert result["error"] == "RuntimeError: 401 unauthorized"
 
 
 def test_llm_summarize_many_batches_by_default_with_request_id_mapping():
