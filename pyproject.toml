@@ -4,7 +4,7 @@ version = "0.1.0"
 description = "Daily arXiv digest pipeline"
 readme = "README.md"
 requires-python = ">=3.11"
-dependencies = ["arxiv-catchup", "arxiv-interest-sort[semantic]", "arxiv-summarizer"]
+dependencies = ["arxiv-catchup", "arxiv-interest-sort[semantic]", "arxiv-summarizer", "arxiv-renderer"]
 
 [dependency-groups]
 dev = ["ruff", "pytest"]
@@ -13,6 +13,7 @@ dev = ["ruff", "pytest"]
 arxiv-catchup = { workspace = true }
 arxiv-interest-sort = { workspace = true }
 arxiv-summarizer = { workspace = true }
+arxiv-renderer = { workspace = true }
 
 [tool.uv.workspace]
 members = ["packages/*"]

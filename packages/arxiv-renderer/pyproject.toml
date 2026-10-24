@@ -1,0 +1,13 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "arxiv-renderer"
+version = "0.1.0"
+description = "Deterministic HTML rendering for ranked and summarized arXiv papers"
+requires-python = ">=3.11"
+dependencies = []
+
+[project.scripts]
+arxiv-render = "arxiv_renderer.cli:main"

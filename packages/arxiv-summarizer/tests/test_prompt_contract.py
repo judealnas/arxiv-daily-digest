@@ -70,6 +70,7 @@ def test_conflicting_qualitative_guidance_cannot_bypass_json_validation():
     assert result == {
         "id": "a", "status": "error", "summary": None,
         "error": "Invalid summary response: response is not JSON",
+        "summary_error_code": "invalid_json",
         "summary_metadata": {"requested_model": "big-pickle", "returned_model": None, "finish_reason": None},
     }
 

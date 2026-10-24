@@ -18,6 +18,7 @@ from typing import Any, Protocol
 
 from .base import Summarizer
 from .client import LLMClient
+from .errors import CodedResponseError, request_error_code
 from .models import ResultItem, SourceItem, SummaryMetadata
 
 # ── provider registry ──────────────────────────────────────────────────────
@@ -116,6 +117,14 @@ class LlmSummarizer(Summarizer):
         self._api_key = api_key
         self._diagnostics_dir = Path(diagnostics_dir) if diagnostics_dir is not None else None
 
+    @property
+    def configuration(self) -> dict[str, Any]:
+        """Return public provenance only; never credentials or endpoint URLs."""
+        return {"backend": "llm", "provider": self._provider,
+                "model": self._model or _PROVIDER_CONFIGS.get(self._provider, {}).get("default_model"),
+                "papers_per_prompt": self._papers_per_prompt, "chunk_count": self._chunk_count,
+                "temperature": self._temperature, "max_tokens": self._max_tokens}
+
     # ── client resolution ───────────────────────────────────────────
 
     def _get_client(self) -> Any:
@@ -190,7 +199,7 @@ class LlmSummarizer(Summarizer):
                 response = client.chat(messages, temperature=self._temperature, max_tokens=self._max_tokens)
             except Exception as exc:
                 error = self._request_error(exc, group)
-                results.extend(self._item_group_errors(group, error))
+                results.extend(self._item_group_errors(group, error, request_error_code(exc)))
                 continue
 
             metadata: SummaryMetadata = {
@@ -202,7 +211,8 @@ class LlmSummarizer(Summarizer):
                 summaries = self._parse_grouped_response(response, group)
             except ValueError as exc:
                 self._save_rejection(response, group, str(exc))
-                errors = self._item_group_errors(group, f"Invalid summary response: {exc}")
+                code: str = "output_token_limit" if metadata["finish_reason"] == "length" else getattr(exc, "code", "invalid_response")
+                errors = self._item_group_errors(group, f"Invalid summary response: {exc}", code)
                 for error_result in errors:
                     error_result["summary_metadata"] = metadata.copy()
                 results.extend(errors)
@@ -218,7 +228,9 @@ class LlmSummarizer(Summarizer):
         body: str | None = None
         if isinstance(exc, urllib.error.HTTPError) and exc.fp is not None:
             body = exc.read().decode("utf-8", errors="replace")
-        error: str = f"{type(exc).__name__}: {exc}"
+        # Keep the pre-existing ValueError diagnostic prefix for response errors.
+        exception_name: str = "ValueError" if isinstance(exc, CodedResponseError) else type(exc).__name__
+        error: str = f"{exception_name}: {exc}"
         if body:
             error += f"\n{body}"
         if self._diagnostics_dir is not None:
@@ -267,33 +279,33 @@ class LlmSummarizer(Summarizer):
             record: dict[str, Any] = {}
             for key, value in pairs:
                 if key in record:
-                    raise ValueError("duplicate JSON key")
+                    raise CodedResponseError("duplicate JSON key", "invalid_response")
                 record[key] = value
             return record
 
         try:
             records = json.loads(response, object_pairs_hook=unique_keys)
         except (TypeError, json.JSONDecodeError) as exc:
-            raise ValueError("response is not JSON") from exc
+            raise CodedResponseError("response is not JSON", "invalid_json") from exc
 
         if not isinstance(records, list) or len(records) != len(group):
-            raise ValueError("response does not contain the requested record count")
+            raise CodedResponseError("response does not contain the requested record count", "invalid_response")
 
         summaries: dict[str, str] = {}
         for record in records:
             if not isinstance(record, dict) or set(record) != {"id", "summary"}:
-                raise ValueError("response record has the wrong shape")
+                raise CodedResponseError("response record has the wrong shape", "invalid_response")
             item_id = record["id"]
             summary = record["summary"]
             if not isinstance(item_id, str) or not isinstance(summary, str) or not summary.strip():
-                raise ValueError("response record contains an invalid ID or summary")
+                raise CodedResponseError("response record contains an invalid ID or summary", "invalid_summary")
             if item_id in summaries:
-                raise ValueError("response contains duplicate IDs")
+                raise CodedResponseError("response contains duplicate IDs", "id_mismatch")
             summaries[item_id] = summary
 
         requested_ids = {item["id"] for item in group}
         if set(summaries) != requested_ids:
-            raise ValueError("response IDs do not match the requested IDs")
+            raise CodedResponseError("response IDs do not match the requested IDs", "id_mismatch")
         return summaries
 
     @staticmethod
@@ -309,8 +321,8 @@ class LlmSummarizer(Summarizer):
             ids.add(item_id)
 
     @staticmethod
-    def _item_group_errors(group: list[SourceItem], error: str) -> list[ResultItem]:
-        return [ResultItem(id=item["id"], status="error", summary=None, error=error) for item in group]
+    def _item_group_errors(group: list[SourceItem], error: str, code: str) -> list[ResultItem]:
+        return [ResultItem(id=item["id"], status="error", summary=None, error=error, summary_error_code=code) for item in group]
 
     @staticmethod
     def _build_item_user_message(user_prompt: str, group: list[SourceItem]) -> str:

@@ -1,6 +1,5 @@
 from __future__ import annotations
 
-import json
 import os
 import subprocess
 from pathlib import Path
@@ -36,10 +35,21 @@ elif args[:2] == ["python", "scripts/run_test_pipeline.py"]:
         abstract_link="https://arxiv.org/abs/test", matched=True,
         summary_status="error" if bad else "ok", summary=None if bad else "Summary.",
         summary_error="LLM HTTP 429" if bad else None)]))
+elif args[0] == "arxiv-render":
+    assert args[args.index("--date") + 1] == "2026-10-22"
+    assert args[args.index("--run-id") + 1].startswith("arxiv-digest.")
+    import subprocess
+    subprocess.run([os.environ["TEST_PYTHON"], "-m", "arxiv_renderer", *args[1:]], check=True)
+    Path(os.environ["TEST_RENDERED"]).touch()
 elif args[:2] == ["python", "-"]:
     os.execv(os.environ["TEST_PYTHON"], [os.environ["TEST_PYTHON"], *args[1:]])
 elif args[:2] == ["python", "arxiv-email-sender.py"]:
-    assert "Summary." in Path(args[args.index("--html") + 1]).read_text()
+    rendered = Path(args[args.index("--html") + 1]).read_text()
+    if os.environ["TEST_FAILURE"] == "1":
+        assert "Abstract." in rendered and "LLM HTTP 429" in rendered
+        assert "1 summary unavailable" in rendered
+    else:
+        assert "Summary." in rendered
     Path(os.environ["TEST_SENT"]).touch()
 else:
     raise AssertionError(args)
@@ -47,7 +57,8 @@ else:
     stub.chmod(0o700)
     env = dict(os.environ, HERMES_HOME=str(tmp_path), TMPDIR=str(tmp_path),
                UV=str(stub), TEST_FAILURE=str(int(failure)),
-               TEST_PYTHON=str(ROOT / ".venv/bin/python"), TEST_SENT=str(tmp_path / "sent"))
+               TEST_PYTHON=str(ROOT / ".venv/bin/python"), TEST_SENT=str(tmp_path / "sent"),
+               TEST_RENDERED=str(tmp_path / "rendered"))
     env["TEST_MODEL"] = model
     env.pop("OPENROUTER_MODEL", None)
     if model != "openrouter/free":
@@ -56,19 +67,13 @@ else:
     if env["TEST_BACKEND"] == "bart":
         (tmp_path / ".env").unlink()
         env.pop("OPENROUTER_API_KEY", None)
-    result = subprocess.run(["sh", str(ROOT / script), "2026-10-22"],
+    wrapper = tmp_path / script
+    wrapper.write_text((ROOT / script).read_text())
+    result = subprocess.run(["sh", str(wrapper), "2026-10-22"],
                             cwd=ROOT, env=env, capture_output=True, text=True)
+    assert (tmp_path / "rendered").exists(), result.stderr
     artifacts = list(tmp_path.glob("arxiv-digest.*"))
-    if failure:
-        assert result.returncode == 1
-        assert not (tmp_path / "sent").exists()
-        assert len(artifacts) == 1
-        assert "LLM HTTP 429" in result.stderr
-        assert "[render] FAILED" in result.stderr
-        assert json.loads((artifacts[0] / "summary_failures.json").read_text())[0]["id"] == "test"
-        assert (artifacts[0] / "debug.log").exists()
-    else:
-        assert result.returncode == 0, result.stderr
-        assert (tmp_path / "sent").exists()
-        assert not artifacts
+    assert result.returncode == 0, result.stderr
+    assert (tmp_path / "sent").exists()
+    assert not artifacts
     assert "test-only" not in result.stdout + result.stderr

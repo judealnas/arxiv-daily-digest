@@ -94,25 +94,27 @@ run python scripts/run_test_pipeline.py \
 
 STAGE=render
 printf '%s\n' "Validating results and rendering HTML"
-run python - "$WORK" "$LISTING_DATE" <<'PY'
+run arxiv-render "$WORK/summarized.json" \
+    --date "$LISTING_DATE" \
+    --run-id "${WORK##*/}" \
+    --output "$WORK/digest.html"
+
+# Keep delivery policy separate: rendering may succeed with partial summaries.
+run python - "$WORK" <<'PY'
 import json
 import sys
 from pathlib import Path
 
-from arxiv_digest_renderer import render_digest
 
 work = Path(sys.argv[1])
-listing_date = sys.argv[2]
 papers = json.loads((work / "summarized.json").read_text(encoding="utf-8"))
 
 if not papers:
     raise SystemExit("No papers found; no email sent.")
 
-summaries = {}
 failures = []
 print(f"DEBUG: {len(papers)} papers; {sum(bool(p['matched']) for p in papers)} matched", file=sys.stderr)
 for paper in papers:
-    paper["url"] = paper["abstract_link"]
     if paper["matched"]:
         summary = paper.get("summary")
         if (
@@ -123,24 +125,13 @@ for paper in papers:
             failures.append({"id": paper["id"], "status": paper.get("summary_status"),
                              "error": paper.get("summary_error", "Missing or empty summary")})
             continue
-        summaries[paper["id"]] = summary
 
 if failures:
     (work / "summary_failures.json").write_text(json.dumps(failures, indent=2), encoding="utf-8")
     for failure in failures:
         print(f"Summary failed: {json.dumps(failure)}", file=sys.stderr)
-    raise SystemExit(f"{len(failures)} summary failures; no email sent.")
+    print(f"{len(failures)} summary failures; emailing full abstracts with diagnostics.", file=sys.stderr)
 
-digest = {
-    "date": listing_date,
-    "run_id": work.name,
-    "count": len(papers),
-    "matched_count": sum(bool(p["matched"]) for p in papers),
-    "papers": papers,
-}
-(work / "digest.html").write_text(
-    render_digest(digest, summaries=summaries), encoding="utf-8"
-)
 PY
 
 STAGE=send

@@ -150,12 +150,17 @@ def run_pipeline(
         raise ValueError("Summarizer results did not match the requested paper IDs")
     for paper in matched_papers:
         result: dict[str, Any] = results_by_id[paper["id"]]
+        configuration: Any = getattr(summarizer, "configuration", None)
+        if isinstance(configuration, dict):
+            paper["summarizer_config"] = configuration.copy()
         paper["summary_status"] = result["status"]
         paper["summary"] = result["summary"]
         if "summary_metadata" in result:
             paper["summary_metadata"] = result["summary_metadata"]
         if result.get("error"):
             paper["summary_error"] = result["error"]
+        if "summary_error_code" in result:
+            paper["summary_error_code"] = result["summary_error_code"]
     return sorted_papers
 
 

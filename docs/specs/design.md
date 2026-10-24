@@ -10,11 +10,12 @@ Read [the product specification](product.md) for user-facing behavior and accept
 
 ## 1. Overall structure
 
-The project is a Python 3.11+ uv workspace containing three packages:
+The project is a Python 3.11+ uv workspace containing four packages:
 
 - `packages/arxiv-catchup`: download and parse catchup listings.
 - `packages/arxiv-interest-sort`: load research interests, score papers, and sort them.
 - `packages/arxiv-summarizer`: provide local and hosted summarization behind a shared result interface.
+- `packages/arxiv-renderer`: dependency-free, validated HTML rendering from sorted/summarized paper records.
 
 The connections currently look like this:
 
@@ -149,11 +150,17 @@ The client retries HTTP 429 and selected network failures with bounded waits. It
 
 Use environment-based credentials rather than command-line secrets. Hosted input leaves the machine. Availability, prices, and model quality must be checked separately for any real evaluation; this document does not endorse a current free model.
 
-## 8. Draft rendering and standalone delivery
+## 8. Packaged rendering and standalone delivery
 
-The untracked `arxiv_digest_renderer.py` draft expects a different envelope containing `date`, `run_id`, counts, and `papers`, with each paper using a `url` field. It renders records in supplied order, marks matches, uses full cleaned matched abstracts when no summaries are supplied, and uses short excerpts for unmatched papers.
+`packages/arxiv-renderer` exposes `arxiv-render` and `python -m arxiv_renderer`. It accepts the sort-and-summarize runner's JSON array with explicit `--date`, or an envelope with `papers` and `date`. It validates unique IDs, record types, supplied counts, HTTP(S) links, and conflicts with explicit date/run-ID arguments. Missing counts are calculated; missing run IDs stay empty. The heading remains fixed to quant-ph.
 
-This is not the parser's direct output format. There is no integrated adapter, and the draft does not validate run identity, counts, summary completeness, or safe URL schemes. HTML escaping is not a substitute for URL validation. Its heading is also fixed to quant-ph.
+Rendering preserves order, numbering, match stars, no authors, full matched abstracts, and first-sentence unmatched excerpts. Successful summaries are kept while failed/missing attempted summaries fall back individually, with escaped per-paper diagnostics and a top warning. Build stage is `partial` for mixed success, `summarized` for complete summaries, and `ranked` for abstract fallback. Rendering a partial digest succeeds; sending policy is separate.
+
+Failures carry an optional `summary_error_code` alongside the unchanged raw `error`/`summary_error`. Parser and API rejection sites assign codes directly; HTTP/timeout exception types and explicit token-limit finish reasons supply request categories. BART generation errors are coded too. JSONL serialization, positional ID restoration, and the runner preserve the additive field. The dependency-free renderer maps it to a fixed short sentence, then places the full escaped diagnostic in an expanded, inline-styled `<blockquote>` outside the paper paragraph. Newlines use explicit `<br>` elements and the text-only email retains the distinction. No collapsible HTML, hidden content, or attachments are needed. Legacy results use only known parser formats and anchored exception prefixes; other failures get a generic short message. Raw diagnostics remain visible and may contain sensitive provider data. Verification exercises generated HTML and the real sender's body preparation with a mocked send boundary, not Outlook/Gmail client rendering.
+
+The runner preserves safe `summarizer_config` on matched records without changing its array output. Backends expose a public `configuration` property that requires neither model loading nor credentials. Distinct configurations appear at the top using an allowlist; returned-model attribution appears below successful summaries, and requested-only models are explicitly labeled. No historical attribution is inferred. Error text may contain sensitive provider data and must be reviewed before sharing.
+
+`arxiv_digest_renderer.py` is a compatibility shim. Both shell wrappers invoke the renderer CLI and allow partial digests through to email; empty listings and failed stages still stop delivery. See `packages/arxiv-renderer/README.md` for CLI and library examples. No live cron or email configuration is changed by packaging the renderer.
 
 The committed `arxiv-email-sender.py` reads an existing HTML file and sends HTML plus plain text using SMTP with STARTTLS. It is a standalone helper, not a safe publication stage. It lacks freshness checks and duplicate-send protection, derives its default subject date independently, and checks credentials even for a dry run. This date work does not change the sender because it is not integrated with the top-level command. No live email was sent for this documentation work.
 
@@ -177,6 +184,8 @@ Existing evidence maps to the product criteria as follows:
 - **AC-6:** failed-request and failed-group tests in `test_openrouter.py` and `test_llm_grouping.py`.
 - **AC-7:** summarizer `tests/test_cli_backend.py` and input-ID tests in `test_llm_grouping.py`.
 - **AC-8:** `test_openrouter_http_request_matches_chat_completions_contract` in summarizer `tests/test_openrouter.py`.
+- **AC-9:** `tests/test_renderer_cli.py`, `test_renderer_partial.py`, `test_renderer_errors.py`, `test_summary_error_codes.py`, `test_renderer_package.py`, and `test_digest_renderer.py`.
+- **AC-10:** `tests/test_renderer_metadata.py` and `test_pipeline_config.py`.
 
 Most paths above are relative to their named package. These tests establish component behavior, not scientific accuracy or end-to-end delivery safety.
 

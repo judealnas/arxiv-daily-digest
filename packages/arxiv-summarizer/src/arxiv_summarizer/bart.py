@@ -89,6 +89,12 @@ class BartSummarizer(Summarizer):
         self.num_beams = num_beams
         self.batch_size = batch_size
 
+    @property
+    def configuration(self) -> dict[str, str | int]:
+        """Return safe, serializable provenance without loading model weights."""
+        return {"backend": "bart", "model": self.model_name, "max_length": self.max_length,
+                "min_length": self.min_length, "num_beams": self.num_beams, "batch_size": self.batch_size}
+
     def summarize(self, text: str) -> ResultItem:
         """Summarize a single text (one generate() call, batch of one)."""
         return self.summarize_many([text])[0]
@@ -126,7 +132,7 @@ class BartSummarizer(Summarizer):
             except Exception as exc:
                 logger.exception("BART batch at offset %d failed", start)
                 results.extend(
-                    ResultItem(id=str(start + i), status="error", summary=None, error=str(exc))
+                    ResultItem(id=str(start + i), status="error", summary=None, error=str(exc), summary_error_code="generation_error")
                     for i in range(len(batch_texts))
                 )
                 continue

@@ -29,7 +29,7 @@ from pathlib import Path
 
 from .bart import BartSummarizer
 from .llm import LlmSummarizer
-from .models import ResultItem, SourceItem, dump_result
+from .models import SourceItem, dump_result
 from .openrouter import OpenRouterSummarizer
 
 
@@ -271,12 +271,8 @@ def main(argv: list[str] | None = None) -> None:
     # BART returns positional IDs, so restore IDs from the source stream.
     for item, result in zip(source, results, strict=True):
         if result["id"] != item["id"]:
-            result = ResultItem(
-                id=item["id"],
-                status=result["status"],
-                summary=result["summary"],
-                error=result["error"],
-            )
+            result = result.copy()
+            result["id"] = item["id"]
         print(dump_result(result))
 
 

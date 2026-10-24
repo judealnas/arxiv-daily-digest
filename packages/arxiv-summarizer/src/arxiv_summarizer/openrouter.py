@@ -20,6 +20,11 @@ class OpenRouterSummarizer(LlmSummarizer):
     supplied. ``client`` can be injected for tests; construction makes no request.
     """
 
+    @property
+    def configuration(self) -> dict[str, Any]:
+        """Identify the dedicated OpenRouter backend in public provenance."""
+        return {**super().configuration, "backend": "openrouter"}
+
     def __init__(
         self,
         *,

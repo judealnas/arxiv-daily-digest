@@ -4,7 +4,7 @@
 
 Help researchers find relevant arXiv papers and read short summaries without losing track of which paper each summary describes.
 
-This document describes the project as it exists, not a finished product we hope to build. It was written retrospectively against commit `b305805`. The repository contains usable components, an incomplete top-level pipeline, and a draft renderer. It is not yet a verified replacement for the separately operated daily digest service.
+This document describes the project as it exists, not a finished product we hope to build. It was written retrospectively against commit `b305805`. The repository contains usable components, an incomplete top-level pipeline, and a packaged renderer. It is not yet a verified replacement for the separately operated daily digest service.
 
 For technical details, see [the design document](design.md). Future changes should update these two documents rather than create a separate permanent specification for every feature.
 
@@ -65,6 +65,24 @@ If a response omits a paper, repeats an ID, adds an unknown ID, or has an invali
 
 This is different from asynchronous provider batch jobs, which are not implemented.
 
+### 6. Render HTML with visible summary failures
+
+`uv run arxiv-render summarized.json --date YYYY-MM-DD --output digest.html`
+formats the sort-and-summarize runner's output. Stdin/stdout and dated digest
+objects are also supported. All papers remain in supplied order, with match
+stars and no author lists. Failed summaries use full abstracts, show a short error
+below the paper, and preserve the complete raw diagnostic in an expanded,
+smaller quote block with inline shading and a border. These blocks do not
+require collapsible-element support. A warning at the top reports unavailable
+summaries; successful summaries are retained. Short messages come from structured
+error codes, not LLM summarization. Saved results without codes remain readable. Unmatched papers show their first abstract sentence.
+
+When retained, summarizer backend/model/configuration appears at the top and
+actual returned models appear below successful summaries. Requested aliases
+are distinguished from verified returned models. Missing metadata is not guessed.
+The renderer does not send email or change live scheduling. Existing shell
+wrappers email partial digests with visible fallback diagnostics.
+
 ## Important limits
 
 - Correct IDs and valid JSON do not prove that a summary is factually correct. Scientific claims and numerical results still need evaluation.
@@ -73,7 +91,7 @@ This is different from asynchronous provider batch jobs, which are not implement
 - BART truncates long inputs. It needs model weights and local compute; it is not equivalent to the hosted models in quality or speed.
 - Configuration failures can stop a run before per-paper results are produced. Not every failure is a per-paper error.
 - The top-level command rejects invalid or conflicting date controls before it fetches or writes. A standalone email sender exists, but it does not validate digest freshness or prevent duplicate delivery. Its dry run currently still requires credentials.
-- The renderer is an untracked draft, not an integrated or fully validated feature.
+- The renderer consumes sorted/summarized arrays or dated digest objects; it does not establish email freshness, duplicate-send protection, or scientific summary accuracy.
 
 ## Acceptance criteria for existing components
 
@@ -87,6 +105,8 @@ These are observable behaviors to preserve. They are not claims that the future 
 - **AC-6 — Failure isolation:** a hosted request or response failure marks its group as failed without discarding successful independent groups.
 - **AC-7 — Early input checks:** malformed CLI records, duplicate IDs, invalid grouping options, and unreadable guidance files fail before a hosted request is sent.
 - **AC-8 — Provider request construction:** mocked HTTP tests verify the configured model, messages, endpoint, and request parameters without paid inference.
+- **AC-9 — HTML rendering:** file and stdin inputs produce complete, escaped HTML; partial summary failures remain visible without losing successful summaries or paper entries. Invalid inputs fail without overwriting existing output.
+- **AC-10 — Provenance:** available safe summarizer configuration is displayed at the top; actual returned models are attributed per summary without misrepresenting requested aliases.
 
 Test locations and the limits of the evidence are listed in the design document.
 

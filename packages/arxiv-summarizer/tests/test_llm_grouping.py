@@ -233,7 +233,7 @@ def test_http_error_preserves_reported_status_and_message() -> None:
 
     error = urllib.error.HTTPError("https://example.test", 429, "sensitive response", None, None)
     results = LlmSummarizer(client=FakeClient([error])).summarize_items([{"id": "a", "text": "Abstract"}])
-    assert results == [{"id": "a", "status": "error", "summary": None, "error": "HTTPError: HTTP Error 429: sensitive response"}]
+    assert results == [{"id": "a", "status": "error", "summary": None, "error": "HTTPError: HTTP Error 429: sensitive response", "summary_error_code": "http_429"}]
 
 
 @pytest.mark.parametrize("papers_per_prompt", [0, -1])
@@ -252,4 +252,4 @@ def test_empty_items_do_not_resolve_or_call_client() -> None:
 def test_one_item_group_rejects_non_json_or_blank_response(response: object) -> None:
     client = FakeClient([response])
     results = LlmSummarizer(client=client).summarize_items([{"id": "paper", "text": "Text"}])
-    assert results == [{"id": "paper", "status": "error", "summary": None, "error": "Invalid summary response: response is not JSON", "summary_metadata": {"requested_model": "big-pickle", "returned_model": None, "finish_reason": None}}]
+    assert results == [{"id": "paper", "status": "error", "summary": None, "error": "Invalid summary response: response is not JSON", "summary_error_code": "invalid_json", "summary_metadata": {"requested_model": "big-pickle", "returned_model": None, "finish_reason": None}}]

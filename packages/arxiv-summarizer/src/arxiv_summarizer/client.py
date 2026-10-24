@@ -8,6 +8,8 @@ import urllib.error
 import urllib.request
 from typing import Any
 
+from .errors import CodedResponseError
+
 
 class CompletionText(str):
     """String-compatible completion with allow-listed diagnostic metadata."""
@@ -96,11 +98,14 @@ class LLMClient:
             # ── unpack response ─────────────────────────────────────
             choices = body.get("choices")
             if not choices or not isinstance(choices, list):
-                raise ValueError(f"Unexpected API response (no choices): {json.dumps(body)}")
+                raise CodedResponseError(f"Unexpected API response (no choices): {json.dumps(body)}", "invalid_response")
             content = choices[0].get("message", {}).get("content")
             if content is None:
                 finish = choices[0].get("finish_reason", "unknown")
-                raise ValueError(f"LLM returned empty content (finish_reason={finish}): {json.dumps(body)}")
+                raise CodedResponseError(
+                    f"LLM returned empty content (finish_reason={finish}): {json.dumps(body)}",
+                    "output_token_limit" if finish == "length" else "empty_response",
+                )
 
             return CompletionText(
                 content,

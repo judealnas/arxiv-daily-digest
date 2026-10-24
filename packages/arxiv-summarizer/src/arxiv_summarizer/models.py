@@ -50,6 +50,7 @@ class ResultItem(TypedDict):
     summary: str | None
     error: str | None
     summary_metadata: NotRequired[SummaryMetadata]
+    summary_error_code: NotRequired[str]
 
 
 # ── internal helpers ───────────────────────────────────────────────────────

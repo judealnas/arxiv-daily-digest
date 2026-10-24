@@ -7,6 +7,7 @@ members = [
     "arxiv-catchup",
     "arxiv-daily-digest",
     "arxiv-interest-sort",
+    "arxiv-renderer",
     "arxiv-summarizer",
 ]
 
@@ -54,6 +55,7 @@ source = { virtual = "." }
 dependencies = [
     { name = "arxiv-catchup" },
     { name = "arxiv-interest-sort", extra = ["semantic"] },
+    { name = "arxiv-renderer" },
     { name = "arxiv-summarizer" },
 ]
 
@@ -67,6 +69,7 @@ dev = [
 requires-dist = [
     { name = "arxiv-catchup", editable = "packages/arxiv-catchup" },
     { name = "arxiv-interest-sort", extras = ["semantic"], editable = "packages/arxiv-interest-sort" },
+    { name = "arxiv-renderer", editable = "packages/arxiv-renderer" },
     { name = "arxiv-summarizer", editable = "packages/arxiv-summarizer" },
 ]
 
@@ -107,6 +110,11 @@ provides-extras = ["semantic"]
 
 [package.metadata.requires-dev]
 dev = [{ name = "pytest" }]
+
+[[package]]
+name = "arxiv-renderer"
+version = "0.1.0"
+source = { editable = "packages/arxiv-renderer" }
 
 [[package]]
 name = "arxiv-summarizer"
