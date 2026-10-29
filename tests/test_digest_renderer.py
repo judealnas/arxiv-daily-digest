@@ -31,3 +31,47 @@ def test_render_digest_preserves_ranked_visual_format() -> None:
     assert '<p>⭐2. <a href="https://arxiv.org/abs/2609.00003">Another matched paper</a><br>Second matched abstract.</p>' in html
     assert '<p>3. <a href="https://arxiv.org/abs/2609.00001">Unmatched &amp; &lt;Paper&gt;</a><br>First line with LaTeX q.</p>' in html
     assert "authors" not in html
+
+
+def test_render_digest_shows_first_three_authors_with_etal_and_escapes_names() -> None:
+    data = load_papers()
+    papers = data["papers"]
+    assert isinstance(papers, list)
+    paper = papers[0]
+    assert isinstance(paper, dict)
+    paper["authors"] = ["Alice <A>", "Bob & Co.", "Carol", "David"]
+
+    html = render_digest(data)
+
+    assert (
+        "<a href=\"https://arxiv.org/abs/2609.00002\">Matched &lt;Title&gt; &amp; Z_2</a><br>"
+        "<small><i>Authors: Alice &lt;A&gt;, Bob &amp; Co., Carol, et al.</i></small><br>"
+        "A matched abstract with x^2 and useful details. Second sentence."
+    ) in html
+    assert "David" not in html
+
+
+def test_render_digest_shows_all_authors_when_three_or_fewer() -> None:
+    data = load_papers()
+    papers = data["papers"]
+    assert isinstance(papers, list)
+    paper = papers[0]
+    assert isinstance(paper, dict)
+    paper["authors"] = ["Alice", "Bob", "Carol"]
+
+    html = render_digest(data)
+
+    assert "<small><i>Authors: Alice, Bob, Carol</i></small><br>" in html
+    assert "Carol, et al." not in html
+
+
+def test_render_digest_omits_missing_or_empty_author_lists() -> None:
+    data = load_papers()
+    papers = data["papers"]
+    assert isinstance(papers, list)
+    papers[0]["authors"] = []
+    papers[1].pop("authors", None)
+
+    html = render_digest(data)
+
+    assert "Authors:" not in html

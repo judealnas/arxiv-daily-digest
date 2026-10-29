@@ -51,6 +51,18 @@ def render_digest(papers_data: Digest, summaries: dict[str, str] | None = None, 
         matched: bool = paper["matched"]
         prefix: str = "⭐" if matched else ""
         title: str = html.escape(clean_text(str(paper["title"])))
+        authors_value: Any = paper.get("authors")
+        authors: list[str] = (
+            [name.strip() for name in authors_value if isinstance(name, str) and name.strip()]
+            if isinstance(authors_value, list)
+            else []
+        )
+        author_line: str = ""
+        if authors:
+            displayed_authors: list[str] = [html.escape(name) for name in authors[:3]]
+            if len(authors) > 3:
+                displayed_authors.append("et al.")
+            author_line = f"<br><small><i>Authors: {', '.join(displayed_authors)}</i></small>"
         url: str = html.escape(str(paper.get("url", paper.get("abstract_link", ""))), quote=True)
         summary: Any = summaries.get(str(paper["id"])) if summaries is not None else paper.get("summary")
         valid: bool = (
@@ -88,7 +100,7 @@ def render_digest(papers_data: Digest, summaries: dict[str, str] | None = None, 
                     f'<span style="font-family:Consolas,monospace;">{escaped_error}</span></blockquote>'
                 )
         entries.append(
-            f'<p>{prefix}{number}. <a href="{url}">{title}</a><br>{html.escape(body)}{extra}</p>{diagnostic}'
+            f'<p>{prefix}{number}. <a href="{url}">{title}</a>{author_line}<br>{html.escape(body)}{extra}</p>{diagnostic}'
         )
     stage: str = "partial" if failures and successes else ("summarized" if attempted and not failures else "ranked")
     notice_html: str = f"<p>{html.escape(notice)}</p>" if notice else ""
