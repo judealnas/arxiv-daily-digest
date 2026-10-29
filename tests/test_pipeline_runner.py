@@ -62,6 +62,41 @@ def papers() -> list[dict[str, Any]]:
     ]
 
 
+def test_semantic_empty_pipeline_returns_json_without_model_imports(
+    tmp_path: Path, interests_file: Path, monkeypatch: pytest.MonkeyPatch, capsys,
+) -> None:
+    import builtins
+
+    source: Path = tmp_path / "empty.json"
+    source.write_text("[]", encoding="utf-8")
+    original_import = builtins.__import__
+
+    def forbid_model_imports(name, *args, **kwargs):
+        if name.split(".")[0] in {"torch", "sentence_transformers"}:
+            raise AssertionError(f"Empty pipeline attempted model dependency import: {name}")
+        return original_import(name, *args, **kwargs)
+
+    monkeypatch.setattr(builtins, "__import__", forbid_model_imports)
+    monkeypatch.setattr(run_test_pipeline, "build_summarizer", lambda args: IdentitySummarizer())
+    assert run_test_pipeline.main([
+        str(source), str(interests_file), "--strategy", "semantic", "--debug",
+        "--cache-dir", str(tmp_path / "cache"),
+    ]) == 0
+    captured = capsys.readouterr()
+    assert json.loads(captured.out) == []
+    assert "Scoring and sorting 0 papers" in captured.err
+
+
+@pytest.mark.parametrize("summarizer", [IdentitySummarizer(), PositionalSummarizer()])
+@pytest.mark.parametrize("strategy", ["keyword", "semantic"])
+def test_empty_pipeline_supports_both_summarizer_interfaces(
+    interests_file: Path, tmp_path: Path, summarizer: Any, strategy: str,
+) -> None:
+    assert run_pipeline(
+        [], interests_file, summarizer, strategy=strategy, cache_dir=str(tmp_path / "cache"),
+    ) == []
+
+
 def test_pipeline_sorts_all_and_summarizes_only_matches_with_identity(
     interests_file: Path, papers: list[dict[str, Any]]
 ) -> None:

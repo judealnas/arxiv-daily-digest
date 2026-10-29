@@ -24,7 +24,8 @@ def semantic_score(
 ) -> list[PaperDict]:
     """Score papers by semantic similarity using sentence-transformers.
 
-    Requires the ``sentence-transformers`` package (install with
+    Empty paper lists are returned unchanged without importing model dependencies.
+    Nonempty input requires the ``sentence-transformers`` package (install with
     ``pip install arxiv-interest-sort[semantic]``).
 
     Parameters
@@ -46,6 +47,9 @@ def semantic_score(
     * ``semantic_topic`` — name of the best-matching topic
     * ``raw_cosim`` — unweighted cosine similarity (for debugging)
     """
+    if not papers:
+        return papers
+
     try:
         import torch
         from sentence_transformers import SentenceTransformer, util

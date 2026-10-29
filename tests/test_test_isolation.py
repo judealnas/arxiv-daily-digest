@@ -121,7 +121,10 @@ def test_sentence_transformer_loading_is_blocked_even_with_an_injected_module(mo
     monkeypatch.setitem(sys.modules, "torch", types.ModuleType("torch"))
 
     with pytest.raises(RuntimeError, match="Blocked model loading"):
-        semantic.semantic_score([], [])
+        semantic.semantic_score(
+            [{"id": "test", "title": "Quantum network", "abstract": "A qubit link."}],
+            [{"name": "quantum", "keywords": ["qubit"], "weight": 2}],
+        )
 
     assert calls == 0
 
