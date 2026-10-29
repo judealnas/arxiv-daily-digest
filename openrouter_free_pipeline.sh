@@ -8,10 +8,21 @@ ROOT=$(CDPATH= cd -- "$(dirname -- "$0")" && pwd)
 cd "$ROOT"
 
 UV=${UV:-uv}
-# Optional fixed model; the original router alias remains the default.
-OPENROUTER_MODEL=${OPENROUTER_MODEL:-openrouter/free}
+# Fixed-model default; an explicit OPENROUTER_MODEL override remains available.
+OPENROUTER_MODEL=${OPENROUTER_MODEL:-recursive/flint-v1.0:free}
 TO=${TO:-jude.alnas@duke.edu}
-LISTING_DATE=${1:-$(date -u -d yesterday +%F)}
+# Resolve once in UTC; explicit dates (including weekends) are passed through.
+if [ "$#" -gt 0 ]; then
+    LISTING_DATE=$1
+else
+    TODAY=$(date -u +%F)
+    case $(date -u -d "$TODAY" +%u) in
+        1) DAYS_AGO=3 ;;
+        7) DAYS_AGO=2 ;;
+        *) DAYS_AGO=1 ;;
+    esac
+    LISTING_DATE=$(date -u -d "$TODAY -$DAYS_AGO days" +%F)
+fi
 # Read only the requested key as data; never execute/source the .env file.
 OPENROUTER_API_KEY=$(python3 - <<'PY'
 import os
@@ -80,6 +91,29 @@ STAGE=fetch
 printf 'Fetching listings for %s\n' "$LISTING_DATE"
 run arxiv-catchup quant-ph "$LISTING_DATE" > "$WORK/fetched.json"
 
+# Validate before loading semantic-scoring or summarization models.
+STAGE=fetch-validation
+PAPER_COUNT=$(python3 - "$WORK/fetched.json" <<'PY'
+import json
+import sys
+from pathlib import Path
+from typing import Any
+
+try:
+    papers: Any = json.loads(Path(sys.argv[1]).read_text(encoding="utf-8"))
+except (OSError, ValueError) as exc:
+    raise SystemExit(f"Invalid fetch output: {exc}") from exc
+if not isinstance(papers, list):
+    raise SystemExit("Invalid fetch output: expected a JSON array of papers.")
+print(len(papers))
+PY
+)
+log "Listing date=$LISTING_DATE; fetched $PAPER_COUNT papers"
+if [ "$PAPER_COUNT" -eq 0 ]; then
+    log "SKIPPED: no papers found for $LISTING_DATE; no email sent."
+    exit 0
+fi
+
 STAGE=summarize
 printf '%s\n' "Sorting papers and summarizing matches with $OPENROUTER_MODEL"
 run python scripts/run_test_pipeline.py \
@@ -88,6 +122,8 @@ run python scripts/run_test_pipeline.py \
     --strategy semantic\
     --backend openrouter \
     --model "$OPENROUTER_MODEL" \
+    --papers-per-prompt 1 \
+    --user-prompt 'Summarize the following scientific abstracts in up to 5 sentences. Capture significant contributions and quantitative results.' \
     --debug \
     --diagnostics-dir "$WORK/diagnostics" \
     > "$WORK/summarized.json"
